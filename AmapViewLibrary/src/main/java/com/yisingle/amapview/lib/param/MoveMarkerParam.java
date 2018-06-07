@@ -11,9 +11,15 @@ import java.util.List;
  * Created by jikun on 2018/5/22.
  */
 public class MoveMarkerParam extends BaseMarkerParam {
-    List<LatLng> latLngList = new ArrayList<>();
 
-    int totalDuration = 40;
+
+    public MoveMarkerParam() {
+        getOptions().belowMaskLayer(true);
+        getOptions().anchor(0.5F, 0.5F);
+    }
+    private List<LatLng> latLngList = new ArrayList<>();
+
+    private int totalDuration = 60 * 1000;
 
 
     public void setLatLngList(List<LatLng> latLngList) {

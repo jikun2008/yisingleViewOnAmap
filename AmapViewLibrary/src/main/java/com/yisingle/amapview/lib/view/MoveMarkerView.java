@@ -5,90 +5,81 @@ import android.support.annotation.NonNull;
 
 import com.amap.api.maps.AMap;
 import com.amap.api.maps.model.LatLng;
-import com.amap.api.maps.utils.overlay.SmoothMoveMarker;
+import com.autonavi.amap.mapcore.IPoint;
 import com.yisingle.amapview.lib.base.view.marker.BaseMarkerBuilder;
 import com.yisingle.amapview.lib.base.view.marker.BaseMarkerView;
 import com.yisingle.amapview.lib.param.MoveMarkerParam;
+import com.yisingle.amapview.lib.utils.MoveUtils;
 
 import java.util.List;
 
+
 /**
  * @author jikun
- * Created by jikun on 2018/4/27.
+ * Created by jikun on 2018/6/1.
  */
-public class MoveMarkerView<W> extends BaseMarkerView<MoveMarkerParam, W> {
+public class MoveMarkerView<W> extends BaseMarkerView<MoveMarkerParam, W> implements MoveUtils.OnCallBack {
 
-    private SmoothMoveMarker smoothMoveMarker;
+
+    private MoveUtils moveUtils;
+
 
     private MoveMarkerView(@NonNull Context context, @NonNull AMap amap, @NonNull MoveMarkerParam param) {
         super(context, amap, param);
+        moveUtils = new MoveUtils();
+        moveUtils.setCallBack(this);
     }
 
 
-    @Override
-    public void addToMap() {
-        if (isRemove()) {
-            smoothMoveMarker = new SmoothMoveMarker(getAmap());
-            smoothMoveMarker.setDescriptor(getParam().getOptions().getIcon());
-            smoothMoveMarker.setTotalDuration(getParam().getTotalDuration());
-        }
+    public void setLatLngList(List<LatLng> latLngList) {
+        getParam().setLatLngList(latLngList);
+        moveUtils.setLatLngList(getParam().getLatLngList());
+    }
 
+
+    public void stopMove() {
+        moveUtils.stopMove();
 
     }
 
-    @Override
-    public void removeFromMap() {
-        super.removeFromMap();
-        if (null != smoothMoveMarker) {
-            smoothMoveMarker.stopMove();
-            smoothMoveMarker.removeMarker();
-            smoothMoveMarker = null;
-        }
+
+    public void startMove() {
+        startMove(getParam().getLatLngList(), false);
     }
 
-    @Override
-    public void setVisible(boolean isVisible) {
-        super.setVisible(isVisible);
-        smoothMoveMarker.setVisible(isVisible);
+
+    public void startMove(List<LatLng> list) {
+        startMove(list, false);
     }
+
+
+    public void startMove(List<LatLng> list, boolean isResume) {
+        moveUtils.startMove(list, isResume);
+
+    }
+
 
     @Override
     public void destory() {
-        removeFromMap();
-        smoothMoveMarker = null;
+        stopMove();
+        moveUtils.setCallBack(null);
         super.destory();
+
     }
 
     @Override
-    public boolean isRemove() {
-        return smoothMoveMarker == null;
-    }
-
-    public void startMove() {
-        startMove(getParam().getLatLngList(), getParam().getTotalDuration());
-    }
-
-    public void startMove(List<LatLng> list, int duration) {
-        getParam().setLatLngList(list);
-        getParam().setTotalDuration(duration);
-        if (null != smoothMoveMarker) {
-            smoothMoveMarker.stopMove();
-            smoothMoveMarker.setPoints(list);
-            smoothMoveMarker.setTotalDuration(duration);
-            smoothMoveMarker.startSmoothMove();
-        }
+    public void onSetRotateAngle(float rotate) {
+        setRotateAngle(360.0F - rotate + getAmap().getCameraPosition().bearing);
 
     }
 
-    public void stopMove() {
-        if (null != smoothMoveMarker) {
-            smoothMoveMarker.stopMove();
-
-        }
+    @Override
+    public void onSetGeoPoint(IPoint point) {
+        setGeoPoint(point);
     }
 
 
-    public static final class Builder extends BaseMarkerBuilder<Builder, MoveMarkerParam> {
+    public static final class Builder extends BaseMarkerBuilder<MoveMarkerView.Builder, MoveMarkerParam> {
 
 
         public Builder(@NonNull Context context, @NonNull AMap map) {
@@ -102,7 +93,7 @@ public class MoveMarkerView<W> extends BaseMarkerView<MoveMarkerParam, W> {
 
 
         @Override
-        protected Builder getChild() {
+        protected MoveMarkerView.Builder getChild() {
             return this;
         }
 
@@ -114,13 +105,13 @@ public class MoveMarkerView<W> extends BaseMarkerView<MoveMarkerParam, W> {
         }
 
 
-        public Builder setLatLngList(List<LatLng> latLngList) {
+        public MoveMarkerView.Builder setLatLngList(List<LatLng> latLngList) {
             getParam().setLatLngList(latLngList);
             return this;
         }
 
 
-        public Builder setTotalDuration(int totalDuration) {
+        public MoveMarkerView.Builder setTotalDuration(int totalDuration) {
             getParam().setTotalDuration(totalDuration);
             return this;
         }

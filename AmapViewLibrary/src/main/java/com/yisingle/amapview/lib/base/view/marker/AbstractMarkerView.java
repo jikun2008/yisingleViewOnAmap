@@ -133,9 +133,11 @@ public abstract class AbstractMarkerView<P extends BaseMarkerParam> extends Base
     }
 
     public void setGeoPoint(IPoint geoPoint) {
-
         if (null != marker) {
             marker.setGeoPoint(geoPoint);
+        }
+        if (null != infoMarker) {
+            infoMarker.setGeoPoint(geoPoint);
         }
     }
 
@@ -177,6 +179,9 @@ public abstract class AbstractMarkerView<P extends BaseMarkerParam> extends Base
     public void setPosition(LatLng latLng) {
         if (null != param && null != param.getOptions()) {
             param.getOptions().position(latLng);
+        }
+        if (null != marker) {
+            marker.setPosition(latLng);
         }
         if (null != marker) {
             marker.setPosition(latLng);

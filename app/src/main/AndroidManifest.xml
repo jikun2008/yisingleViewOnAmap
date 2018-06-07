@@ -38,6 +38,9 @@
         <activity
             android:name=".demo.PathPlaningMapActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".demo.ThreadActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>
