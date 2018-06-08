@@ -22,21 +22,21 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".demo.LocationMarkerMapActivity"
+            android:name=".demo.LocationMarkerActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".demo.MoveMarkerMapActivty"
+            android:name=".demo.PointMarkUseMoveActivty"
             android:screenOrientation="portrait" />
         <activity
             android:name=".demo.TextMarkeActivity"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".demo.PointMarkMapActivity"
+            android:name=".demo.PointMarkActivity"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".demo.PathPlaningMapActivity"
+            android:name=".demo.PathPlaningActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".demo.ThreadActivity"

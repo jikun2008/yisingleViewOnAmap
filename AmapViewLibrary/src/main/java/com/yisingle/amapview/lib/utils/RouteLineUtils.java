@@ -78,6 +78,7 @@ public class RouteLineUtils {
                     .setCustomTexture(getTrafficStausBitMapByTmc(data.getTmc(), routeLineParam))
                     //添加路线宽度
                     .setWidth(routeLineParam.getRouteWidth())
+                    .sezIndex(routeLineParam.getTrafficLineZindex())
                     .create();
             basePolyLineView.addToMap();
 
@@ -113,6 +114,7 @@ public class RouteLineUtils {
                         .setCustomTexture(getTrafficStausBitMapByTmc(trafficStateData.getTmc(), routeLineParam))
                         //添加路线宽度
                         .setWidth(routeLineParam.getRouteWidth())
+                        .sezIndex(routeLineParam.getTrafficLineZindex())
                         .create();
                 basePolyLineView.addToMap();
                 count = count + 1;
@@ -147,16 +149,17 @@ public class RouteLineUtils {
      * @param latLngList 坐标集合
      * @return
      */
-    public static PolyLineView addArrowLine(@NonNull Context context, @NonNull AMap amap, @NonNull List<LatLng> latLngList, @NonNull RouteLineParam routeLineData) {
+    public static PolyLineView addArrowLine(@NonNull Context context, @NonNull AMap amap, @NonNull List<LatLng> latLngList, @NonNull RouteLineParam routeLineParam) {
 
 
         PolyLineView basePolyLineView = new PolyLineView.Builder(context, amap)
                 //设置路线上的点
                 .setPoints(latLngList)
+                .sezIndex(routeLineParam.getArrowLineZindex())
                 //添加纹理图片
-                .setCustomTexture(routeLineData.getArrowRouteBitMap())
+                .setCustomTexture(routeLineParam.getArrowRouteBitMap())
                 //添加路线宽度
-                .setWidth(routeLineData.getRouteWidth())
+                .setWidth(routeLineParam.getRouteWidth())
                 .create();
         basePolyLineView.addToMap();
 
@@ -165,15 +168,16 @@ public class RouteLineUtils {
     }
 
 
-    public static PolyLineView addDefaultLine(@NonNull Context context, @NonNull AMap amap, @NonNull List<LatLng> latLngList, @NonNull RouteLineParam routeLineData) {
+    public static PolyLineView addDefaultLine(@NonNull Context context, @NonNull AMap amap, @NonNull List<LatLng> latLngList, @NonNull RouteLineParam routeLineParam) {
 
         PolyLineView basePolyLineView = new PolyLineView.Builder(context, amap)
                 //设置路线上的点
                 .setPoints(latLngList)
+                .sezIndex(routeLineParam.getArrowLineZindex())
                 //添加纹理图片
-                .setCustomTexture(routeLineData.getDefaultRouteBimap())
+                .setCustomTexture(routeLineParam.getDefaultRouteBimap())
                 //添加路线宽度
-                .setWidth(routeLineData.getRouteWidth())
+                .setWidth(routeLineParam.getRouteWidth())
                 .create();
         basePolyLineView.addToMap();
 

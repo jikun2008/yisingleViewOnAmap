@@ -19,7 +19,7 @@ import com.yisingle.study.map.one.base.BaseMapActivity;
  * @author jikun
  * Created by jikun on 2018/5/16.
  */
-public class PointMarkMapActivity extends BaseMapActivity {
+public class PointMarkActivity extends BaseMapActivity {
     private TextureMapView textureMapView;
     private PointMarkerView<String> startPointMarkerView;
 

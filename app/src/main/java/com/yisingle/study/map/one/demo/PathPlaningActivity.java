@@ -21,7 +21,7 @@ import com.yisingle.study.map.one.base.BaseMapActivity;
  * @author jikun
  * Created by jikun on 2018/5/24.
  */
-public class PathPlaningMapActivity extends BaseMapActivity {
+public class PathPlaningActivity extends BaseMapActivity {
     private TextureMapView textureMapView;
 
     private PathPlaningView pathPlaningView;

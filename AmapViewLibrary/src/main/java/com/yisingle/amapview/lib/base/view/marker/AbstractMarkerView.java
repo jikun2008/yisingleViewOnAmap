@@ -14,15 +14,17 @@ import com.autonavi.amap.mapcore.IPoint;
 import com.yisingle.amapview.lib.base.BaseView;
 import com.yisingle.amapview.lib.base.param.BaseMarkerParam;
 import com.yisingle.amapview.lib.utils.InfoWindowUtils;
+import com.yisingle.amapview.lib.utils.MoveUtils;
 import com.yisingle.amapview.lib.utils.ViewToBitMapUtil;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author jikun
  * Created by jikun on 2018/4/20.
  */
-public abstract class AbstractMarkerView<P extends BaseMarkerParam> extends BaseView {
+public abstract class AbstractMarkerView<P extends BaseMarkerParam> extends BaseView implements MoveUtils.OnCallBack {
 
 
     protected Marker marker = null;
@@ -34,10 +36,61 @@ public abstract class AbstractMarkerView<P extends BaseMarkerParam> extends Base
 
     private boolean isShowInfoWindow;
 
+    private MoveUtils moveUtils;
+
+
+    private List<LatLng> latLngList = new ArrayList<>();
+
 
     public AbstractMarkerView(Context context, AMap amap) {
         super(context, amap);
+        moveUtils = new MoveUtils();
+        moveUtils.setCallBack(this);
     }
+
+
+
+    public void setLatLngList(List<LatLng> latLngList) {
+        this.latLngList=latLngList;
+        moveUtils.setLatLngList(latLngList);
+    }
+
+
+    public void stopMove() {
+        moveUtils.stopMove();
+
+    }
+
+
+    public void startMove() {
+        startMove(latLngList, false);
+    }
+
+
+    public void startMove(List<LatLng> list) {
+        startMove(list, false);
+    }
+
+
+    public void startMove(List<LatLng> list, boolean isResume) {
+        moveUtils.startMove(list, isResume);
+
+    }
+
+
+    @Override
+    public void onSetRotateAngle(float rotate) {
+        setRotateAngle(360.0F - rotate + getAmap().getCameraPosition().bearing);
+
+    }
+
+    @Override
+    public void onSetGeoPoint(IPoint point) {
+        setGeoPoint(point);
+    }
+
+
+
 
 
     public void setAlpha(float alpha) {

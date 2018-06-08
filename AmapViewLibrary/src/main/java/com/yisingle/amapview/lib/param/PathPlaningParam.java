@@ -15,8 +15,30 @@ public class PathPlaningParam {
 
     private LatLonPoint endLatLonPoint;
 
+
+    private float startMarkerZindex;
+
+    private float endMarkerZindex;
+
+    private float arrowLineZindex;
+
+    private float trafficLineZindex;
+
+    private float defaultLineZindex;
+
+
     public PathPlaningParam() {
         this.isAuotDrawPath = true;
+
+        trafficLineZindex = 0f;
+
+        startMarkerZindex = trafficLineZindex + 2;
+        endMarkerZindex = trafficLineZindex + 2;
+        arrowLineZindex = trafficLineZindex + 1;
+
+        defaultLineZindex = trafficLineZindex + 1;
+
+
     }
 
     public LatLonPoint getStartLatLonPoint() {
@@ -41,5 +63,47 @@ public class PathPlaningParam {
 
     public void setAuotDrawPath(boolean auotDrawPath) {
         isAuotDrawPath = auotDrawPath;
+    }
+
+
+    public float getStartMarkerZindex() {
+        return startMarkerZindex;
+    }
+
+    public void setStartMarkerZindex(float startMarkerZindex) {
+        this.startMarkerZindex = startMarkerZindex;
+    }
+
+    public float getEndMarkerZindex() {
+        return endMarkerZindex;
+    }
+
+    public void setEndMarkerZindex(float endMarkerZindex) {
+        this.endMarkerZindex = endMarkerZindex;
+    }
+
+
+    public float getArrowLineZindex() {
+        return arrowLineZindex;
+    }
+
+    public void setArrowLineZindex(float arrowLineZindex) {
+        this.arrowLineZindex = arrowLineZindex;
+    }
+
+    public float getTrafficLineZindex() {
+        return trafficLineZindex;
+    }
+
+    public void setTrafficLineZindex(float trafficLineZindex) {
+        this.trafficLineZindex = trafficLineZindex;
+    }
+
+    public float getDefaultLineZindex() {
+        return defaultLineZindex;
+    }
+
+    public void setDefaultLineZindex(float defaultLineZindex) {
+        this.defaultLineZindex = defaultLineZindex;
     }
 }

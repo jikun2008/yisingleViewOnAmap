@@ -223,6 +223,24 @@ public class SimpleRouteLineView extends BaseView {
             return this;
         }
 
+        public Builder setArrowLineZindex(float zindex) {
+            routeLineParam.setArrowLineZindex(zindex);
+            return this;
+        }
+
+
+        public Builder setTrafficLineZindex(float zindex) {
+            routeLineParam.setTrafficLineZindex(zindex);
+            return this;
+        }
+
+
+        public Builder setDefaultLineZindex(float zindex) {
+            routeLineParam.setDefaultLineZindex(zindex);
+            return this;
+        }
+
+
         public RouteLineParam getRouteLineParam() {
             return routeLineParam;
         }

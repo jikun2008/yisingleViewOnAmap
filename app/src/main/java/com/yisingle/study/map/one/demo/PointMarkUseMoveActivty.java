@@ -10,7 +10,9 @@ import com.amap.api.maps.model.BitmapDescriptorFactory;
 import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.LatLngBounds;
 import com.amap.api.maps.model.PolylineOptions;
-import com.yisingle.amapview.lib.view.MoveMarkerView;
+import com.yisingle.amapview.lib.base.view.marker.BaseMarkerView;
+import com.yisingle.amapview.lib.view.PointMarkerView;
+import com.yisingle.amapview.lib.viewholder.MapInfoWindowViewHolder;
 import com.yisingle.study.map.one.R;
 import com.yisingle.study.map.one.TestDataUtils;
 import com.yisingle.study.map.one.base.BaseMapActivity;
@@ -22,22 +24,19 @@ import java.util.List;
 /**
  * @author jikun
  * Created by jikun on 2018/4/27.
+ * 平滑移动效果
  */
-public class MoveMarkerMapActivty extends BaseMapActivity {
+public class PointMarkUseMoveActivty extends BaseMapActivity {
 
     private TextureMapView textureMapView;
 
 
-    private MoveMarkerView moveMarkerView;
+    private PointMarkerView<String> pointMarkerView;
 
 
-    private LatLng latLng1 = new LatLng(30.554871, 104.068827);
+    private List<LatLng> nowListPoints = TestDataUtils.readLatLngsnow();
 
-
-    private LatLng latLng2 = new LatLng(30.555305, 104.069047);
-
-
-    private LatLng latLng3 = new LatLng(30.556141, 104.069005);
+    private List<LatLng> resumeListPoints = TestDataUtils.readLatLngsresume();
 
 
     @Override
@@ -57,18 +56,25 @@ public class MoveMarkerMapActivty extends BaseMapActivity {
         moveToCameraAndDrawLine();
 
 
-        moveMarkerView = new MoveMarkerView.Builder(getApplicationContext(), getAmap())
-                .setTotalDuration(10000)
+        pointMarkerView = new PointMarkerView.Builder(getApplicationContext(), getAmap())
+                //这里要设置锚点在markrer的中间
+                .setAnchor(0.5f, 0.5f)
                 .setIcon(BitmapDescriptorFactory.fromResource(R.mipmap.car)).create();
 
+        pointMarkerView.setInfoWindowView(new BaseMarkerView.InfoWindowView<String>(R.layout.info_window, "") {
+            @Override
+            public void bindData(MapInfoWindowViewHolder viewHolder, String data) {
 
-        List<LatLng> latLngList = TestDataUtils.readLatLngsnow();
+                viewHolder.setText(R.id.tvInfoWindow, data);
 
-        moveCamre(latLngList);
+            }
+        });
 
-        moveMarkerView.setLatLngList(latLngList);
 
-        moveMarkerView.startMove();
+        startMove(null);
+
+        pointMarkerView.showInfoWindow("我的代码");
+
 
     }
 
@@ -76,40 +82,36 @@ public class MoveMarkerMapActivty extends BaseMapActivity {
     public void onDestroy() {
         super.onDestroy();
 
-        moveMarkerView.destory();
+        pointMarkerView.destory();
     }
 
 
     public void startMove(View view) {
 
 
-        List<LatLng> latLngList = TestDataUtils.readLatLngsnow();
-        moveCamre(latLngList);
-
-        moveMarkerView.setLatLngList(latLngList);
-        moveMarkerView.startMove();
+        moveCamre(nowListPoints);
+        pointMarkerView.startMove(nowListPoints);
     }
 
     public void stopMove(View view) {
 
 
-        moveMarkerView.stopMove();
+        pointMarkerView.stopMove();
     }
 
     public void resumeMove(View view) {
 
         moveCamre(TestDataUtils.readLatLngsAll());
-        moveMarkerView.startMove(TestDataUtils.readLatLngsresume(), true);
+        pointMarkerView.startMove(resumeListPoints, true);
 
     }
 
 
     public void startOtherMove(View view) {
 
-        List<LatLng> latLngList = TestDataUtils.readLatLngsresume();
-        moveCamre(latLngList);
-        moveMarkerView.setLatLngList(latLngList);
-        moveMarkerView.startMove();
+
+        moveCamre(resumeListPoints);
+        pointMarkerView.startMove(resumeListPoints);
 
 
     }

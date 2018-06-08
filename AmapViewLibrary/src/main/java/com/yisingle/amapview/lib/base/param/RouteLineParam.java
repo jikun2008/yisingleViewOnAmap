@@ -55,6 +55,12 @@ public class RouteLineParam {
      */
     private BitmapDescriptor defaultRouteBimap;
 
+    private float arrowLineZindex;
+
+    private float trafficLineZindex;
+
+    private float defaultLineZindex;
+
 
     public RouteLineParam() {
 
@@ -97,6 +103,14 @@ public class RouteLineParam {
 
 
         defaultRouteBimap = BitmapDescriptorFactory.fromResource(R.mipmap.custtexture_unknown);
+
+        arrowLineZindex = 0;
+
+        trafficLineZindex = arrowLineZindex + 1;
+
+
+        defaultLineZindex = arrowLineZindex + 1;
+
 
     }
 
@@ -173,5 +187,27 @@ public class RouteLineParam {
         this.routeWidth = routeWidth;
     }
 
+    public float getArrowLineZindex() {
+        return arrowLineZindex;
+    }
 
+    public void setArrowLineZindex(float arrowLineZindex) {
+        this.arrowLineZindex = arrowLineZindex;
+    }
+
+    public float getTrafficLineZindex() {
+        return trafficLineZindex;
+    }
+
+    public void setTrafficLineZindex(float trafficLineZindex) {
+        this.trafficLineZindex = trafficLineZindex;
+    }
+
+    public float getDefaultLineZindex() {
+        return defaultLineZindex;
+    }
+
+    public void setDefaultLineZindex(float defaultLineZindex) {
+        this.defaultLineZindex = defaultLineZindex;
+    }
 }

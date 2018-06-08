@@ -13,10 +13,10 @@ import com.amap.api.services.route.RideRouteResult;
 import com.amap.api.services.route.RouteSearch;
 import com.amap.api.services.route.WalkRouteResult;
 import com.yisingle.amapview.lib.utils.GaoDeErrorUtils;
-import com.yisingle.study.map.one.demo.LocationMarkerMapActivity;
-import com.yisingle.study.map.one.demo.MoveMarkerMapActivty;
-import com.yisingle.study.map.one.demo.PathPlaningMapActivity;
-import com.yisingle.study.map.one.demo.PointMarkMapActivity;
+import com.yisingle.study.map.one.demo.LocationMarkerActivity;
+import com.yisingle.study.map.one.demo.PointMarkUseMoveActivty;
+import com.yisingle.study.map.one.demo.PathPlaningActivity;
+import com.yisingle.study.map.one.demo.PointMarkActivity;
 import com.yisingle.study.map.one.demo.TextMarkeActivity;
 import com.yisingle.study.map.one.demo.ThreadActivity;
 
@@ -87,13 +87,13 @@ public class MainActivity extends AppCompatActivity {
 
     public void toLocationMarkerMapActivity(View view) {
         Intent intent = new Intent();
-        intent.setClass(this, LocationMarkerMapActivity.class);
+        intent.setClass(this, LocationMarkerActivity.class);
         startActivity(intent);
     }
 
     public void toMoveMarkerMapActivty(View view) {
         Intent intent = new Intent();
-        intent.setClass(this, MoveMarkerMapActivty.class);
+        intent.setClass(this, PointMarkUseMoveActivty.class);
         startActivity(intent);
     }
 
@@ -106,13 +106,13 @@ public class MainActivity extends AppCompatActivity {
 
     public void toStartEndActivity(View view) {
         Intent intent = new Intent();
-        intent.setClass(this, PointMarkMapActivity.class);
+        intent.setClass(this, PointMarkActivity.class);
         startActivity(intent);
     }
 
     public void toPathPlaningActivity(View view) {
         Intent intent = new Intent();
-        intent.setClass(this, PathPlaningMapActivity.class);
+        intent.setClass(this, PathPlaningActivity.class);
         startActivity(intent);
     }
 

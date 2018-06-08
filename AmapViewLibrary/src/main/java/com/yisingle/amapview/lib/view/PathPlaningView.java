@@ -2,7 +2,6 @@ package com.yisingle.amapview.lib.view;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import com.amap.api.maps.AMap;
 import com.amap.api.maps.model.LatLng;
@@ -86,7 +85,7 @@ public class PathPlaningView<W> extends BaseView {
         setStartLatLonPoint(stratLatLonPoint);
         setEndLatLonPoint(endLatLonPoint);
         this.callBack = onPathPlaningCallBack;
-        removeFromMap();
+
 
         if (null != callBack) {
             callBack.onStart();
@@ -183,6 +182,27 @@ public class PathPlaningView<W> extends BaseView {
         this.param = param;
     }
 
+    public void setStartLatLonPoint(LatLonPoint startLatLonPoint) {
+        getParam().setStartLatLonPoint(startLatLonPoint);
+
+    }
+
+
+    public void setEndLatLonPoint(LatLonPoint endLatLonPoint) {
+        getParam().setEndLatLonPoint(endLatLonPoint);
+    }
+
+
+    public static interface OnPathPlaningCallBack {
+
+        void onStart();
+
+        void onSucccess(DriveRouteResult routeResult);
+
+        void onFailed(String errorInfo);
+    }
+
+
     public static final class Builder<W> extends BaseBuilder {
         private SimpleRouteLineView.Builder lineBuilder;
         private PointMarkerView.Builder startMarkBuilder;
@@ -205,6 +225,35 @@ public class PathPlaningView<W> extends BaseView {
 
         public Builder setEndMarkBuilder(@NonNull PointMarkerView.Builder endMarkBuilder) {
             this.endMarkBuilder = endMarkBuilder;
+            return this;
+        }
+
+        public Builder setStartMarkerZindex(float zindex) {
+            getParam().setStartMarkerZindex(zindex);
+            return this;
+        }
+
+
+        public Builder setEndMarkerZindex(float zindex) {
+            getParam().setEndMarkerZindex(zindex);
+            return this;
+        }
+
+
+        public Builder setArrowLineZindex(float zIndex) {
+            getParam().setArrowLineZindex(zIndex);
+            return this;
+        }
+
+
+        public Builder setTrafficLineZindex(float zIndex) {
+            getParam().setTrafficLineZindex(zIndex);
+            return this;
+        }
+
+
+        public Builder setDefaultLineZindex(float zIndex) {
+            getParam().setDefaultLineZindex(zIndex);
             return this;
         }
 
@@ -236,6 +285,16 @@ public class PathPlaningView<W> extends BaseView {
 
 
         public PathPlaningView<W> create() {
+
+
+            lineBuilder.setArrowLineZindex(getParam().getArrowLineZindex());
+            lineBuilder.setDefaultLineZindex(getParam().getDefaultLineZindex());
+            lineBuilder.setTrafficLineZindex(getParam().getTrafficLineZindex());
+
+            startMarkBuilder.setZindex(getParam().getStartMarkerZindex());
+            endMarkBuilder.setZindex(getParam().getEndMarkerZindex());
+
+
             PathPlaningView pathPlaningView = new PathPlaningView<W>(getContext(), getMap(), getParam());
             pathPlaningView.setSimpleRouteLineView(lineBuilder.create());
             pathPlaningView.setStartPointMarkerView(startMarkBuilder.create());
@@ -251,26 +310,6 @@ public class PathPlaningView<W> extends BaseView {
         }
 
 
-    }
-
-    public void setStartLatLonPoint(LatLonPoint startLatLonPoint) {
-        getParam().setStartLatLonPoint(startLatLonPoint);
-
-    }
-
-
-    public void setEndLatLonPoint(LatLonPoint endLatLonPoint) {
-        getParam().setEndLatLonPoint(endLatLonPoint);
-    }
-
-
-    public static interface OnPathPlaningCallBack {
-
-        void onStart();
-
-        void onSucccess(DriveRouteResult routeResult);
-
-        void onFailed(String errorInfo);
     }
 
 

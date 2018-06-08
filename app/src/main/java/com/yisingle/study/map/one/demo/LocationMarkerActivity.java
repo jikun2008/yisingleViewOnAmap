@@ -16,7 +16,7 @@ import com.yisingle.study.map.one.base.BaseMapActivity;
  * @author jikun
  * Created by jikun on 2018/4/11.
  */
-public class LocationMarkerMapActivity extends BaseMapActivity {
+public class LocationMarkerActivity extends BaseMapActivity {
 
     private TextureMapView textureMapView;
 
