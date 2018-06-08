@@ -78,7 +78,9 @@ public class TextMarkerView<W> extends BaseMarkerView<TextMarkerParam, W> {
     @Override
     public void setVisible(boolean isVisible) {
         super.setVisible(isVisible);
-        textMarker.setVisible(isVisible);
+        if (null != textMarker) {
+            textMarker.setVisible(isVisible);
+        }
     }
 
     @Override
