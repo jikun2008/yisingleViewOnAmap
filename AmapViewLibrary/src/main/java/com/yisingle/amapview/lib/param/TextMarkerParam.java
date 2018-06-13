@@ -27,11 +27,16 @@ public class TextMarkerParam extends BaseMarkerParam {
 
     private String text = "";
 
-    private int padding;
+    private int paddingLeftOrRight;
 
-    private float textSpaceMult;
+    private float textRowSpaceMult;
 
-    private int textSpaceAdd;
+    private int textRowSpaceAdd;
+
+    /**
+     * 是否只显示文字
+     */
+    private boolean isOnlyTextShow = false;
 
     /**
      * 文字描边默认值
@@ -46,8 +51,8 @@ public class TextMarkerParam extends BaseMarkerParam {
 
     public TextMarkerParam() {
 
-        textSpaceMult = 1f;
-        textSpaceAdd = 0;
+        textRowSpaceMult = 1f;
+        textRowSpaceAdd = 0;
 
         getOptions().anchor(0.5f, 0.5f);
         getOptions().icon(BitmapDescriptorFactory.fromResource(R.mipmap.hot_point));
@@ -71,7 +76,7 @@ public class TextMarkerParam extends BaseMarkerParam {
         strokeTextPaint.setColor(Color.parseColor("#FFFFFF"));
 
 
-        padding = 10;
+        paddingLeftOrRight = 10;
         maxTextLength = 6;
         align = TextAlign.LEFT;
     }
@@ -101,12 +106,12 @@ public class TextMarkerParam extends BaseMarkerParam {
         this.text = text;
     }
 
-    public int getPadding() {
-        return padding;
+    public int getPaddingLeftOrRight() {
+        return paddingLeftOrRight;
     }
 
-    public void setPadding(int padding) {
-        this.padding = padding;
+    public void setPaddingLeftOrRight(int paddingLeftOrRight) {
+        this.paddingLeftOrRight = paddingLeftOrRight;
     }
 
     public TextPaint getTextPaint() {
@@ -133,20 +138,29 @@ public class TextMarkerParam extends BaseMarkerParam {
         this.textMarkerOptions = textMarkerOptions;
     }
 
-    public float getTextSpaceMult() {
-        return textSpaceMult;
+    public float getTextRowSpaceMult() {
+        return textRowSpaceMult;
     }
 
-    public void setTextSpaceMult(@FloatRange(from = 1f) float textSpaceMult) {
-        this.textSpaceMult = textSpaceMult;
+    public void setTextRowSpaceMult(@FloatRange(from = 1f) float textRowSpaceMult) {
+        this.textRowSpaceMult = textRowSpaceMult;
     }
 
-    public int getTextSpaceAdd() {
-        return textSpaceAdd;
+    public int getTextRowSpaceAdd() {
+        return textRowSpaceAdd;
     }
 
-    public void setTextSpaceAdd(@IntRange(from = 0) int textSpaceAdd) {
-        this.textSpaceAdd = textSpaceAdd;
+    public void setTextRowSpaceAdd(@IntRange(from = 0) int textRowSpaceAdd) {
+        this.textRowSpaceAdd = textRowSpaceAdd;
+    }
+
+
+    public boolean isOnlyTextShow() {
+        return isOnlyTextShow;
+    }
+
+    public void setOnlyTextShow(boolean onlyTextShow) {
+        isOnlyTextShow = onlyTextShow;
     }
 
     //添加支持注解的依赖到你的项目中，需要在build.gradle文件中的依赖块中添加：

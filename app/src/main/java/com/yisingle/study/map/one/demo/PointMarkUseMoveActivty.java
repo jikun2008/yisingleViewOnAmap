@@ -71,7 +71,7 @@ public class PointMarkUseMoveActivty extends BaseMapActivity {
         });
 
 
-        startMove(null);
+//        startMove(null);
 
         pointMarkerView.showInfoWindow("我的代码");
 
@@ -90,7 +90,7 @@ public class PointMarkUseMoveActivty extends BaseMapActivity {
 
 
         moveCamre(nowListPoints);
-        pointMarkerView.startMove(nowListPoints);
+        pointMarkerView.startMove(nowListPoints, false);
     }
 
     public void stopMove(View view) {
@@ -111,8 +111,35 @@ public class PointMarkUseMoveActivty extends BaseMapActivity {
 
 
         moveCamre(resumeListPoints);
-        pointMarkerView.startMove(resumeListPoints);
+        pointMarkerView.startMove(resumeListPoints, false);
 
+
+    }
+
+
+    public void startOnlyOne(View view) {
+
+        List<LatLng> list = new ArrayList<>();
+        list.add(new LatLng(30.554803, 104.068991));
+        list.add(new LatLng(30.556669, 104.068991));
+        moveCamre(list);
+        List<LatLng> oneList = new ArrayList<>();
+        oneList.add(new LatLng(30.554803, 104.068991));
+        pointMarkerView.startMove(oneList, true);
+
+    }
+
+
+    public void startOtherOnlyOne(View view) {
+
+
+        List<LatLng> list = new ArrayList<>();
+        list.add(new LatLng(30.554803, 104.068991));
+        list.add(new LatLng(30.556669, 104.068991));
+        moveCamre(list);
+        List<LatLng> oneList = new ArrayList<>();
+        oneList.add(new LatLng(30.556669, 104.068991));
+        pointMarkerView.startMove(oneList, true);
 
     }
 

@@ -11,7 +11,6 @@ import android.support.annotation.NonNull;
 import android.text.Layout;
 import android.text.StaticLayout;
 import android.text.TextPaint;
-import android.util.Log;
 
 import com.amap.api.maps.AMap;
 import com.amap.api.maps.model.BitmapDescriptor;
@@ -53,6 +52,7 @@ public class TextMarkerView<W> extends BaseMarkerView<TextMarkerParam, W> {
             getParam().getTextMarkerOptions().icon(BitmapDescriptorFactory.fromBitmap(getTextBitMap(staticLayout)));
             getParam().getTextMarkerOptions().zIndex(getParam().getOptions().getZIndex());
             textMarker = getAmap().addMarker(getParam().getTextMarkerOptions());
+            getMarker().setVisible(!getParam().isOnlyTextShow());
         }
 
     }
@@ -75,9 +75,15 @@ public class TextMarkerView<W> extends BaseMarkerView<TextMarkerParam, W> {
 
     }
 
+    public void setOnlyTextShow(boolean onlyTextShow) {
+        getParam().setOnlyTextShow(onlyTextShow);
+        if (null != getMarker()) {
+            getMarker().setVisible(!onlyTextShow);
+        }
+    }
+
     @Override
     public void setVisible(boolean isVisible) {
-        super.setVisible(isVisible);
         if (null != textMarker) {
             textMarker.setVisible(isVisible);
         }
@@ -104,8 +110,18 @@ public class TextMarkerView<W> extends BaseMarkerView<TextMarkerParam, W> {
             float[] anchor = getanchorByStaticLayout(staticLayout);
             textMarker.setAnchor(anchor[0], anchor[1]);
         }
+    }
+
+    public void setTextSize(float textsize) {
+        getParam().getTextPaint().setTextSize(textsize);
+        setText(getParam().getText());
+
+    }
 
 
+    public void setTextColor(int color) {
+        getParam().getTextPaint().setColor(color);
+        setText(getParam().getText());
     }
 
     @Override
@@ -139,7 +155,7 @@ public class TextMarkerView<W> extends BaseMarkerView<TextMarkerParam, W> {
         //获取最大MaxWidth
 
 
-        Bitmap bitmap = Bitmap.createBitmap(staticLayout.getWidth() + getParam().getPadding(),
+        Bitmap bitmap = Bitmap.createBitmap(staticLayout.getWidth() + getParam().getPaddingLeftOrRight(),
                 staticLayout.getHeight(), Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bitmap);
         canvas.save();
@@ -193,8 +209,8 @@ public class TextMarkerView<W> extends BaseMarkerView<TextMarkerParam, W> {
 
             int top = staticLayout.getLineTop(0);
             int bottom = staticLayout.getLineBottom(0);
-            int add = getParam().getTextSpaceAdd();
-            float multy = getParam().getTextSpaceMult();
+            int add = getParam().getTextRowSpaceAdd();
+            float multy = getParam().getTextRowSpaceMult();
             int lineHeight = bottom - top - add;
             BigDecimal textHeight = new BigDecimal(lineHeight).divide(new BigDecimal(multy), 2, BigDecimal.ROUND_HALF_UP);
 
@@ -202,7 +218,7 @@ public class TextMarkerView<W> extends BaseMarkerView<TextMarkerParam, W> {
             y = textHeight.divide(new BigDecimal(staticLayout.getHeight()).multiply(new BigDecimal(2)), 2, BigDecimal.ROUND_HALF_UP);
 
         }
-        Log.e("测试代码", "测试代码-y=" + y.floatValue());
+//        Log.e("测试代码", "测试代码-y=" + y.floatValue());
 
 //        int top = staticLayout.getLineTop(0);
 //        int bottom = staticLayout.getLineBottom(0);
@@ -239,7 +255,7 @@ public class TextMarkerView<W> extends BaseMarkerView<TextMarkerParam, W> {
     private void translateCanvas(@TextMarkerParam.TextAlign int align, Canvas canvas) {
         switch (align) {
             case TextMarkerParam.TextAlign.LEFT:
-                canvas.translate(getParam().getPadding(), 0);
+                canvas.translate(getParam().getPaddingLeftOrRight(), 0);
 
                 break;
             case TextMarkerParam.TextAlign.CENTER:
@@ -270,8 +286,8 @@ public class TextMarkerView<W> extends BaseMarkerView<TextMarkerParam, W> {
         StaticLayout staticLayout = new StaticLayout(getParam().getText(),
                 textPaint,
                 (int) maxWidth, Layout.Alignment.ALIGN_NORMAL,
-                getParam().getTextSpaceMult(),
-                getParam().getTextSpaceAdd(),
+                getParam().getTextRowSpaceMult(),
+                getParam().getTextRowSpaceAdd(),
                 false);
         return staticLayout;
     }
@@ -314,25 +330,30 @@ public class TextMarkerView<W> extends BaseMarkerView<TextMarkerParam, W> {
             return this;
         }
 
-        public Builder setTextPadding(int padding) {
-            getParam().setPadding(padding);
+        public Builder setTextPaddingLeftOrRight(int padding) {
+            getParam().setPaddingLeftOrRight(padding);
             return this;
         }
 
-        public Builder setTextSpaceMult(@FloatRange(from = 1f) float textSpaceMult) {
-            getParam().setTextSpaceMult(textSpaceMult);
+        public Builder setTextRowSpaceMult(@FloatRange(from = 1f) float textSpaceMult) {
+            getParam().setTextRowSpaceMult(textSpaceMult);
             return this;
         }
 
 
-        public Builder setTextSpaceAdd(@IntRange(from = 0) int textSpaceAdd) {
-            getParam().setTextSpaceAdd(textSpaceAdd);
+        public Builder setTextRowSpaceAdd(@IntRange(from = 0) int textSpaceAdd) {
+            getParam().setTextRowSpaceAdd(textSpaceAdd);
             return this;
         }
 
 
         public Builder setTextMaxTextLength(int maxTextLength) {
             getParam().setMaxTextLength(maxTextLength);
+            return this;
+        }
+
+        public Builder setTextOnlyTextShow(boolean onlyTextShow) {
+            getParam().setOnlyTextShow(onlyTextShow);
             return this;
         }
 
@@ -367,8 +388,20 @@ public class TextMarkerView<W> extends BaseMarkerView<TextMarkerParam, W> {
         }
 
 
+        public Builder setTextSize(float textSize) {
+            getParam().getTextPaint().setTextSize(textSize);
+            return this;
+        }
+
+
+        public Builder setTextColor(int color) {
+            getParam().getTextPaint().setColor(color);
+            return this;
+        }
+
+
         public Builder setTextPointIcon(BitmapDescriptor bitmapDescriptor) {
-            getParam().getOptions().icon(bitmapDescriptor);
+            setIcon(bitmapDescriptor);
             return this;
         }
 

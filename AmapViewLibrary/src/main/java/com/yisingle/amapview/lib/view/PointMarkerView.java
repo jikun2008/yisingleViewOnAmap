@@ -1,6 +1,8 @@
 package com.yisingle.amapview.lib.view;
 
 import android.content.Context;
+import android.support.annotation.FloatRange;
+import android.support.annotation.IntRange;
 import android.support.annotation.NonNull;
 import android.text.TextPaint;
 
@@ -62,6 +64,17 @@ public class PointMarkerView<W> extends BaseMarkerView<PointMarkerParam, W> {
 
     }
 
+
+    public void setTextSize(float textsize) {
+        textMarkerView.setTextSize(textsize);
+
+    }
+
+
+    public void setTextColor(int color) {
+        textMarkerView.setTextColor(color);
+    }
+
     public void setTextPointIcon(BitmapDescriptor icon) {
         textMarkerView.setIcon(icon);
     }
@@ -114,12 +127,6 @@ public class PointMarkerView<W> extends BaseMarkerView<PointMarkerParam, W> {
         }
 
 
-        public Builder setTextMarkerBuilder(@NonNull TextMarkerView.Builder textMarkerBuilder) {
-            //代理模式 随意组装内部需要TextMarkerView
-            textBuilder = textMarkerBuilder;
-            return this;
-        }
-
         @Override
         public Builder setPosition(LatLng position) {
             super.setPosition(position);
@@ -128,25 +135,47 @@ public class PointMarkerView<W> extends BaseMarkerView<PointMarkerParam, W> {
         }
 
 
-        public Builder setText(String text) {
-            textBuilder.setText(text);
+        public Builder setTextMarkerBuilder(@NonNull TextMarkerView.Builder textMarkerBuilder) {
+            //代理模式 随意组装内部需要TextMarkerView
+            textBuilder = textMarkerBuilder;
             return this;
         }
+
 
         public Builder setTextPaint(@NonNull TextPaint textPaint) {
             textBuilder.setTextPaint(textPaint);
             return this;
         }
 
+        public Builder setText(String text) {
+            textBuilder.setText(text);
+            return this;
+        }
 
-        public Builder setTextPadding(int padding) {
-            textBuilder.setTextPadding(padding);
+        public Builder setTextPaddingLeftOrRight(int padding) {
+            textBuilder.setTextPaddingLeftOrRight(padding);
+            return this;
+        }
+
+        public Builder setTextRowSpaceMult(@FloatRange(from = 1f) float textSpaceMult) {
+            textBuilder.setTextRowSpaceMult(textSpaceMult);
+            return this;
+        }
+
+
+        public Builder setTextRowSpaceAdd(@IntRange(from = 0) int textSpaceAdd) {
+            textBuilder.setTextRowSpaceAdd(textSpaceAdd);
             return this;
         }
 
 
         public Builder setTextMaxTextLength(int maxTextLength) {
             textBuilder.setTextMaxTextLength(maxTextLength);
+            return this;
+        }
+
+        public Builder setTextOnlyTextShow(boolean onlyTextShow) {
+            textBuilder.setTextOnlyTextShow(onlyTextShow);
             return this;
         }
 
@@ -179,6 +208,19 @@ public class PointMarkerView<W> extends BaseMarkerView<PointMarkerParam, W> {
 
             return this;
         }
+
+
+        public Builder setTextSize(float textSize) {
+            textBuilder.setTextSize(textSize);
+            return this;
+        }
+
+
+        public Builder setTextColor(int color) {
+            textBuilder.setTextColor(color);
+            return this;
+        }
+
 
         public Builder setTextPointIcon(BitmapDescriptor bitmapDescriptor) {
             textBuilder.setTextPointIcon(bitmapDescriptor);

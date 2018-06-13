@@ -49,9 +49,8 @@ public abstract class AbstractMarkerView<P extends BaseMarkerParam> extends Base
     }
 
 
-
     public void setLatLngList(List<LatLng> latLngList) {
-        this.latLngList=latLngList;
+        this.latLngList = latLngList;
         moveUtils.setLatLngList(latLngList);
     }
 
@@ -62,17 +61,12 @@ public abstract class AbstractMarkerView<P extends BaseMarkerParam> extends Base
     }
 
 
-    public void startMove() {
-        startMove(latLngList, false);
-    }
-
-
-    public void startMove(List<LatLng> list) {
-        startMove(list, false);
-    }
-
-
     public void startMove(List<LatLng> list, boolean isResume) {
+        LatLng latLng = null;
+        if (null != marker) {
+            latLng = marker.getPosition();
+        }
+
         moveUtils.startMove(list, isResume);
 
     }
@@ -88,9 +82,6 @@ public abstract class AbstractMarkerView<P extends BaseMarkerParam> extends Base
     public void onSetGeoPoint(IPoint point) {
         setGeoPoint(point);
     }
-
-
-
 
 
     public void setAlpha(float alpha) {

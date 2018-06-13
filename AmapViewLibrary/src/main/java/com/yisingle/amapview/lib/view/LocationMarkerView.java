@@ -36,6 +36,9 @@ public class LocationMarkerView<W> extends BaseMarkerView<LocationMarkerParam, W
     private AMapLocationHelper locationHelper;
 
 
+    private onLocationMarkerViewListener listener;
+
+
     /**
      * 圆形范围View
      */
@@ -58,6 +61,10 @@ public class LocationMarkerView<W> extends BaseMarkerView<LocationMarkerParam, W
             }
 
         }
+    }
+
+    public void setListener(onLocationMarkerViewListener listener) {
+        this.listener = listener;
     }
 
     /**
@@ -113,6 +120,9 @@ public class LocationMarkerView<W> extends BaseMarkerView<LocationMarkerParam, W
                     //设置定位精度
                     circleView.setRadius(loc.getAccuracy());
                 }
+                if (null != listener) {
+                    listener.onLocationSuccess(loc);
+                }
 
 
             }
@@ -120,6 +130,10 @@ public class LocationMarkerView<W> extends BaseMarkerView<LocationMarkerParam, W
             @Override
             public void onLocationGetFail(AMapLocation loc) {
                 super.onLocationGetFail(loc);
+                if (null != listener) {
+                    listener.onLocationFailed(loc);
+                }
+
             }
         });
         locationHelper.startLocation();
@@ -149,6 +163,9 @@ public class LocationMarkerView<W> extends BaseMarkerView<LocationMarkerParam, W
                 if (null != getMarker()) {
                     setRotateAngle(angle);
                 }
+                if (null != listener) {
+                    listener.onRotationSuccess(angle);
+                }
 
             }
 
@@ -156,6 +173,9 @@ public class LocationMarkerView<W> extends BaseMarkerView<LocationMarkerParam, W
             public void onRotationFailed(String erroInfo) {
                 if (0 != getParam().getWithOutSensorDrawableId()) {
                     setIcon(BitmapDescriptorFactory.fromResource(getParam().getWithOutSensorDrawableId()));
+                }
+                if (null != listener) {
+                    listener.ononRotationFailed(erroInfo);
                 }
 
 
@@ -284,6 +304,19 @@ public class LocationMarkerView<W> extends BaseMarkerView<LocationMarkerParam, W
 
         }
 
+
+    }
+
+    public interface onLocationMarkerViewListener {
+
+        void onLocationSuccess(AMapLocation loc);
+
+        void onLocationFailed(AMapLocation loc);
+
+
+        void onRotationSuccess(float angle);
+
+        void ononRotationFailed(String erroInfo);
 
     }
 

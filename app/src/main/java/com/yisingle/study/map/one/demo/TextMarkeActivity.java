@@ -1,5 +1,6 @@
 package com.yisingle.study.map.one.demo;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
@@ -39,10 +40,14 @@ public class TextMarkeActivity extends BaseMapActivity {
 
 
         textMarkerView = new TextMarkerView.Builder(getApplicationContext(), getAmap())
-
-                .setTextSpaceAdd(90)
+                //是否只显示文字 默认值为false
+                .setTextOnlyTextShow(false)
+                .setTextPaddingLeftOrRight(20)
+                .setTextRowSpaceAdd(90)
+                .setTextColor(Color.parseColor("#FF4040"))
+                .setTextSize(44f)
                 .setText("天府广场设计费速度快放假时代峻峰")
-                .setIcon(BitmapDescriptorFactory.fromResource(R.mipmap.hot_point)).create();
+                .setTextPointIcon(BitmapDescriptorFactory.fromResource(R.mipmap.hot_point)).create();
         moveToCamera(latLng);
 
         testSetPoint(null);
