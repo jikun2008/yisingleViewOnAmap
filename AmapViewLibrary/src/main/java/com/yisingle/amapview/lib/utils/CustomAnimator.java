@@ -1,9 +1,11 @@
 package com.yisingle.amapview.lib.utils;
 
+import android.util.Log;
+
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.SynchronousQueue;
+import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -17,7 +19,7 @@ public class CustomAnimator {
 
     private ExecutorService mThreadPools;
 
-    private boolean isrunning = false;
+    private AtomicBoolean isrunning = new AtomicBoolean(false);
 
 
     private long startTime;
@@ -34,7 +36,7 @@ public class CustomAnimator {
     private int i = 0;
 
     public CustomAnimator() {
-        mThreadPools = new ThreadPoolExecutor(1, 2, 5L, TimeUnit.SECONDS, new SynchronousQueue(), new CustomThreadFactory());
+        mThreadPools = new ThreadPoolExecutor(1, 1, 200L, TimeUnit.SECONDS, new LinkedBlockingDeque<Runnable>(), new CustomThreadFactory());
     }
 
 
@@ -51,7 +53,6 @@ public class CustomAnimator {
         customRunnable = new CustomRunnable(i);
         customRunnable.exitFlag.set(false);
         customRunnable.repeatFlag.set(true);
-        setRunning(true);
         if (null != onTimeListener) {
             if (isRepeat) {
                 onTimeListener.onRepeatStart();
@@ -72,7 +73,6 @@ public class CustomAnimator {
             customRunnable.repeatFlag.set(false);
 
         }
-        setRunning(false);
 
 
         //Log.e("测试代码", "测试代码----cancale");
@@ -95,11 +95,14 @@ public class CustomAnimator {
 
         @Override
         public void run() {
+            setRunning(true);
             while (!exitFlag.get()) {
+                Log.e("测试代码", "测试代码+run--ThreadName=" + Thread.currentThread().getName());
                 try {
                     Thread.sleep(20L);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
+                    Log.e("测试代码", "测试代码+run--InterruptedException=" + e.toString());
                 }
                 if (!exitFlag.get()) {
                     long currentTime = System.currentTimeMillis();
@@ -122,6 +125,11 @@ public class CustomAnimator {
 
                 start(true);
 
+                Log.e("测试代码", "测试代码----repeat---" + "index=" + index + "--重新开启线程");
+
+            } else {
+                setRunning(false);
+                Log.e("测试代码", "测试代码----end---" + "index=" + index + "--线程结束");
             }
 
             //Log.e("测试代码", "测试代码----end---" + "index=" + index + "--线程结束");
@@ -132,7 +140,7 @@ public class CustomAnimator {
 
     public CustomAnimator setDuration(int duration) {
         if (duration <= 0) {
-            duration = 1000;
+            duration = 10;
         }
         this.duration = duration;
         return this;
@@ -171,10 +179,11 @@ public class CustomAnimator {
     }
 
     public boolean isRunning() {
-        return isrunning;
+        return isrunning.get();
     }
 
-    public void setRunning(boolean isrunning) {
-        this.isrunning = isrunning;
+    public void setRunning(boolean isrun) {
+        isrunning.set(isrun);
+        Log.e("测试代码", "测试代码----setRunning---" + "setRunning=" + isrunning.get() + "");
     }
 }

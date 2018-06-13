@@ -67,7 +67,7 @@ public abstract class AbstractMarkerView<P extends BaseMarkerParam> extends Base
             latLng = marker.getPosition();
         }
 
-        moveUtils.startMove(list, isResume);
+        moveUtils.startMove(latLng,list, isResume);
 
     }
 

@@ -67,6 +67,7 @@ public abstract class BaseMarkerView<P extends BaseMarkerParam, W> extends Abstr
             marker = null;
 
         }
+        stopMove();
         infoData = null;
         if (null != infoWindowView) {
             infoWindowView.destory();

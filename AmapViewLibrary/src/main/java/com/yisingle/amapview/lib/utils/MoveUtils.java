@@ -18,7 +18,7 @@ import java.util.List;
  */
 public class MoveUtils {
 
-    private CustomAnimator customAnimator;
+    private CustomAnimator customAnimator = new CustomAnimator();
 
     private int index;
 
@@ -38,15 +38,36 @@ public class MoveUtils {
     private OnCallBack callBack;
 
 
-    public void startMove(List<LatLng> list, boolean isResume) {
+    private List<LatLng> produceList(LatLng currentLatlng, List<LatLng> list) {
+        List<LatLng> nowList = new ArrayList<>();
+        if (currentLatlng == null && list.size() == 1) {
+            nowList.addAll(list);
+            if (null != callBack) {
+                IPoint iPoint = new IPoint();
+                MapProjection.lonlat2Geo(list.get(0).longitude, list.get(0).latitude, iPoint);
+                callBack.onSetGeoPoint(iPoint);
+            }
+
+        } else if ((currentLatlng != null && list.size() == 1)) {
+
+            nowList.add(currentLatlng);
+            nowList.addAll(list);
+        } else {
+            nowList.addAll(list);
+        }
+        return nowList;
+
+    }
+
+    public void startMove(LatLng latLng, List<LatLng> list, boolean isResume) {
         if (isResume) {
             if (null == customAnimator || !customAnimator.isRunning()) {
-                beginMove(list);
+                beginMove(produceList(latLng, list));
             } else {
                 this.latLngList.addAll(list);
             }
         } else {
-            beginMove(list);
+            beginMove(produceList(latLng, list));
 
         }
     }
@@ -62,7 +83,6 @@ public class MoveUtils {
     public void stopMove() {
         if (null != customAnimator) {
             customAnimator.end();
-            customAnimator = null;
         }
 
     }
@@ -72,11 +92,8 @@ public class MoveUtils {
     }
 
     private void createAnimator() {
-        if (null != customAnimator) {
-            customAnimator.end();
-            customAnimator = null;
-        }
-        customAnimator = new CustomAnimator();
+
+        customAnimator.end();
         customAnimator.setOnTimeListener(new CustomAnimator.OnTimeListener() {
             @Override
             public void onRepeatStart() {
@@ -108,7 +125,9 @@ public class MoveUtils {
             @Override
             public void onUpdate(float t) {
 
+
                 if (!isOver) {
+                    // Log.e("测试代码", "测试代码---onUpdate");
                     Float value = t;
                     int plugX = nextPoint.x - startIPoint.x;
                     int plugY = nextPoint.y - startIPoint.y;
@@ -129,27 +148,22 @@ public class MoveUtils {
 
     private void calculate() {
         float distance = AMapUtils.calculateLineDistance(latLngList.get(index), latLngList.get(index + 1));
-        if (distance < 5) {
-            index = index + 1;
-            calculate();
-        } else {
-            if (index < latLngList.size() - 1) {
-                MapProjection.lonlat2Geo(latLngList.get(index).longitude, latLngList.get(index).latitude, startIPoint);
-                MapProjection.lonlat2Geo(latLngList.get(index + 1).longitude, latLngList.get(index + 1).latitude, nextPoint);
-                float rotate = getRotate(startIPoint, nextPoint);
+        if (index < latLngList.size() - 1) {
+            MapProjection.lonlat2Geo(latLngList.get(index).longitude, latLngList.get(index).latitude, startIPoint);
+            MapProjection.lonlat2Geo(latLngList.get(index + 1).longitude, latLngList.get(index + 1).latitude, nextPoint);
+            float rotate = getRotate(startIPoint, nextPoint);
 
 
-                if (null != callBack) {
-                    callBack.onSetRotateAngle(rotate);
-                }
-
-
-                int time = new BigDecimal(distance).divide(new BigDecimal(speed), 3, RoundingMode.HALF_DOWN).multiply(new BigDecimal(1000)).intValue();
-
-
-
-                customAnimator.setDuration(time);
+            if (null != callBack) {
+                callBack.onSetRotateAngle(rotate);
             }
+
+
+            int time = new BigDecimal(distance).divide(new BigDecimal(speed), 3, RoundingMode.HALF_DOWN).multiply(new BigDecimal(1000)).intValue();
+
+            Log.e("测试代码", "测试代码time=" + time + "index=" + index);
+
+            customAnimator.setDuration(time);
         }
 
 
