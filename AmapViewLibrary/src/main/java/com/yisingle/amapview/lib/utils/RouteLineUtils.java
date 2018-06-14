@@ -94,8 +94,8 @@ public class RouteLineUtils {
         List<TrafficStateData> list = buildTrafficListData(tmcList);
         boolean isPolyLineMore = polyLineViewList.size() > list.size();
 
-        Log.e("测试代码", "测试代码traffic" + "-----新的TrafficStateData.size = " + list.size());
-        Log.e("测试代码", "测试代码traffic" + "-----原始的PolyLineViewList.size = " + polyLineViewList.size());
+        //Log.e("测试代码", "测试代码traffic" + "-----新的TrafficStateData.size = " + list.size());
+        //Log.e("测试代码", "测试代码traffic" + "-----原始的PolyLineViewList.size = " + polyLineViewList.size());
         int count = 0;
         for (int i = 0; i < list.size(); i++) {
             TrafficStateData trafficStateData = list.get(i);
@@ -121,7 +121,7 @@ public class RouteLineUtils {
                 polyLineViewList.add(basePolyLineView);
             }
         }
-        Log.e("测试代码", "测试代码traffic" + "-----添加了PolyLineView的数量为 size=" + count);
+        //Log.e("测试代码", "测试代码traffic" + "-----添加了PolyLineView的数量为 size=" + count);
 
         if (isPolyLineMore) {
             //移除多余的PolyLineView
@@ -129,7 +129,7 @@ public class RouteLineUtils {
             for (int i = list.size(); i < polyLineViewList.size(); i++) {
                 moreThanPolyLineViewList.add(polyLineViewList.get(i));
             }
-            Log.e("测试代码", "测试代码traffic  移除了moreThanPolyLineView的数量为 size=" + moreThanPolyLineViewList.size());
+            //Log.e("测试代码", "测试代码traffic  移除了moreThanPolyLineView的数量为 size=" + moreThanPolyLineViewList.size());
             polyLineViewList.removeAll(moreThanPolyLineViewList);
 
             for (PolyLineView view : moreThanPolyLineViewList) {
@@ -138,7 +138,7 @@ public class RouteLineUtils {
             }
         }
 
-        Log.e("测试代码", "测试代码traffic 最后产生的值=" + list.size() + "-----polyLineViewList.size=" + polyLineViewList.size());
+        //Log.e("测试代码", "测试代码traffic 最后产生的值=" + list.size() + "-----polyLineViewList.size=" + polyLineViewList.size());
         return polyLineViewList;
 
     }

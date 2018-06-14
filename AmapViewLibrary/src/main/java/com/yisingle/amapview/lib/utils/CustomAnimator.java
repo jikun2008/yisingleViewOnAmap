@@ -97,12 +97,12 @@ public class CustomAnimator {
         public void run() {
             setRunning(true);
             while (!exitFlag.get()) {
-                Log.e("测试代码", "测试代码+run--ThreadName=" + Thread.currentThread().getName());
+                //Log.e("测试代码", "测试代码+run--ThreadName=" + Thread.currentThread().getName());
                 try {
                     Thread.sleep(20L);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
-                    Log.e("测试代码", "测试代码+run--InterruptedException=" + e.toString());
+                    //Log.e("测试代码", "测试代码+run--InterruptedException=" + e.toString());
                 }
                 if (!exitFlag.get()) {
                     long currentTime = System.currentTimeMillis();
@@ -125,11 +125,11 @@ public class CustomAnimator {
 
                 start(true);
 
-                Log.e("测试代码", "测试代码----repeat---" + "index=" + index + "--重新开启线程");
+                //Log.e("测试代码", "测试代码----repeat---" + "index=" + index + "--重新开启线程");
 
             } else {
                 setRunning(false);
-                Log.e("测试代码", "测试代码----end---" + "index=" + index + "--线程结束");
+                //Log.e("测试代码", "测试代码----end---" + "index=" + index + "--线程结束");
             }
 
             //Log.e("测试代码", "测试代码----end---" + "index=" + index + "--线程结束");
@@ -184,6 +184,6 @@ public class CustomAnimator {
 
     public void setRunning(boolean isrun) {
         isrunning.set(isrun);
-        Log.e("测试代码", "测试代码----setRunning---" + "setRunning=" + isrunning.get() + "");
+        //Log.e("测试代码", "测试代码----setRunning---" + "setRunning=" + isrunning.get() + "");
     }
 }

@@ -129,7 +129,7 @@ public class MoveUtils {
                 if (latLngList.size() >= 2) {
                     calculate();
                 } else {
-                    Log.e("测试代码", "测试代码--未能开始移动 因为坐标集合数量小于2");
+                    //Log.e("测试代码", "测试代码--未能开始移动 因为坐标集合数量小于2");
                     customAnimator.end();
                 }
 
@@ -174,7 +174,7 @@ public class MoveUtils {
 
             int time = new BigDecimal(distance).divide(new BigDecimal(speed), 3, RoundingMode.HALF_DOWN).multiply(new BigDecimal(1000)).intValue();
 
-            Log.e("测试代码", "测试代码time=" + time + "index=" + index);
+            //Log.e("测试代码", "测试代码time=" + time + "index=" + index);
 
             customAnimator.setDuration(time);
         }

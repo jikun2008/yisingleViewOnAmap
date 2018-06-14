@@ -36,7 +36,7 @@ public class InfoWindowUtils {
         int littleWidth = markerOptions.getIcon().getWidth();
 
         float anchorU = markerOptions.getAnchorU();
-        Log.e("测试代码", "测试代码calueHorizontalInfoAnchor----bigWidth=" + bigWidth + "----littleWidth=" + littleWidth + "---原来的anchorU=" + anchorU);
+        //Log.e("测试代码", "测试代码calueHorizontalInfoAnchor----bigWidth=" + bigWidth + "----littleWidth=" + littleWidth + "---原来的anchorU=" + anchorU);
         if (bigWidth > littleWidth) {
             //x 的 值
             BigDecimal x = new BigDecimal(bigWidth);
@@ -47,7 +47,7 @@ public class InfoWindowUtils {
             BigDecimal u_y = y.multiply(u);
             BigDecimal subtractX2_Y2 = x2.subtract(y2);
             float now = subtractX2_Y2.add(u_y).divide(x, 4, BigDecimal.ROUND_HALF_UP).floatValue();
-            Log.e("测试代码", "测试代码now" + now);
+            //Log.e("测试代码", "测试代码now" + now);
             return now;
 
         } else {

@@ -174,34 +174,34 @@ public abstract class BaseMarkerBuilder<T, D extends BaseMarkerParam> extends Ba
      * @param offsetY- InfoWindow相对原点的纵向像素偏移量，单位：像素。
      * @return T
      */
-    public T setInfoWindowOffset(int offsetX, int offsetY) {
-        getParam().getOptions().setInfoWindowOffset(offsetX, offsetY);
-        return build;
-    }
+//    public T setInfoWindowOffset(int offsetX, int offsetY) {
+//        getParam().getOptions().setInfoWindowOffset(offsetX, offsetY);
+//        return build;
+//    }
 
 
-    /**
-     * 设置 Marker覆盖物的 文字描述
-     *
-     * @param snippet - Marker上的文字描述
-     * @return T
-     */
-    public T setSnippet(String snippet) {
-        getParam().getOptions().snippet(snippet);
-        return build;
-    }
+//    /**
+//     * 设置 Marker覆盖物的 文字描述
+//     *
+//     * @param snippet - Marker上的文字描述
+//     * @return T
+//     */
+//    public T setSnippet(String snippet) {
+//        getParam().getOptions().snippet(snippet);
+//        return build;
+//    }
 
 
-    /**
-     * 设置 Marker覆盖物 的标题
-     *
-     * @param title Marker 的标题
-     * @return T
-     */
-    public T setTitle(String title) {
-        getParam().getOptions().title(title);
-        return build;
-    }
+//    /**
+//     * 设置 Marker覆盖物 的标题
+//     *
+//     * @param title Marker 的标题
+//     * @return T
+//     */
+//    public T setTitle(String title) {
+//        getParam().getOptions().title(title);
+//        return build;
+//    }
 
     /**
      * 设置Marker覆盖物是否可见。
