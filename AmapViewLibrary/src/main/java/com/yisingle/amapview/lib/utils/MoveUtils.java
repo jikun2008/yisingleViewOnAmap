@@ -38,7 +38,7 @@ public class MoveUtils {
     private OnCallBack callBack;
 
 
-    private List<LatLng> produceList(LatLng currentLatlng, List<LatLng> list) {
+    private List<LatLng> produceResumeList(LatLng currentLatlng, List<LatLng> list) {
         List<LatLng> nowList = new ArrayList<>();
         if (currentLatlng == null && list.size() == 1) {
             nowList.addAll(list);
@@ -59,15 +59,28 @@ public class MoveUtils {
 
     }
 
+    private List<LatLng> produceRightNowList(List<LatLng> list) {
+        if (list.size() == 1) {
+            if (null != callBack) {
+                IPoint iPoint = new IPoint();
+                MapProjection.lonlat2Geo(list.get(0).longitude, list.get(0).latitude, iPoint);
+                callBack.onSetGeoPoint(iPoint);
+            }
+        }
+        return list;
+
+    }
+
+
     public void startMove(LatLng latLng, List<LatLng> list, boolean isResume) {
         if (isResume) {
             if (null == customAnimator || !customAnimator.isRunning()) {
-                beginMove(produceList(latLng, list));
+                beginMove(produceResumeList(latLng, list));
             } else {
                 this.latLngList.addAll(list);
             }
         } else {
-            beginMove(produceList(latLng, list));
+            beginMove(produceRightNowList(list));
 
         }
     }
