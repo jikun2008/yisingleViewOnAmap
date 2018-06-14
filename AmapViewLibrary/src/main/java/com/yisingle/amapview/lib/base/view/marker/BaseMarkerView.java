@@ -15,7 +15,7 @@ import com.amap.api.maps.model.Marker;
 import com.amap.api.maps.model.MarkerOptions;
 import com.yisingle.amap.lib.R;
 import com.yisingle.amapview.lib.base.param.BaseMarkerParam;
-import com.yisingle.amapview.lib.utils.DeBug;
+import com.yisingle.amapview.lib.utils.YiSingleDeBug;
 import com.yisingle.amapview.lib.viewholder.MapInfoWindowViewHolder;
 
 
@@ -208,7 +208,7 @@ public abstract class BaseMarkerView<P extends BaseMarkerParam, W> extends Abstr
             seatView.setWidth(width);
             seatView.setHeight(height);
 
-            if (DeBug.isdebug) {
+            if (YiSingleDeBug.isdebug) {
                 seatView.setVisibility(View.VISIBLE);
                 seatView.setBackgroundResource(android.R.color.holo_green_dark);
                 infoWindowView.setBackgroundResource(android.R.color.holo_blue_light);

@@ -221,7 +221,7 @@ public class AMapLocationHelper {
 
             if (loc != null && loc.getErrorCode() == 0) {
 
-                if (DeBug.isdebug) {
+                if (YiSingleDeBug.isdebug) {
                     Log.d(TAG, TAG + ":location----success");
                 }
 
@@ -232,7 +232,7 @@ public class AMapLocationHelper {
 
 
             } else {
-                if (DeBug.isdebug) {
+                if (YiSingleDeBug.isdebug) {
                     String errorInfo = "errorCode:" + loc.getErrorCode() + "---" + "ErrorInfo:" + loc.getErrorInfo();
                     Log.e(TAG, TAG + ":location----failed---" + errorInfo);
                 }

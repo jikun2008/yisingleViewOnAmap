@@ -20,7 +20,7 @@ import com.amap.api.maps.model.Marker;
 import com.yisingle.amapview.lib.base.view.marker.BaseMarkerBuilder;
 import com.yisingle.amapview.lib.base.view.marker.BaseMarkerView;
 import com.yisingle.amapview.lib.param.TextMarkerParam;
-import com.yisingle.amapview.lib.utils.DeBug;
+import com.yisingle.amapview.lib.utils.YiSingleDeBug;
 import com.yisingle.amapview.lib.utils.TextPaintUtils;
 
 import java.math.BigDecimal;
@@ -85,6 +85,12 @@ public class TextMarkerView<W> extends BaseMarkerView<TextMarkerParam, W> {
     @Override
     public void setVisible(boolean isVisible) {
         if (null != textMarker) {
+            if (getParam().isOnlyTextShow()) {
+                super.setVisible(false);
+            } else {
+                super.setVisible(isVisible);
+            }
+
             textMarker.setVisible(isVisible);
         }
     }
@@ -133,6 +139,12 @@ public class TextMarkerView<W> extends BaseMarkerView<TextMarkerParam, W> {
 
     }
 
+
+    @Override
+    public boolean isVisible() {
+        return textMarker.isVisible();
+    }
+
     public String getText() {
         return getParam().getText();
 
@@ -161,7 +173,7 @@ public class TextMarkerView<W> extends BaseMarkerView<TextMarkerParam, W> {
         canvas.save();
         translateCanvas(getParam().getAlign(), canvas);
         //测试背景的时候使用一般不使用
-        if (DeBug.isdebug) {
+        if (YiSingleDeBug.isdebug) {
             testDrawBack(canvas, staticLayout);
         }
 
