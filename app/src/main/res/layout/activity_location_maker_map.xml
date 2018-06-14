@@ -31,13 +31,7 @@
         android:text="移动到定位点" />
 
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:onClick="testShowInfoWindow"
-        android:text="显示或者隐藏Window" />
+
 
     <Button
         android:layout_width="wrap_content"

@@ -142,11 +142,6 @@ public class PointMarkerView<W> extends BaseMarkerView<PointMarkerParam, W> {
         }
 
 
-        public Builder setTextPaint(@NonNull TextPaint textPaint) {
-            textBuilder.setTextPaint(textPaint);
-            return this;
-        }
-
         public Builder setText(String text) {
             textBuilder.setText(text);
             return this;

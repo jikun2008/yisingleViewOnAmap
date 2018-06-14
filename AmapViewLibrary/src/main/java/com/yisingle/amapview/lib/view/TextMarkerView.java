@@ -207,12 +207,18 @@ public class TextMarkerView<W> extends BaseMarkerView<TextMarkerParam, W> {
         BigDecimal y = new BigDecimal(0);
         if (staticLayout.getLineCount() > 0) {
 
-            int top = staticLayout.getLineTop(0);
-            int bottom = staticLayout.getLineBottom(0);
-            int add = getParam().getTextRowSpaceAdd();
-            float multy = getParam().getTextRowSpaceMult();
-            int lineHeight = bottom - top - add;
-            BigDecimal textHeight = new BigDecimal(lineHeight).divide(new BigDecimal(multy), 2, BigDecimal.ROUND_HALF_UP);
+
+            Paint.FontMetrics fontMetrics = getParam().getTextPaint().getFontMetrics();
+
+            BigDecimal textHeight = new BigDecimal(fontMetrics.bottom - fontMetrics.top);
+
+
+//            int top = staticLayout.getLineTop(0);
+//            int bottom = staticLayout.getLineBottom(0);
+//            int add = getParam().getTextRowSpaceAdd();
+//            float multy = getParam().getTextRowSpaceMult();
+//            int lineHeight = bottom - top;
+//            BigDecimal textHeight = new BigDecimal(lineHeight);
 
 
             y = textHeight.divide(new BigDecimal(staticLayout.getHeight()).multiply(new BigDecimal(2)), 2, BigDecimal.ROUND_HALF_UP);

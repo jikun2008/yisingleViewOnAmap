@@ -24,7 +24,7 @@ public class AMapLocationHelper {
     private boolean is_default_once_location = false;
 
     //定位间隔,多次定位时才有效
-    private final int time_location_interval = 5000;
+    private int time_location_interval = 5000;
 
     private AMapLocationClient locationClient = null;
     private AMapLocationClientOption locationOption = new AMapLocationClientOption();
@@ -34,6 +34,12 @@ public class AMapLocationHelper {
 
 
     public AMapLocationHelper(Context context) {
+        initLocation(context);
+
+    }
+
+    public AMapLocationHelper(Context context, int time_location_interval) {
+        this.time_location_interval = time_location_interval;
         initLocation(context);
 
     }
@@ -215,7 +221,10 @@ public class AMapLocationHelper {
 
             if (loc != null && loc.getErrorCode() == 0) {
 
-                Log.e(TAG, TAG + ":location----success");
+                if (DeBug.isdebug) {
+                    Log.d(TAG, TAG + ":location----success");
+                }
+
 
                 if (null != onLocationGetListener) {
                     onLocationGetListener.onLocationGetSuccess(loc);
@@ -223,8 +232,11 @@ public class AMapLocationHelper {
 
 
             } else {
-                String errorInfo = "errorCode:" + loc.getErrorCode() + "---" + "ErrorInfo:" + loc.getErrorInfo();
-                Log.e(TAG, TAG + ":location----failed---" + errorInfo);
+                if (DeBug.isdebug) {
+                    String errorInfo = "errorCode:" + loc.getErrorCode() + "---" + "ErrorInfo:" + loc.getErrorInfo();
+                    Log.e(TAG, TAG + ":location----failed---" + errorInfo);
+                }
+
                 if (null != onLocationGetListener) {
                     onLocationGetListener.onLocationGetFail(loc);
                 }

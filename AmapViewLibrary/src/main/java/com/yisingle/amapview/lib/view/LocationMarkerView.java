@@ -106,7 +106,7 @@ public class LocationMarkerView<W> extends BaseMarkerView<LocationMarkerParam, W
      */
     private void initLocationHelper() {
         if (null == locationHelper) {
-            locationHelper = new AMapLocationHelper(getContext());
+            locationHelper = new AMapLocationHelper(getContext(), getParam().getLocationDurtion());
 
         }
 
@@ -175,7 +175,7 @@ public class LocationMarkerView<W> extends BaseMarkerView<LocationMarkerParam, W
                     setIcon(BitmapDescriptorFactory.fromResource(getParam().getWithOutSensorDrawableId()));
                 }
                 if (null != listener) {
-                    listener.ononRotationFailed(erroInfo);
+                    listener.onRotationFailed(erroInfo);
                 }
 
 
@@ -243,17 +243,22 @@ public class LocationMarkerView<W> extends BaseMarkerView<LocationMarkerParam, W
             return this;
         }
 
-
-        /**
-         * 设置圆的半径，单位米。半径必须大于等于0。
-         *
-         * @param radius - 半径，单位米
-         * @return
-         */
-        public Builder setCircleRadius(double radius) {
-            getParam().getCircleOptions().radius(radius);
+        public Builder setLocationDurtion(int durtion) {
+            getParam().setLocationDurtion(durtion);
             return this;
         }
+
+
+//        /**
+//         * 设置圆的半径，单位米。半径必须大于等于0。
+//         *
+//         * @param radius - 半径，单位米
+//         * @return
+//         */
+//        public Builder setCircleRadius(double radius) {
+//            getParam().getCircleOptions().radius(radius);
+//            return this;
+//        }
 
 
         /**
@@ -316,7 +321,7 @@ public class LocationMarkerView<W> extends BaseMarkerView<LocationMarkerParam, W
 
         void onRotationSuccess(float angle);
 
-        void ononRotationFailed(String erroInfo);
+        void onRotationFailed(String erroInfo);
 
     }
 

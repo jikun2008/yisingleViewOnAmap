@@ -22,7 +22,13 @@ public class LocationMarkerParam extends BaseMarkerParam {
     /**
      * 设置一些默认的CircleOptions的值
      */
-    private CircleOptions circleOptions = AMapOptionsUtils.getDefaultCircleOptions();
+    private CircleOptions circleOptions;
+
+
+    /**
+     * 每次定位的时间
+     */
+    private int locationDurtion;
 
 
     public LocationMarkerParam() {
@@ -32,6 +38,8 @@ public class LocationMarkerParam extends BaseMarkerParam {
         setWithOutSensorDrawableId(R.mipmap.gps_point);
         //设置锚点在图片中间
         getOptions().anchor(0.5f, 0.5f);
+        locationDurtion = 5000;
+        circleOptions = AMapOptionsUtils.getDefaultCircleOptions();
 
     }
 
@@ -50,5 +58,13 @@ public class LocationMarkerParam extends BaseMarkerParam {
 
     public void setCircleOptions(CircleOptions circleOptions) {
         this.circleOptions = circleOptions;
+    }
+
+    public int getLocationDurtion() {
+        return locationDurtion;
+    }
+
+    public void setLocationDurtion(int locationDurtion) {
+        this.locationDurtion = locationDurtion;
     }
 }

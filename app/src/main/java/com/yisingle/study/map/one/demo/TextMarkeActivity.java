@@ -10,6 +10,7 @@ import com.amap.api.maps.CameraUpdateFactory;
 import com.amap.api.maps.TextureMapView;
 import com.amap.api.maps.model.BitmapDescriptorFactory;
 import com.amap.api.maps.model.LatLng;
+import com.yisingle.amapview.lib.param.TextMarkerParam;
 import com.yisingle.amapview.lib.view.TextMarkerView;
 import com.yisingle.study.map.one.R;
 import com.yisingle.study.map.one.base.BaseMapActivity;
@@ -40,14 +41,33 @@ public class TextMarkeActivity extends BaseMapActivity {
 
 
         textMarkerView = new TextMarkerView.Builder(getApplicationContext(), getAmap())
-                //是否只显示文字 默认值为false
-                .setTextOnlyTextShow(false)
+                //设置文字的TextPaint
+                //.setTextPaint(new TextPaint())
+                //设置文字
+                .setText("天府广场天府广场天府广场天府广场天府广场天府广场")
+                //设置文字距离左边或者右边的距离 默认为10
                 .setTextPaddingLeftOrRight(20)
+                //设置文字间的行距是字体多少倍 默认是1倍
+                .setTextRowSpaceMult(2)
+                //设置行距是多少  默认是0px
                 .setTextRowSpaceAdd(90)
-                .setTextColor(Color.parseColor("#FF4040"))
+                //设置单行文字最大字数 默认是6
+                .setTextMaxTextLength(6)
+                //是否只显示文字  默认值为false
+                .setTextOnlyTextShow(false)
+                //设置Ponit显示的图片
+                .setTextPointIcon(BitmapDescriptorFactory.fromResource(R.mipmap.hot_point))
+                //设置文字描边的范围 默认是6
+                .setTextStrokeWidth(20)
+                //设置文字描边的字体颜色值 默认是 Color.parseColor("#FFFFFF")
+                .setTextStrokeColor(Color.parseColor("#FFFFFF"))
+                //设置文字是在居左 居中 居右  默认是居中
+                .setTextAlign(TextMarkerParam.TextAlign.LEFT)
+                //设置文字大小 默认值24 也会设置描边的字体大小
                 .setTextSize(44f)
-                .setText("天府广场设计费速度快放假时代峻峰")
-                .setTextPointIcon(BitmapDescriptorFactory.fromResource(R.mipmap.hot_point)).create();
+                //设置文字字体的颜色值 默认是Color.parseColor("#00C3A6")
+                .setTextColor(Color.parseColor("#FF4040"))
+                .create();
         moveToCamera(latLng);
 
         testSetPoint(null);
@@ -72,7 +92,7 @@ public class TextMarkeActivity extends BaseMapActivity {
 
     public void testChangeText(View view) {
         if (textMarkerView.getText().equals("春熙路春熙路")) {
-            textMarkerView.setText("天府广场设计费速度快放假时代峻峰");
+            textMarkerView.setText("天府广场天府广场天府广场");
         } else {
             textMarkerView.setText("春熙路春熙路");
         }
