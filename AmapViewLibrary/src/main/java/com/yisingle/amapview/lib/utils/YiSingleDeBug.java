@@ -5,5 +5,5 @@ package com.yisingle.amapview.lib.utils;
  * Created by jikun on 2018/5/31.
  */
 public class YiSingleDeBug {
-    public final static boolean isdebug = false;
+    public static boolean isdebug = false;
 }
