@@ -1,4 +1,4 @@
-package com.yisingle.amapview.lib.base.view.line;
+package com.yisingle.amapview.lib.base.data;
 
 import com.amap.api.maps.model.LatLng;
 import com.amap.api.services.route.TMC;

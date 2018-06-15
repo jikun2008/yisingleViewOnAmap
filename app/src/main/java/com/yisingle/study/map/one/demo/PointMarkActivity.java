@@ -24,7 +24,7 @@ public class PointMarkActivity extends BaseMapActivity {
     private TextureMapView textureMapView;
 
 
-    private PointMarkerView<String> endPointMarkerView;
+    private PointMarkerView<String> pointMarkerView;
 
     private LatLng latLng = new LatLng(30.65769, 104.062388);
 
@@ -40,7 +40,7 @@ public class PointMarkActivity extends BaseMapActivity {
         initMapView(savedInstanceState, textureMapView);
 
 
-        endPointMarkerView = new PointMarkerView.Builder(getApplicationContext(), getAmap())
+        pointMarkerView = new PointMarkerView.Builder(getApplicationContext(), getAmap())
 
                 //设置Marker覆盖物的透明度 alpha 透明度 alpha - 透明度范围[0,1] 1为不透明
                 .setAlpha(1f)
@@ -108,7 +108,7 @@ public class PointMarkActivity extends BaseMapActivity {
                 .create();
 
 
-        endPointMarkerView.setInfoWindowView(new BaseMarkerView.InfoWindowView<String>(R.layout.info_window1, "结束") {
+        pointMarkerView.setInfoWindowView(new BaseMarkerView.InfoWindowView<String>(R.layout.info_window1, "结束") {
             @Override
             public void bindData(MapInfoWindowViewHolder viewHolder, String data) {
                 viewHolder.setText(R.id.tvInfoWindow1, data);
@@ -116,7 +116,7 @@ public class PointMarkActivity extends BaseMapActivity {
         });
 
 
-        endPointMarkerView.showInfoWindow("结束");
+        pointMarkerView.showInfoWindow("结束");
 
 
         moveToCamera(latLng);
@@ -137,11 +137,11 @@ public class PointMarkActivity extends BaseMapActivity {
 
 
     public void testSetPoint(View view) {
-        if (null != endPointMarkerView.getPosition() && endPointMarkerView.getPosition().equals(latLng)) {
-            endPointMarkerView.setPosition(latLng1);
+        if (null != pointMarkerView.getPosition() && pointMarkerView.getPosition().equals(latLng)) {
+            pointMarkerView.setPosition(latLng1);
             moveToCamera(latLng1);
         } else {
-            endPointMarkerView.setPosition(latLng);
+            pointMarkerView.setPosition(latLng);
             moveToCamera(latLng);
         }
 
@@ -153,7 +153,7 @@ public class PointMarkActivity extends BaseMapActivity {
 
     public void testChangeText(View view) {
         j = j + 1;
-        endPointMarkerView.setText("修改文字大小" + j);
+        pointMarkerView.setText("修改文字大小" + j);
     }
 
     int i = 0;
@@ -161,7 +161,7 @@ public class PointMarkActivity extends BaseMapActivity {
     public void testShowInfoWindow(View veiw) {
 
         i = i + 1;
-        endPointMarkerView.showInfoWindow("End" + i);
+        pointMarkerView.showInfoWindow("End" + i);
     }
 
 

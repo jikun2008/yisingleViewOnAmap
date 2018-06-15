@@ -4,37 +4,37 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.amap.api.maps.AMap;
+import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.Polyline;
 import com.amap.api.maps.model.PolylineOptions;
+
+import java.util.List;
 
 
 /**
  * @author jikun
  * Created by jikun on 2018/5/10.
  */
-public class PolyLineView extends AbstractPolyLineView {
-
-    private String TAG = PolyLineView.class.getSimpleName();
+public class BasePolyLineView extends AbstractPolyLineView {
 
 
-    private PolyLineView(@NonNull Context context, @NonNull AMap amap) {
+    private BasePolyLineView(@NonNull Context context, @NonNull AMap amap) {
         super(context, amap);
     }
 
     @Override
     public void addToMap() {
         if (null != getAmap()) {
-            if (null == polyline) {
+            if (isRemove()) {
                 polyline = getAmap().addPolyline(polylineOptions);
             }
 
         }
-
     }
 
     @Override
     public boolean isRemove() {
-        return false;
+        return polyline == null;
     }
 
     @Override
@@ -51,6 +51,18 @@ public class PolyLineView extends AbstractPolyLineView {
         removeFromMap();
         polyline = null;
         super.destory();
+
+    }
+
+
+    public void draw(List<LatLng> latLngList) {
+        getPolylineOptions().setPoints(latLngList);
+        if (isRemove()) {
+            addToMap();
+        } else {
+            polyline.setPoints(latLngList);
+        }
+
 
     }
 
@@ -73,16 +85,17 @@ public class PolyLineView extends AbstractPolyLineView {
 
 
     public static final class Builder extends BasePolyLineBuilder<Builder> {
-        private PolyLineView basePolyLineView;
+        private BasePolyLineView basePolyLineView;
 
         public Builder(@NonNull Context context, @NonNull AMap map) {
             super(context, map);
             setT(this);
-            basePolyLineView = new PolyLineView(getContext(), getMap());
+            basePolyLineView = new BasePolyLineView(getContext(), getMap());
         }
 
-        public PolyLineView create() {
+        public BasePolyLineView create() {
             basePolyLineView.setPolylineOptions(getPolylineOptions());
+            basePolyLineView.addToMap();
             return basePolyLineView;
         }
     }

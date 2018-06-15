@@ -44,30 +44,46 @@ public abstract class AbstractMarkerView<P extends BaseMarkerParam> extends Base
 
     public AbstractMarkerView(Context context, AMap amap) {
         super(context, amap);
-        moveUtils = new MoveUtils();
-        moveUtils.setCallBack(this);
+
+
     }
 
 
     public void setLatLngList(List<LatLng> latLngList) {
         this.latLngList = latLngList;
+        if (null == moveUtils) {
+            moveUtils = new MoveUtils();
+            moveUtils.setCallBack(this);
+        }
         moveUtils.setLatLngList(latLngList);
     }
 
 
     public void stopMove() {
-        moveUtils.stopMove();
+        if (null != moveUtils) {
+            moveUtils.stopMove();
+        }
+
 
     }
 
 
+    /**
+     *
+     * @param list
+     * @param isResume
+     */
     public void startMove(List<LatLng> list, boolean isResume) {
+        if (null == moveUtils) {
+            moveUtils = new MoveUtils();
+            moveUtils.setCallBack(this);
+        }
         LatLng latLng = null;
         if (null != marker) {
             latLng = marker.getPosition();
         }
 
-        moveUtils.startMove(latLng,list, isResume);
+        moveUtils.startMove(latLng, list, isResume);
 
     }
 

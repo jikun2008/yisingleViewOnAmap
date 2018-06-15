@@ -31,7 +31,7 @@ public class PointMarkUseMoveActivty extends BaseMapActivity {
     private TextureMapView textureMapView;
 
 
-    private PointMarkerView<String> pointMarkerView;
+    private PointMarkerView<String> moveMarkerView;
 
 
     private List<LatLng> nowListPoints = TestDataUtils.readLatLngsnow();
@@ -56,12 +56,12 @@ public class PointMarkUseMoveActivty extends BaseMapActivity {
         moveToCameraAndDrawLine();
 
 
-        pointMarkerView = new PointMarkerView.Builder(getApplicationContext(), getAmap())
+        moveMarkerView = new PointMarkerView.Builder(getApplicationContext(), getAmap())
                 //这里要设置锚点在markrer的中间
                 .setAnchor(0.5f, 0.5f)
                 .setIcon(BitmapDescriptorFactory.fromResource(R.mipmap.car)).create();
 
-        pointMarkerView.setInfoWindowView(new BaseMarkerView.InfoWindowView<String>(R.layout.info_window, "") {
+        moveMarkerView.setInfoWindowView(new BaseMarkerView.InfoWindowView<String>(R.layout.info_window, "") {
             @Override
             public void bindData(MapInfoWindowViewHolder viewHolder, String data) {
 
@@ -71,9 +71,7 @@ public class PointMarkUseMoveActivty extends BaseMapActivity {
         });
 
 
-//        startMove(null);
-
-        pointMarkerView.showInfoWindow("我的代码");
+        moveMarkerView.showInfoWindow("我的代码");
 
 
     }
@@ -82,7 +80,7 @@ public class PointMarkUseMoveActivty extends BaseMapActivity {
     public void onDestroy() {
         super.onDestroy();
 
-        pointMarkerView.destory();
+        moveMarkerView.destory();
     }
 
 
@@ -90,19 +88,29 @@ public class PointMarkUseMoveActivty extends BaseMapActivity {
 
 
         moveCamre(nowListPoints);
-        pointMarkerView.startMove(nowListPoints, false);
+        /**
+         *      * @param list
+         * @param isResume  是否延续运动 true 如果marker正在运动不会打断,而是将这个坐标点加入到运动的中轨迹坐标数组里
+         *                              false 立即在新的运动轨迹数组里运动。
+         */
+        moveMarkerView.startMove(nowListPoints, false);
     }
 
     public void stopMove(View view) {
 
 
-        pointMarkerView.stopMove();
+        moveMarkerView.stopMove();
     }
 
     public void resumeMove(View view) {
 
         moveCamre(TestDataUtils.readLatLngsAll());
-        pointMarkerView.startMove(resumeListPoints, true);
+        /**
+         *      * @param list
+         * @param isResume  是否延续运动 true 如果marker正在运动不会打断,而是将这个坐标点加入到运动的中轨迹坐标数组里
+         *                              false 立即在新的运动轨迹数组里运动。
+         */
+        moveMarkerView.startMove(resumeListPoints, true);
 
     }
 
@@ -111,7 +119,12 @@ public class PointMarkUseMoveActivty extends BaseMapActivity {
 
 
         moveCamre(resumeListPoints);
-        pointMarkerView.startMove(resumeListPoints, false);
+        /**
+         *      * @param list
+         * @param isResume  是否延续运动 true 如果marker正在运动不会打断,而是将这个坐标点加入到运动的中轨迹坐标数组里
+         *                              false 立即在新的运动轨迹数组里运动。
+         */
+        moveMarkerView.startMove(resumeListPoints, false);
 
 
     }
@@ -125,7 +138,7 @@ public class PointMarkUseMoveActivty extends BaseMapActivity {
         moveCamre(list);
         List<LatLng> oneList = new ArrayList<>();
         oneList.add(new LatLng(30.554803, 104.068991));
-        pointMarkerView.startMove(oneList, true);
+        moveMarkerView.startMove(oneList, true);
 
     }
 
@@ -139,7 +152,12 @@ public class PointMarkUseMoveActivty extends BaseMapActivity {
         moveCamre(list);
         List<LatLng> oneList = new ArrayList<>();
         oneList.add(new LatLng(30.556669, 104.068991));
-        pointMarkerView.startMove(oneList, true);
+        /**
+         *      * @param list
+         * @param isResume  是否延续运动 true 如果marker正在运动不会打断,而是将这个坐标点加入到运动的中轨迹坐标数组里
+         *                              false 立即在新的运动轨迹数组里运动。
+         */
+        moveMarkerView.startMove(oneList, true);
 
     }
 

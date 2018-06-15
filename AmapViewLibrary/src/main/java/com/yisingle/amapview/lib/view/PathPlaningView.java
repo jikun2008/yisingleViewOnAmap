@@ -13,7 +13,6 @@ import com.amap.api.services.route.RouteSearch;
 import com.amap.api.services.route.WalkRouteResult;
 import com.yisingle.amapview.lib.base.BaseBuilder;
 import com.yisingle.amapview.lib.base.BaseView;
-import com.yisingle.amapview.lib.base.view.line.SimpleRouteLineView;
 import com.yisingle.amapview.lib.param.PathPlaningParam;
 import com.yisingle.amapview.lib.utils.GaoDeErrorUtils;
 
@@ -30,7 +29,7 @@ public class PathPlaningView<W> extends BaseView {
     private PointMarkerView<W> endPointMarkerView;
 
 
-    private SimpleRouteLineView simpleRouteLineView;
+    private RouteLineView simpleRouteLineView;
 
     private PathPlaningParam param;
 
@@ -155,7 +154,7 @@ public class PathPlaningView<W> extends BaseView {
         this.endPointMarkerView = endPointMarkerView;
     }
 
-    protected void setSimpleRouteLineView(SimpleRouteLineView simpleRouteLineView) {
+    protected void setSimpleRouteLineView(RouteLineView simpleRouteLineView) {
         this.simpleRouteLineView = simpleRouteLineView;
     }
 
@@ -169,7 +168,7 @@ public class PathPlaningView<W> extends BaseView {
     }
 
 
-    public SimpleRouteLineView getSimpleRouteLineView() {
+    public RouteLineView getSimpleRouteLineView() {
         return simpleRouteLineView;
     }
 
@@ -204,13 +203,13 @@ public class PathPlaningView<W> extends BaseView {
 
 
     public static final class Builder<W> extends BaseBuilder {
-        private SimpleRouteLineView.Builder lineBuilder;
+        private RouteLineView.Builder lineBuilder;
         private PointMarkerView.Builder startMarkBuilder;
         private PointMarkerView.Builder endMarkBuilder;
         private PathPlaningParam param;
 
 
-        public Builder setRouteLineBuilder(@NonNull SimpleRouteLineView.Builder builder) {
+        public Builder setRouteLineBuilder(@NonNull RouteLineView.Builder builder) {
             lineBuilder = builder;
             return this;
         }
@@ -277,7 +276,7 @@ public class PathPlaningView<W> extends BaseView {
 
         public Builder(Context context, AMap map) {
             super(context, map);
-            lineBuilder = new SimpleRouteLineView.Builder(getContext(), getMap());
+            lineBuilder = new RouteLineView.Builder(getContext(), getMap());
             startMarkBuilder = new PointMarkerView.Builder(getContext(), getMap());
             endMarkBuilder = new PointMarkerView.Builder(getContext(), getMap());
             param = new PathPlaningParam();

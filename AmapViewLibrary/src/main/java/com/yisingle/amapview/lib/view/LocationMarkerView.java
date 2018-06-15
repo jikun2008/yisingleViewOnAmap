@@ -8,7 +8,7 @@ import com.amap.api.location.AMapLocation;
 import com.amap.api.maps.AMap;
 import com.amap.api.maps.model.BitmapDescriptorFactory;
 import com.amap.api.maps.model.LatLng;
-import com.yisingle.amapview.lib.base.view.circle.SimpleCircleView;
+import com.yisingle.amapview.lib.base.view.circle.BaseCircleView;
 import com.yisingle.amapview.lib.base.view.marker.BaseMarkerBuilder;
 import com.yisingle.amapview.lib.base.view.marker.BaseMarkerView;
 import com.yisingle.amapview.lib.param.LocationMarkerParam;
@@ -42,12 +42,12 @@ public class LocationMarkerView<W> extends BaseMarkerView<LocationMarkerParam, W
     /**
      * 圆形范围View
      */
-    private SimpleCircleView circleView;
+    private BaseCircleView circleView;
 
 
     protected LocationMarkerView(@NonNull Context context, @NonNull AMap amap, @NonNull LocationMarkerParam param) {
         super(context, amap, param);
-        circleView = new SimpleCircleView.Builder(getContext(), getAmap()).create();
+        circleView = new BaseCircleView.Builder(getContext(), getAmap()).create();
     }
 
 

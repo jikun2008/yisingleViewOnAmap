@@ -13,9 +13,9 @@ import com.yisingle.amapview.lib.base.BaseView;
  * @author jikun
  * Created by jikun on 2018/4/26.
  */
-public class SimpleCircleView extends BaseView {
+public class BaseCircleView extends BaseView {
 
-    private String TAG = SimpleCircleView.class.getSimpleName();
+    private String TAG = BaseCircleView.class.getSimpleName();
 
 
     private Circle circle;
@@ -23,7 +23,7 @@ public class SimpleCircleView extends BaseView {
     private CircleOptions options;
 
 
-    private SimpleCircleView(@NonNull Context context, @NonNull AMap amap) {
+    private BaseCircleView(@NonNull Context context, @NonNull AMap amap) {
         super(context, amap);
     }
 
@@ -65,16 +65,16 @@ public class SimpleCircleView extends BaseView {
 
     public static class Builder extends BaseCircleBuilder<Builder> {
 
-        private SimpleCircleView baseCircleView;
+        private BaseCircleView baseCircleView;
 
 
         public Builder(@NonNull Context context, @NonNull AMap map) {
             super(context, map);
             setT(this);
-            baseCircleView = new SimpleCircleView(getContext(), getMap());
+            baseCircleView = new BaseCircleView(getContext(), getMap());
         }
 
-        public SimpleCircleView create() {
+        public BaseCircleView create() {
             baseCircleView.setOptions(getCircleOptions());
             return baseCircleView;
 

@@ -62,12 +62,12 @@ public abstract class BaseMarkerView<P extends BaseMarkerParam, W> extends Abstr
 
     @Override
     public void destory() {
+        stopMove();
         if (null != marker) {
             marker.remove();
             marker = null;
 
         }
-        stopMove();
         infoData = null;
         if (null != infoWindowView) {
             infoWindowView.destory();

@@ -4,7 +4,6 @@ import android.content.Context;
 import android.support.annotation.FloatRange;
 import android.support.annotation.IntRange;
 import android.support.annotation.NonNull;
-import android.text.TextPaint;
 
 import com.amap.api.maps.AMap;
 import com.amap.api.maps.model.BitmapDescriptor;

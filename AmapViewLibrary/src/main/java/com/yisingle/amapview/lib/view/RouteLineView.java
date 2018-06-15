@@ -1,4 +1,4 @@
-package com.yisingle.amapview.lib.base.view.line;
+package com.yisingle.amapview.lib.view;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -13,8 +13,8 @@ import com.amap.api.services.route.TMC;
 import com.yisingle.amapview.lib.base.BaseBuilder;
 import com.yisingle.amapview.lib.base.BaseView;
 import com.yisingle.amapview.lib.base.param.RouteLineParam;
-import com.yisingle.amapview.lib.base.view.polyline.PolyLineView;
-import com.yisingle.amapview.lib.utils.RouteLineUtils;
+import com.yisingle.amapview.lib.base.view.polyline.BasePolyLineView;
+import com.yisingle.amapview.lib.base.view.polyline.BaseTrafficMutilyPolyLineView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,25 +25,25 @@ import java.util.List;
  * @author jikun
  * Created by jikun on 2018/5/10.
  */
-public class SimpleRouteLineView extends BaseView {
+public class RouteLineView extends BaseView {
 
 
     /**
      * 一条路径规划的路线 如果显示交通状态  那么是由多个PolyLine组成的
      */
-    private List<PolyLineView> trafficPolyLinewViews;
+    private BaseTrafficMutilyPolyLineView trafficPolyLinewView;
 
 
     /**
      * 路线显示箭头
      */
-    private PolyLineView arrowPolyLineView;
+    private BasePolyLineView arrowPolyLineView;
 
 
     /**
      * 默认的路线如果不需要显示交通状态的路线     那么我们就可以只用一条PolyLineView就可以了
      */
-    private PolyLineView defaultBasePolyLineView;
+    private BasePolyLineView defaultBasePolyLineView;
 
 
     private RouteLineParam routeLineParam;
@@ -52,9 +52,27 @@ public class SimpleRouteLineView extends BaseView {
     private DrivePath drivePath;
 
 
-    private SimpleRouteLineView(@NonNull Context context, @NonNull AMap amap, @NonNull RouteLineParam routeLineParam) {
+    private RouteLineView(@NonNull Context context, @NonNull AMap amap, @NonNull RouteLineParam routeLineParam) {
         super(context, amap);
         this.routeLineParam = routeLineParam;
+        trafficPolyLinewView = new BaseTrafficMutilyPolyLineView.Builder(getContext(), getAmap())
+                .setParam(routeLineParam.getTrafficParam()).create();
+
+
+        arrowPolyLineView = new BasePolyLineView.Builder(getContext(), getAmap())
+                .sezIndex(routeLineParam.getArrowLineZindex())
+                .setCustomTexture(routeLineParam.getArrowRouteBitMap())
+                .setWidth(routeLineParam.getTrafficParam().getRouteWidth())
+                .create();
+
+
+        defaultBasePolyLineView = new BasePolyLineView.Builder(context, amap)
+                .sezIndex(routeLineParam.getArrowLineZindex())
+                //添加纹理图片
+                .setCustomTexture(routeLineParam.getDefaultRouteBimap())
+                //添加路线宽度
+                .setWidth(routeLineParam.getTrafficParam().getRouteWidth())
+                .create();
     }
 
 
@@ -81,60 +99,39 @@ public class SimpleRouteLineView extends BaseView {
             }
         }
 
+        trafficPolyLinewView.draw(trafficTmcs);
+        trafficPolyLinewView.setVisible(getRouteLineParam().isTrafficshow());
+        defaultBasePolyLineView.draw(totalLatLng);
+        defaultBasePolyLineView.setVisible(!getRouteLineParam().isTrafficshow());
+        arrowPolyLineView.draw(totalLatLng);
+        arrowPolyLineView.setVisible(getRouteLineParam().isArrowRouteShow());
 
-        if (isRemove()) {
-            //如果设置  需要根据交通状态画路线那么
-            if (getRouteLineParam().isTrafficshow()) {
-                //根据交通状态画路线
-                trafficPolyLinewViews = RouteLineUtils.addTrafficStateLine(getContext(), getAmap(), trafficTmcs, getRouteLineParam());
-            } else {
-                defaultBasePolyLineView = RouteLineUtils.addDefaultLine(getContext(), getAmap(), totalLatLng, getRouteLineParam());
-            }
-            //画箭头
-            arrowPolyLineView = RouteLineUtils.addArrowLine(getContext(), getAmap(), totalLatLng, getRouteLineParam());
-        } else {
-            if (getRouteLineParam().isTrafficshow()) {
-                trafficPolyLinewViews = RouteLineUtils.changeTrafficStateLine(getContext(), getAmap(), trafficPolyLinewViews, trafficTmcs, getRouteLineParam());
-            } else {
-                defaultBasePolyLineView.setPoints(totalLatLng);
-            }
-            arrowPolyLineView.setPoints(totalLatLng);
-        }
 
     }
 
 
     @Override
     public void addToMap() {
-
         if (isRemove()) {
             drawLine(getDrivePath());
         }
-
-
     }
 
     @Override
     public void removeFromMap() {
-        if (null != trafficPolyLinewViews) {
-            for (PolyLineView basePolyLineView : trafficPolyLinewViews) {
-                if (null != basePolyLineView) {
-                    basePolyLineView.removeFromMap();
-                }
+        if (null != trafficPolyLinewView) {
+            trafficPolyLinewView.removeFromMap();
 
-            }
-            trafficPolyLinewViews.clear();
-            trafficPolyLinewViews = null;
         }
 
         if (null != arrowPolyLineView) {
             arrowPolyLineView.removeFromMap();
-            arrowPolyLineView = null;
+
         }
 
         if (null != defaultBasePolyLineView) {
             defaultBasePolyLineView.removeFromMap();
-            arrowPolyLineView = null;
+
         }
 
     }
@@ -148,7 +145,7 @@ public class SimpleRouteLineView extends BaseView {
 
     @Override
     public boolean isRemove() {
-        return arrowPolyLineView == null;
+        return defaultBasePolyLineView.isRemove();
     }
 
 
@@ -172,13 +169,13 @@ public class SimpleRouteLineView extends BaseView {
 
     public static final class Builder extends BaseBuilder {
 
-        private SimpleRouteLineView routeLineView;
+        private RouteLineView routeLineView;
 
         private RouteLineParam routeLineParam = new RouteLineParam();
 
         public Builder(@NonNull Context context, @NonNull AMap map) {
             super(context, map);
-            routeLineView = new SimpleRouteLineView(context, map, routeLineParam);
+            routeLineView = new RouteLineView(context, map, routeLineParam);
         }
 
 
@@ -187,29 +184,29 @@ public class SimpleRouteLineView extends BaseView {
             return this;
         }
 
-        public Builder setUnknownTrafficRouteBitMap(BitmapDescriptor bitMap) {
-            routeLineParam.setUnknownTrafficRouteBitMap(bitMap);
+        public Builder setTrafficUnknownRouteBitMap(BitmapDescriptor bitMap) {
+            routeLineParam.getTrafficParam().setUnknownTrafficRouteBitMap(bitMap);
             return this;
         }
 
 
-        public Builder setSmoothTrafficRouteBitMap(BitmapDescriptor bitMap) {
-            routeLineParam.setSmoothTrafficRouteBitMap(bitMap);
+        public Builder setTrafficSmoothRouteBitMap(BitmapDescriptor bitMap) {
+            routeLineParam.getTrafficParam().setSmoothTrafficRouteBitMap(bitMap);
             return this;
         }
 
-        public Builder setSlowTrafficRouteBitMap(BitmapDescriptor bitMap) {
-            routeLineParam.setSlowTrafficRouteBitMap(bitMap);
+        public Builder setTrafficSlowRouteBitMap(BitmapDescriptor bitMap) {
+            routeLineParam.getTrafficParam().setSlowTrafficRouteBitMap(bitMap);
             return this;
         }
 
-        public Builder setJamTrafficRouteBitMap(BitmapDescriptor bitMap) {
-            routeLineParam.setJamTrafficRouteBitMap(bitMap);
+        public Builder setTrafficJamRouteBitMap(BitmapDescriptor bitMap) {
+            routeLineParam.getTrafficParam().setJamTrafficRouteBitMap(bitMap);
             return this;
         }
 
-        public Builder setVeryJamTrafficRouteBitMap(BitmapDescriptor bitMap) {
-            routeLineParam.setVeryJamTrafficRouteBitMap(bitMap);
+        public Builder setTrafficVeryJamRouteBitMap(BitmapDescriptor bitMap) {
+            routeLineParam.getTrafficParam().setVeryJamTrafficRouteBitMap(bitMap);
             return this;
         }
 
@@ -223,6 +220,12 @@ public class SimpleRouteLineView extends BaseView {
             return this;
         }
 
+
+        public Builder setArrowRouteShow(boolean isShow) {
+            routeLineParam.setArrowRouteShow(isShow);
+            return this;
+        }
+
         public Builder setArrowLineZindex(float zindex) {
             routeLineParam.setArrowLineZindex(zindex);
             return this;
@@ -230,7 +233,7 @@ public class SimpleRouteLineView extends BaseView {
 
 
         public Builder setTrafficLineZindex(float zindex) {
-            routeLineParam.setTrafficLineZindex(zindex);
+            routeLineParam.getTrafficParam().setzIndex(zindex);
             return this;
         }
 
@@ -246,7 +249,7 @@ public class SimpleRouteLineView extends BaseView {
         }
 
 
-        public SimpleRouteLineView create() {
+        public RouteLineView create() {
             routeLineView.setRouteLineParam(getRouteLineParam());
             routeLineView.addToMap();
             return routeLineView;
