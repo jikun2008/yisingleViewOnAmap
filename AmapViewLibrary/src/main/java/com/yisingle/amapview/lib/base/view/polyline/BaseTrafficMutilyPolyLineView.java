@@ -130,7 +130,6 @@ public class BaseTrafficMutilyPolyLineView extends BaseView {
         }
 
         public BaseTrafficMutilyPolyLineView create() {
-            trafficView.addToMap();
             return trafficView;
         }
 

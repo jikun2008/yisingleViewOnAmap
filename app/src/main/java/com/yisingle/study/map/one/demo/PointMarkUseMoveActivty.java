@@ -73,7 +73,6 @@ public class PointMarkUseMoveActivty extends BaseMapActivity {
 
         moveMarkerView.showInfoWindow("我的代码");
 
-
     }
 
     @Override
@@ -94,6 +93,7 @@ public class PointMarkUseMoveActivty extends BaseMapActivity {
          *                              false 立即在新的运动轨迹数组里运动。
          */
         moveMarkerView.startMove(nowListPoints, false);
+
     }
 
     public void stopMove(View view) {

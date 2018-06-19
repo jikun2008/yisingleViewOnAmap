@@ -13,6 +13,7 @@ import com.amap.api.maps.AMap;
 import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.Marker;
 import com.amap.api.maps.model.MarkerOptions;
+import com.autonavi.amap.mapcore.IPoint;
 import com.yisingle.amap.lib.R;
 import com.yisingle.amapview.lib.base.param.BaseMarkerParam;
 import com.yisingle.amapview.lib.utils.YiSingleDeBug;
@@ -164,6 +165,15 @@ public abstract class BaseMarkerView<P extends BaseMarkerParam, W> extends Abstr
 
     }
 
+    @Override
+    public void setGeoPoint(IPoint geoPoint) {
+        super.setGeoPoint(geoPoint);
+        if (null != marker) {
+            if (null != infoWindowView && isShowInfoWindow()) {
+                showInfoWindow(infoData);
+            }
+        }
+    }
 
     /**
      * @author jikun

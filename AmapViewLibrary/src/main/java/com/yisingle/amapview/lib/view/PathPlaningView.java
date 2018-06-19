@@ -73,7 +73,8 @@ public class PathPlaningView<W> extends BaseView {
     public void draw(DriveRouteResult driveRouteResult) {
         startPointMarkerView.setPosition(new LatLng(driveRouteResult.getStartPos().getLatitude(), driveRouteResult.getStartPos().getLongitude()));
         endPointMarkerView.setPosition(new LatLng(driveRouteResult.getTargetPos().getLatitude(), driveRouteResult.getTargetPos().getLongitude()));
-        simpleRouteLineView.setDrivePath(driveRouteResult.getPaths().get(0));
+        simpleRouteLineView.draw(driveRouteResult.getPaths().get(0));
+
     }
 
     /**
@@ -110,10 +111,6 @@ public class PathPlaningView<W> extends BaseView {
                         callBack.onSucccess(driveRouteResult);
                     }
                     if (param.isAuotDrawPath()) {
-                        if (isRemove()) {
-                            addToMap();
-                        }
-
                         draw(driveRouteResult);
                     }
                 } else {
@@ -192,7 +189,7 @@ public class PathPlaningView<W> extends BaseView {
     }
 
 
-    public static interface OnPathPlaningCallBack {
+    public interface OnPathPlaningCallBack {
 
         void onStart();
 
@@ -298,7 +295,6 @@ public class PathPlaningView<W> extends BaseView {
             pathPlaningView.setSimpleRouteLineView(lineBuilder.create());
             pathPlaningView.setStartPointMarkerView(startMarkBuilder.create());
             pathPlaningView.setEndPointMarkerView(endMarkBuilder.create());
-            pathPlaningView.addToMap();
             return pathPlaningView;
 
 

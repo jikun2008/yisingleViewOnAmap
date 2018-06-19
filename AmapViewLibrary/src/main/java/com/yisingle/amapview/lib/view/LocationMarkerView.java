@@ -57,6 +57,7 @@ public class LocationMarkerView<W> extends BaseMarkerView<LocationMarkerParam, W
             setVisible(true);
             super.addToMap();
             if (null != circleView) {
+                circleView.getOptions().center(getParam().getOptions().getPosition());
                 circleView.addToMap();
             }
 
@@ -65,6 +66,21 @@ public class LocationMarkerView<W> extends BaseMarkerView<LocationMarkerParam, W
 
     public void setListener(onLocationMarkerViewListener listener) {
         this.listener = listener;
+    }
+
+
+    @Override
+    public void setPosition(LatLng latLng) {
+        getParam().getOptions().position(latLng);
+        if (isRemove()) {
+            addToMap();
+        } else {
+            super.setPosition(latLng);
+            if (null != circleView) {
+                circleView.setCenter(latLng);
+            }
+        }
+
     }
 
     /**
@@ -115,8 +131,6 @@ public class LocationMarkerView<W> extends BaseMarkerView<LocationMarkerParam, W
             public void onLocationGetSuccess(AMapLocation loc) {
                 setPosition(new LatLng(loc.getLatitude(), loc.getLongitude()));
                 if (null != circleView) {
-                    //设置定位坐标
-                    circleView.setCenter(new LatLng(loc.getLatitude(), loc.getLongitude()));
                     //设置定位精度
                     circleView.setRadius(loc.getAccuracy());
                 }
@@ -216,7 +230,6 @@ public class LocationMarkerView<W> extends BaseMarkerView<LocationMarkerParam, W
         @Override
         public <W> LocationMarkerView<W> create() {
             LocationMarkerView locationMarkerView = new LocationMarkerView<>(getContext(), getMap(), getParam());
-            locationMarkerView.addToMap();
             return locationMarkerView;
         }
 

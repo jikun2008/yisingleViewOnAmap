@@ -42,7 +42,7 @@ public class LocationMarkerActivity extends BaseMapActivity {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        locationMarkerView.destory();
+//        locationMarkerView.destory();
 
     }
 

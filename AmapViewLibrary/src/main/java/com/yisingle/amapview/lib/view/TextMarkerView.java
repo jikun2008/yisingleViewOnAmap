@@ -20,8 +20,8 @@ import com.amap.api.maps.model.Marker;
 import com.yisingle.amapview.lib.base.view.marker.BaseMarkerBuilder;
 import com.yisingle.amapview.lib.base.view.marker.BaseMarkerView;
 import com.yisingle.amapview.lib.param.TextMarkerParam;
-import com.yisingle.amapview.lib.utils.YiSingleDeBug;
 import com.yisingle.amapview.lib.utils.TextPaintUtils;
+import com.yisingle.amapview.lib.utils.YiSingleDeBug;
 
 import java.math.BigDecimal;
 
@@ -48,7 +48,6 @@ public class TextMarkerView<W> extends BaseMarkerView<TextMarkerParam, W> {
             //设置锚点参数
             float[] anchor = getanchorByStaticLayout(staticLayout);
             getParam().getTextMarkerOptions().anchor(anchor[0], anchor[1]);
-
             getParam().getTextMarkerOptions().icon(BitmapDescriptorFactory.fromBitmap(getTextBitMap(staticLayout)));
             getParam().getTextMarkerOptions().zIndex(getParam().getOptions().getZIndex());
             textMarker = getAmap().addMarker(getParam().getTextMarkerOptions());
@@ -106,16 +105,20 @@ public class TextMarkerView<W> extends BaseMarkerView<TextMarkerParam, W> {
 
     public void setText(String text) {
         getParam().setText(text);
-        if (null != textMarker) {
+        if (isRemove()) {
+            addToMap();
+        } else {
+            if (null != textMarker) {
 
-            StaticLayout staticLayout = createStaticLayout(getParam().getTextPaint());
+                StaticLayout staticLayout = createStaticLayout(getParam().getTextPaint());
+                textMarker.setIcon((BitmapDescriptorFactory.fromBitmap(getTextBitMap(staticLayout))));
+                //设置锚点参数
+                float[] anchor = getanchorByStaticLayout(staticLayout);
+                textMarker.setAnchor(anchor[0], anchor[1]);
+            }
 
-            textMarker.setIcon((BitmapDescriptorFactory.fromBitmap(getTextBitMap(staticLayout))));
-
-            //设置锚点参数
-            float[] anchor = getanchorByStaticLayout(staticLayout);
-            textMarker.setAnchor(anchor[0], anchor[1]);
         }
+
     }
 
     public void setTextSize(float textsize) {
@@ -327,7 +330,6 @@ public class TextMarkerView<W> extends BaseMarkerView<TextMarkerParam, W> {
         @Override
         public <W> TextMarkerView<W> create() {
             TextMarkerView<W> textMarkerView = new TextMarkerView<>(getContext(), getMap(), getParam());
-            textMarkerView.addToMap();
             return textMarkerView;
         }
 

@@ -164,7 +164,18 @@ public class RouteLineView extends BaseView {
 
     public void setDrivePath(DrivePath drivePath) {
         this.drivePath = drivePath;
-        drawLine(getDrivePath());
+
+    }
+
+
+    public void draw(DrivePath drivePath) {
+        this.drivePath = drivePath;
+        if (isRemove()) {
+            addToMap();
+        } else {
+            drawLine(getDrivePath());
+        }
+
     }
 
     public static final class Builder extends BaseBuilder {
@@ -251,7 +262,6 @@ public class RouteLineView extends BaseView {
 
         public RouteLineView create() {
             routeLineView.setRouteLineParam(getRouteLineParam());
-            routeLineView.addToMap();
             return routeLineView;
         }
 

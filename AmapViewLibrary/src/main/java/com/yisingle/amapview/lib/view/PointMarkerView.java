@@ -19,7 +19,7 @@ import com.yisingle.amapview.lib.param.TextMarkerParam;
  */
 public class PointMarkerView<W> extends BaseMarkerView<PointMarkerParam, W> {
 
-    private TextMarkerView textMarkerView;
+    private TextMarkerView<?> textMarkerView;
 
     private PointMarkerView(@NonNull Context context, @NonNull AMap amap, @NonNull PointMarkerParam param) {
         super(context, amap, param);
@@ -31,6 +31,7 @@ public class PointMarkerView<W> extends BaseMarkerView<PointMarkerParam, W> {
         if (isRemove()) {
             super.addToMap();
             if (null != textMarkerView) {
+                textMarkerView.getParam().getOptions().position(getParam().getOptions().getPosition());
                 textMarkerView.addToMap();
             }
         }
@@ -53,30 +54,46 @@ public class PointMarkerView<W> extends BaseMarkerView<PointMarkerParam, W> {
 
     @Override
     public void setPosition(LatLng position) {
-        super.setPosition(position);
-        textMarkerView.setPosition(position);
+        getParam().getOptions().position(position);
+        if (isRemove()) {
+            addToMap();
+        } else {
+            super.setPosition(position);
+            textMarkerView.setPosition(position);
+        }
+
     }
 
 
     public void setText(String text) {
-        textMarkerView.setText(text);
+        if (isRemove()) {
+            addToMap();
+        } else {
+            textMarkerView.setText(text);
+        }
 
     }
 
 
     public void setTextSize(float textsize) {
-        textMarkerView.setTextSize(textsize);
+        if (isRemove()) {
+            addToMap();
+        } else {
+            textMarkerView.setTextSize(textsize);
+        }
+
 
     }
 
 
     public void setTextColor(int color) {
-        textMarkerView.setTextColor(color);
+        if (isRemove()) {
+            addToMap();
+        } else {
+            textMarkerView.setTextColor(color);
+        }
     }
 
-    public void setTextPointIcon(BitmapDescriptor icon) {
-        textMarkerView.setIcon(icon);
-    }
 
     @Override
     public void destory() {
@@ -121,7 +138,6 @@ public class PointMarkerView<W> extends BaseMarkerView<PointMarkerParam, W> {
 
             PointMarkerView<W> pointMarkerView = new PointMarkerView<W>(getContext(), getMap(), getParam());
             pointMarkerView.setTextMarkerView(textBuilder.create());
-            pointMarkerView.addToMap();
             return pointMarkerView;
         }
 

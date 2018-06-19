@@ -69,11 +69,13 @@ public abstract class AbstractMarkerView<P extends BaseMarkerParam> extends Base
 
 
     /**
-     *
      * @param list
      * @param isResume
      */
     public void startMove(List<LatLng> list, boolean isResume) {
+        if (isRemove()) {
+            addToMap();
+        }
         if (null == moveUtils) {
             moveUtils = new MoveUtils();
             moveUtils.setCallBack(this);
@@ -443,10 +445,6 @@ public abstract class AbstractMarkerView<P extends BaseMarkerParam> extends Base
 
     public boolean isShowInfoWindow() {
         return isShowInfoWindow;
-    }
-
-    public boolean isRemoved() {
-        return marker.isRemoved();
     }
 
 

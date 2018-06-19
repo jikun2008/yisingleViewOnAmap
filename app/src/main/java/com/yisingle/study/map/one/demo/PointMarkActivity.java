@@ -115,6 +115,7 @@ public class PointMarkActivity extends BaseMapActivity {
             }
         });
 
+        testSetPoint(null);
 
         pointMarkerView.showInfoWindow("结束");
 

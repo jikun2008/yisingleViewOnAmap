@@ -21,8 +21,8 @@ def projectVersionName = android.defaultConfig.versionName
 def projectPackaging = properties.getProperty("project.packaging")
 def projectSiteUrl = properties.getProperty("project.siteUrl")
 def projectGitUrl = properties.getProperty("project.gitUrl")
-def projectVersionDesc = properties.getProperty("project.versiondesc")
-def projectVersionVcsTag = properties.getProperty("project.versionvcstag")
+def projectVersionDesc = android.defaultConfig.versionName+"normal"
+def projectVersionVcsTag = android.defaultConfig.versionName+"tag"
 
 def developerId = properties.getProperty("developer.id")
 def developerName = properties.getProperty("developer.name")
