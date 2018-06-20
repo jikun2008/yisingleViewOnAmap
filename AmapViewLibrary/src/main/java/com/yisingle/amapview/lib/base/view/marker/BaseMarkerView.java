@@ -1,6 +1,7 @@
 package com.yisingle.amapview.lib.base.view.marker;
 
 import android.content.Context;
+import android.support.annotation.IntRange;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.util.Log;
@@ -10,6 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.amap.api.maps.AMap;
+import com.amap.api.maps.CameraUpdateFactory;
 import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.Marker;
 import com.amap.api.maps.model.MarkerOptions;
@@ -32,6 +34,8 @@ public abstract class BaseMarkerView<P extends BaseMarkerParam, W> extends Abstr
 
 
     private InfoWindowView infoWindowView;
+
+    private final String TAG = BaseMarkerView.class.getSimpleName();
 
 
     protected BaseMarkerView(@NonNull Context context, @NonNull AMap amap, @NonNull P param) {
@@ -173,6 +177,20 @@ public abstract class BaseMarkerView<P extends BaseMarkerParam, W> extends Abstr
                 showInfoWindow(infoData);
             }
         }
+    }
+
+    /**
+     * zoom - 缩放级别，[3-20]。
+     *
+     * @param zoom zoom - 缩放级别，[3-20]。
+     */
+    public void moveCamera(@IntRange(from = 3, to = 20) int zoom) {
+        if (null != getAmap() && null != getPosition()) {
+            getAmap().moveCamera(CameraUpdateFactory.newLatLngZoom(getPosition(), zoom));
+        } else {
+            Log.e(TAG, TAG + ":Amap==null is" + (getAmap() == null) + "---getPosition==null" + (getPosition() == null));
+        }
+
     }
 
     /**

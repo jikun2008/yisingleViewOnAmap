@@ -2,10 +2,13 @@ package com.yisingle.amapview.lib.view;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.amap.api.maps.AMap;
+import com.amap.api.maps.CameraUpdateFactory;
 import com.amap.api.maps.model.BitmapDescriptor;
 import com.amap.api.maps.model.LatLng;
+import com.amap.api.maps.model.LatLngBounds;
 import com.amap.api.services.core.LatLonPoint;
 import com.amap.api.services.route.DrivePath;
 import com.amap.api.services.route.DriveStep;
@@ -26,6 +29,9 @@ import java.util.List;
  * Created by jikun on 2018/5/10.
  */
 public class RouteLineView extends BaseView {
+
+
+    private static final String TAG = RouteLineView.class.getSimpleName();
 
 
     /**
@@ -177,6 +183,7 @@ public class RouteLineView extends BaseView {
         }
 
     }
+
 
     public static final class Builder extends BaseBuilder {
 

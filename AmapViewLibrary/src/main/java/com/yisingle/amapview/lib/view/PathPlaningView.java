@@ -3,10 +3,13 @@ package com.yisingle.amapview.lib.view;
 import android.content.Context;
 import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.amap.api.maps.AMap;
+import com.amap.api.maps.CameraUpdateFactory;
 import com.amap.api.maps.model.BitmapDescriptor;
 import com.amap.api.maps.model.LatLng;
+import com.amap.api.maps.model.LatLngBounds;
 import com.amap.api.services.core.LatLonPoint;
 import com.amap.api.services.route.BusRouteResult;
 import com.amap.api.services.route.DriveRouteResult;
@@ -25,6 +28,8 @@ import com.yisingle.amapview.lib.utils.GaoDeErrorUtils;
  */
 public class PathPlaningView<S, E> extends BaseView {
 
+
+    private final static String TAG = PathPlaningView.class.getSimpleName();
 
     private PointMarkerView<S> startPointMarkerView;
 
@@ -93,11 +98,11 @@ public class PathPlaningView<S, E> extends BaseView {
         startPointMarkerView.setIcon(icon);
     }
 
-    public void bingStartInfoWindowView(@NonNull BaseMarkerView.InfoWindowView<S> infoWindowView) {
+    public void bindStartInfoWindowView(@NonNull BaseMarkerView.InfoWindowView<S> infoWindowView) {
         startPointMarkerView.bindInfoWindowView(infoWindowView);
     }
 
-    public void bingEndInfoWindowView(@NonNull BaseMarkerView.InfoWindowView<E> infoWindowView) {
+    public void bindEndInfoWindowView(@NonNull BaseMarkerView.InfoWindowView<E> infoWindowView) {
         endPointMarkerView.bindInfoWindowView(infoWindowView);
     }
 
@@ -240,6 +245,23 @@ public class PathPlaningView<S, E> extends BaseView {
 
     public void setEndLatLonPoint(LatLonPoint endLatLonPoint) {
         getParam().setEndLatLonPoint(endLatLonPoint);
+    }
+
+
+    public void moveCamera() {
+        if (null != getAmap() && null != getParam().getStartLatLonPoint() && null != getParam().getEndLatLonPoint()) {
+            LatLng start = new LatLng(getParam().getStartLatLonPoint().getLatitude(), getParam().getStartLatLonPoint().getLongitude());
+
+            LatLng end = new LatLng(getParam().getEndLatLonPoint().getLatitude(), getParam().getEndLatLonPoint().getLongitude());
+            LatLngBounds latLngBounds = new LatLngBounds(start, end);
+            getAmap().moveCamera(CameraUpdateFactory.newLatLngBounds(latLngBounds, 0));
+        } else {
+            Log.e(TAG, TAG + ":Amap==null is" + (getAmap() == null) +
+                    "---getStartLatLonPoint==null" + (getParam().getStartLatLonPoint() == null) +
+                    "---getEndLatLonPoint==null" + (getParam().getEndLatLonPoint() == null)
+            );
+        }
+
     }
 
 
