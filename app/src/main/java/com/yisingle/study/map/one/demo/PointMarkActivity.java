@@ -108,7 +108,7 @@ public class PointMarkActivity extends BaseMapActivity {
                 .create();
 
 
-        pointMarkerView.setInfoWindowView(new BaseMarkerView.InfoWindowView<String>(R.layout.info_window1, "结束") {
+        pointMarkerView.bindInfoWindowView(new BaseMarkerView.InfoWindowView<String>(R.layout.info_window1, "结束") {
             @Override
             public void bindData(MapInfoWindowViewHolder viewHolder, String data) {
                 viewHolder.setText(R.id.tvInfoWindow1, data);

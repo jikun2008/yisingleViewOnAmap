@@ -47,7 +47,7 @@ public class PointMarkerView<W> extends BaseMarkerView<PointMarkerParam, W> {
     }
 
 
-    public void changeUI(LatLng position, String text) {
+    public void setPositionAndText(LatLng position, String text) {
         setPosition(position);
         setText(text);
     }

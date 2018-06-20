@@ -11,7 +11,7 @@ import android.support.annotation.NonNull;
 public interface IMarkerView<W> {
 
 
-    void setInfoWindowView(@NonNull BaseMarkerView.InfoWindowView<W> infoWindowView);
+    void bindInfoWindowView(@NonNull BaseMarkerView.InfoWindowView<W> infoWindowView);
 
 
     void showInfoWindow(W data);

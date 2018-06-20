@@ -83,7 +83,7 @@ public abstract class BaseMarkerView<P extends BaseMarkerParam, W> extends Abstr
 
 
     @Override
-    public void setInfoWindowView(@NonNull InfoWindowView<W> infoWindowView) {
+    public void bindInfoWindowView(@NonNull InfoWindowView<W> infoWindowView) {
         this.infoWindowView = infoWindowView;
         if (null == infoWindowView) {
             Log.e("BaseMarkerView", "BaseMarkerView please do not setInfoWindowView(null)");

@@ -12,8 +12,10 @@ import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.LatLngBounds;
 import com.amap.api.services.core.LatLonPoint;
 import com.amap.api.services.route.DriveRouteResult;
+import com.yisingle.amapview.lib.base.view.marker.BaseMarkerView;
 import com.yisingle.amapview.lib.view.PathPlaningView;
 import com.yisingle.amapview.lib.view.PointMarkerView;
+import com.yisingle.amapview.lib.viewholder.MapInfoWindowViewHolder;
 import com.yisingle.study.map.one.R;
 import com.yisingle.study.map.one.base.BaseMapActivity;
 
@@ -24,21 +26,27 @@ import com.yisingle.study.map.one.base.BaseMapActivity;
 public class PathPlaningActivity extends BaseMapActivity {
     private TextureMapView textureMapView;
 
-    private PathPlaningView pathPlaningView;
+    private PathPlaningView<String, String> pathPlaningView;
 
     private TextView infoTextView;
 
 
     @Override
     protected void afterMapViewLoad() {
+
+
         pathPlaningView = new PathPlaningView.Builder(getApplicationContext(), getAmap())
                 .setAuotDrawPath(true)
-                .setEndMarkBuilder(new PointMarkerView.Builder(getApplicationContext(), getAmap())
-                        .setText("终点").
-                                setIcon(BitmapDescriptorFactory.fromResource(R.mipmap.amap_end)))
-                .setStartMarkBuilder(new PointMarkerView.Builder(getApplicationContext(), getAmap())
-                        .setText("起点")
-                        .setIcon(BitmapDescriptorFactory.fromResource(R.mipmap.amap_start)))
+                .setEndMarkBuilder(
+                        new PointMarkerView.Builder(getApplicationContext(), getAmap())
+                                .setText("终点")
+                                .setIcon(BitmapDescriptorFactory.fromResource(R.mipmap.amap_end))
+                )
+                .setStartMarkBuilder(
+                        new PointMarkerView.Builder(getApplicationContext(), getAmap())
+                                .setText("起点")
+                                .setIcon(BitmapDescriptorFactory.fromResource(R.mipmap.amap_start))
+                )
                 .create();
 
 
