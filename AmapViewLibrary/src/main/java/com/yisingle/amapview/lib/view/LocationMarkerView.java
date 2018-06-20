@@ -339,4 +339,28 @@ public class LocationMarkerView<W> extends BaseMarkerView<LocationMarkerParam, W
     }
 
 
+    public static class onLocationMarkerViewListenerAdapter implements onLocationMarkerViewListener {
+
+        @Override
+        public void onLocationSuccess(AMapLocation loc) {
+
+        }
+
+        @Override
+        public void onLocationFailed(AMapLocation loc) {
+
+        }
+
+        @Override
+        public void onRotationSuccess(float angle) {
+
+        }
+
+        @Override
+        public void onRotationFailed(String erroInfo) {
+
+        }
+    }
+
+
 }
