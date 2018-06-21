@@ -207,6 +207,14 @@ public class TextMarkerView<W> extends BaseMarkerView<TextMarkerParam, W> {
         canvas.drawRect(0, 0, staticLayout.getWidth(), staticLayout.getHeight(), paint);
     }
 
+
+    private void testDrawTextBack(Canvas canvas, StaticLayout staticLayout, Paint.FontMetrics fontMetrics) {
+        Paint paint = new Paint();
+        paint.setColor(Color.parseColor("#4876FF"));
+        paint.setStyle(Paint.Style.FILL);
+        canvas.drawRect(0, fontMetrics.top, staticLayout.getWidth(), fontMetrics.bottom, paint);
+    }
+
     /**
      * 根据staticLayout设置锚点参数
      *
@@ -221,20 +229,29 @@ public class TextMarkerView<W> extends BaseMarkerView<TextMarkerParam, W> {
 
         BigDecimal y = new BigDecimal(0);
         if (staticLayout.getLineCount() > 0) {
-
-
+            
             Paint.FontMetrics fontMetrics = getParam().getTextPaint().getFontMetrics();
 
-            BigDecimal textHeight = new BigDecimal(fontMetrics.bottom - fontMetrics.top);
+            BigDecimal textHeight = new BigDecimal(fontMetrics.descent - fontMetrics.ascent);
 
 
-//            int top = staticLayout.getLineTop(0);
+//            int top1 = staticLayout.getLineTop(0);
 //            int bottom = staticLayout.getLineBottom(0);
+//
 //            int add = getParam().getTextRowSpaceAdd();
 //            float multy = getParam().getTextRowSpaceMult();
-//            int lineHeight = bottom - top;
-//            BigDecimal textHeight = new BigDecimal(lineHeight);
-
+//            int lineHeight = bottom - top1;
+//            BigDecimal textHeight1 = new BigDecimal(lineHeight);
+//
+//            StringBuilder stringBuilder = new StringBuilder();
+//            stringBuilder.append("top" + fontMetrics.top + "\n");
+//            stringBuilder.append("ascent" + fontMetrics.ascent + "\n");
+//            stringBuilder.append("descent" + fontMetrics.descent + "\n");
+//            stringBuilder.append("bottom" + fontMetrics.bottom + "\n");
+//            stringBuilder.append("leading" + fontMetrics.leading);
+//            Log.e("测试代码", "测试代码FontMetrics:" + stringBuilder.toString());
+//
+//            Log.e("测试代码", "测试代码staticLayout=" + "top=" + top1 + "\n" + "--bottom=" + bottom);
 
             y = textHeight.divide(new BigDecimal(staticLayout.getHeight()).multiply(new BigDecimal(2)), 2, BigDecimal.ROUND_HALF_UP);
 

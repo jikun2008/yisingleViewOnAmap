@@ -3,6 +3,7 @@ package com.yisingle.study.map.one.demo;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -44,19 +45,19 @@ public class TextMarkeActivity extends BaseMapActivity {
                 //设置文字的TextPaint
                 //.setTextPaint(new TextPaint())
                 //设置文字
-                .setText("天府广场天府广场天府广场天府广场天府广场天府广场")
+                .setText("王王王王王123")
                 //设置文字距离左边或者右边的距离 默认为10
                 .setTextPaddingLeftOrRight(20)
                 //设置文字间的行距是字体多少倍 默认是1倍
                 .setTextRowSpaceMult(2)
                 //设置行距是多少  默认是0px
-                .setTextRowSpaceAdd(90)
+                //.setTextRowSpaceAdd(90)
                 //设置单行文字最大字数 默认是6
-                .setTextMaxTextLength(6)
+                .setTextMaxTextLength(12)
                 //是否只显示文字  默认值为false
                 .setTextOnlyTextShow(false)
                 //设置Ponit显示的图片
-                .setTextPointIcon(BitmapDescriptorFactory.fromResource(R.mipmap.hot_point))
+                .setTextPointIcon(BitmapDescriptorFactory.fromResource(R.mipmap.vtest))
                 //设置文字描边的范围 默认是6
                 .setTextStrokeWidth(20)
                 //设置文字描边的字体颜色值 默认是 Color.parseColor("#FFFFFF")
@@ -76,25 +77,14 @@ public class TextMarkeActivity extends BaseMapActivity {
     }
 
 
-    public void testAddMarker(View view) {
-        textMarkerView.addToMap();
-        textMarkerView.setPosition(latLng);
-        moveToCamera(latLng);
-
-    }
-
-
-    public void testRemoveMarker(View view) {
-        textMarkerView.removeFromMap();
-
-
-    }
-
     public void testChangeText(View view) {
-        if (textMarkerView.getText().equals("春熙路春熙路")) {
-            textMarkerView.setText("天府广场天府广场天府广场");
+
+        Log.e("测试代码", "测试代码U" + textMarkerView.getMarker().getAnchorU());
+        Log.e("测试代码", "测试代码V" + textMarkerView.getMarker().getAnchorV());
+        if (textMarkerView.getText().equals("王王王王王")) {
+            textMarkerView.setText("王王王王王123");
         } else {
-            textMarkerView.setText("春熙路春熙路");
+            textMarkerView.setText("王王王王王");
         }
 
     }
