@@ -57,7 +57,8 @@ public class TextMarkeActivity extends BaseMapActivity {
                 //是否只显示文字  默认值为false
                 .setTextOnlyTextShow(false)
                 //设置Ponit显示的图片
-                .setTextPointIcon(BitmapDescriptorFactory.fromResource(R.mipmap.vtest))
+                .setTextPointIcon(BitmapDescriptorFactory.fromResource(R.mipmap.point_test_horizontal))
+//                .setTextPointIcon(BitmapDescriptorFactory.fromResource(R.mipmap.hot_point))
                 //设置文字描边的范围 默认是6
                 .setTextStrokeWidth(20)
                 //设置文字描边的字体颜色值 默认是 Color.parseColor("#FFFFFF")
