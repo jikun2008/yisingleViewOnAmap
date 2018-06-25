@@ -42,7 +42,7 @@ public class LocationMarkerActivity extends BaseMapActivity {
     @Override
     public void onDestroy() {
         super.onDestroy();
-//        locationMarkerView.destory();
+        locationMarkerView.destory();
 
     }
 
@@ -71,7 +71,7 @@ public class LocationMarkerActivity extends BaseMapActivity {
 
 
         //设置locationMarkerView的监听器
-        locationMarkerView.setListener(new LocationMarkerView.onLocationMarkerViewListener() {
+        locationMarkerView.setListener(new LocationMarkerView.OnLocationMarkerViewListener() {
             @Override
             public void onLocationSuccess(AMapLocation loc) {
                 //当定位成功的时候回调

@@ -30,13 +30,18 @@ public abstract class BaseMarkerBuilder<T, D extends BaseMarkerParam> extends Ba
 
     }
 
+    /**
+     * 返回默认值的参数方法
+     *
+     * @return D
+     */
     protected abstract D returnDefaultParam();
 
 
     /**
      * 获取子类对象 并初始化参数
      *
-     * @return
+     * @return T
      */
     protected abstract T getChild();
 
@@ -45,6 +50,13 @@ public abstract class BaseMarkerBuilder<T, D extends BaseMarkerParam> extends Ba
         return param;
     }
 
+    /**
+     * 建造器模式中的create方法
+     * 需要自己来实现这个方法来达到我们需要create方法
+     *
+     * @param <W> 返回参数
+     * @return BaseMarkerView
+     */
     public abstract <W> BaseMarkerView create();
 
 
@@ -163,45 +175,6 @@ public abstract class BaseMarkerBuilder<T, D extends BaseMarkerParam> extends Ba
         return build;
     }
 
-    /**
-     * 设置Marker覆盖物的InfoWindow相对Marker的偏移。
-     * 坐标系原点为marker的中上点，InfoWindow相对此原点的像素偏移，
-     * 向左和向上上为负，向右和向下为正。
-     * InfoWindow的初始位置为marker上边线与InfoWindow下边线重合，
-     * 并且两者的中线在一条线上。
-     *
-     * @param offsetX- InfoWindow相对原点的横向像素偏移量，单位：像素。
-     * @param offsetY- InfoWindow相对原点的纵向像素偏移量，单位：像素。
-     * @return T
-     */
-//    public T setInfoWindowOffset(int offsetX, int offsetY) {
-//        getParam().getOptions().setInfoWindowOffset(offsetX, offsetY);
-//        return build;
-//    }
-
-
-//    /**
-//     * 设置 Marker覆盖物的 文字描述
-//     *
-//     * @param snippet - Marker上的文字描述
-//     * @return T
-//     */
-//    public T setSnippet(String snippet) {
-//        getParam().getOptions().snippet(snippet);
-//        return build;
-//    }
-
-
-//    /**
-//     * 设置 Marker覆盖物 的标题
-//     *
-//     * @param title Marker 的标题
-//     * @return T
-//     */
-//    public T setTitle(String title) {
-//        getParam().getOptions().title(title);
-//        return build;
-//    }
 
     /**
      * 设置Marker覆盖物是否可见。

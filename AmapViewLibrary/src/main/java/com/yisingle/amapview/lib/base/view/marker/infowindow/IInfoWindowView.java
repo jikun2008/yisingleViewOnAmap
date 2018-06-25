@@ -11,9 +11,18 @@ import com.yisingle.amapview.lib.viewholder.MapInfoWindowViewHolder;
 public  interface IInfoWindowView<W> extends AMap.InfoWindowAdapter {
 
 
+    /**
+     * 绑定数据
+     * @param viewHolder MapInfoWindowViewHolder
+     * @param type int
+     * @param data W
+     */
     void bindData(MapInfoWindowViewHolder viewHolder,int type, W data);
 
 
+    /**
+     * 销毁InfoWindow
+     */
     void destory();
 
 

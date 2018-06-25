@@ -9,9 +9,7 @@ import com.amap.api.maps.model.CircleOptions;
  * @author jikun
  * Created by jikun on 2018/4/11.
  */
-public class AMapOptionsUtils {
-
-    public static final float Z_INDEX = 2f;
+public class AmapOptionsUtils {
 
 
     public static CircleOptions getDefaultCircleOptions() {

@@ -15,7 +15,7 @@ import com.yisingle.amapview.lib.base.BaseView;
  */
 public class BaseCircleView extends BaseView {
 
-    private String TAG = BaseCircleView.class.getSimpleName();
+    private final String TAG = BaseCircleView.class.getSimpleName();
 
 
     private Circle circle;

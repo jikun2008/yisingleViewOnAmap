@@ -20,6 +20,7 @@ import com.yisingle.study.map.one.base.BaseMapActivity;
  * @author jikun
  * Created by jikun on 2018/5/7.
  */
+@SuppressWarnings("ALL")
 public class TextMarkeActivity extends BaseMapActivity {
     private TextureMapView textureMapView;
 
@@ -82,7 +83,7 @@ public class TextMarkeActivity extends BaseMapActivity {
 
         Log.e("测试代码", "测试代码U" + textMarkerView.getMarker().getAnchorU());
         Log.e("测试代码", "测试代码V" + textMarkerView.getMarker().getAnchorV());
-        if (textMarkerView.getText().equals("王王王王王")) {
+        if ("王王王王王".equals(textMarkerView.getText())) {
             textMarkerView.setText("王王王王王123");
         } else {
             textMarkerView.setText("王王王王王");

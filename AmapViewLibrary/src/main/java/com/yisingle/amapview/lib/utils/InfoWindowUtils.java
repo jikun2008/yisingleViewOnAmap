@@ -1,7 +1,5 @@
 package com.yisingle.amapview.lib.utils;
 
-import android.util.Log;
-
 import com.amap.api.maps.model.BitmapDescriptor;
 import com.amap.api.maps.model.MarkerOptions;
 
@@ -36,7 +34,6 @@ public class InfoWindowUtils {
         int littleWidth = markerOptions.getIcon().getWidth();
 
         float anchorU = markerOptions.getAnchorU();
-        //Log.e("测试代码", "测试代码calueHorizontalInfoAnchor----bigWidth=" + bigWidth + "----littleWidth=" + littleWidth + "---原来的anchorU=" + anchorU);
         if (bigWidth > littleWidth) {
             //x 的 值
             BigDecimal x = new BigDecimal(bigWidth);
@@ -44,10 +41,9 @@ public class InfoWindowUtils {
             BigDecimal u = new BigDecimal(anchorU);
             BigDecimal x2 = x.divide(new BigDecimal(2), 4, BigDecimal.ROUND_HALF_UP);
             BigDecimal y2 = y.divide(new BigDecimal(2), 4, BigDecimal.ROUND_HALF_UP);
-            BigDecimal u_y = y.multiply(u);
-            BigDecimal subtractX2_Y2 = x2.subtract(y2);
-            float now = subtractX2_Y2.add(u_y).divide(x, 4, BigDecimal.ROUND_HALF_UP).floatValue();
-            //Log.e("测试代码", "测试代码now" + now);
+            BigDecimal uY = y.multiply(u);
+            BigDecimal subtractX2Y2 = x2.subtract(y2);
+            float now = subtractX2Y2.add(uY).divide(x, 4, BigDecimal.ROUND_HALF_UP).floatValue();
             return now;
 
         } else {

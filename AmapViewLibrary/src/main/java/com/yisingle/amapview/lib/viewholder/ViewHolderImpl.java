@@ -1,19 +1,15 @@
 package com.yisingle.amapview.lib.viewholder;
 
-import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
-import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
-import android.support.v4.app.Fragment;
 import android.util.SparseArray;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.Checkable;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -22,8 +18,8 @@ import android.widget.TextView;
 
 /**
  * ViewHolder操作子视图的实现类
+ * @author jikun
  */
-@SuppressWarnings({"CanBeFinal", "UnusedAssignment", "UnusedParameters", "WeakerAccess"})
 public class ViewHolderImpl {
 
     /**
@@ -95,13 +91,14 @@ public class ViewHolderImpl {
         target.setBackgroundResource(resId);
     }
 
-    @SuppressLint("ObsoleteSdkInt")
-    @SuppressWarnings("deprecation")
+
+    @SuppressWarnings("AliDeprecation")
     public void setBackgroundDrawable(int viewId, Drawable drawable) {
         View target = findViewById(viewId);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
             target.setBackground(drawable);
         } else {
+            //noinspection AliDeprecation
             target.setBackgroundDrawable(drawable);
         }
     }
@@ -112,18 +109,6 @@ public class ViewHolderImpl {
         target.setBackground(drawable);
     }
 
-    /**
-     * @param viewId viewId
-     */
-    public void setImageUrl(Context aty, int viewId, String url) {
-        ImageView target = findViewById(viewId);
-        // ImageLoader.load(aty, target, url);
-    }
-
-    public void setImageUrl(Fragment fmt, int viewId, String url) {
-        ImageView target = findViewById(viewId);
-        // ImageLoader.load(fmt, target, url);
-    }
 
     public void setImageBitmap(int viewId, Bitmap bitmap) {
         ImageView target = findViewById(viewId);
@@ -157,12 +142,8 @@ public class ViewHolderImpl {
         View view = findViewById(viewId);
         if (view instanceof TextView) {
             TextView textview = (TextView) view;
-            textview.setCompoundDrawables(drawable, null, null, null); //设置左图标
-        } else if (view instanceof Button) {
-            Button button = (Button) view;
-            button.setCompoundDrawables(drawable, null, null, null); //设置左图标
-        } else {
-
+            //设置左图标
+            textview.setCompoundDrawables(drawable, null, null, null);
         }
 
     }

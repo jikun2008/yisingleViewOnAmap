@@ -1,7 +1,5 @@
 package com.yisingle.amapview.lib.utils;
 
-import android.util.Log;
-
 import com.amap.api.maps.AMapUtils;
 import com.amap.api.maps.model.LatLng;
 import com.autonavi.amap.mapcore.IPoint;
@@ -18,6 +16,8 @@ import java.util.List;
  */
 public class MoveUtils {
 
+
+    private final int limitSize=2;
     private CustomAnimator customAnimator = new CustomAnimator();
 
     private int index;
@@ -126,10 +126,10 @@ public class MoveUtils {
             public void onStart() {
                 index = 0;
                 isOver = false;
-                if (latLngList.size() >= 2) {
+                if (latLngList.size() >= limitSize) {
                     calculate();
                 } else {
-                    //Log.e("测试代码", "测试代码--未能开始移动 因为坐标集合数量小于2");
+                    //-----------Log0e("测试代码", "测试代码--未能开始移动 因为坐标集合数量小于2");
                     customAnimator.end();
                 }
 
@@ -140,7 +140,7 @@ public class MoveUtils {
 
 
                 if (!isOver) {
-                    // Log.e("测试代码", "测试代码---onUpdate");
+                    // Log0e("测试代码", "测试代码---onUpdate");
                     Float value = t;
                     int plugX = nextPoint.x - startIPoint.x;
                     int plugY = nextPoint.y - startIPoint.y;
@@ -174,7 +174,7 @@ public class MoveUtils {
 
             int time = new BigDecimal(distance).divide(new BigDecimal(speed), 3, RoundingMode.HALF_DOWN).multiply(new BigDecimal(1000)).intValue();
 
-            //Log.e("测试代码", "测试代码time=" + time + "index=" + index);
+            //Log0e("测试代码", "测试代码time=" + time + "index=" + index);
 
             customAnimator.setDuration(time);
         }
@@ -200,8 +200,20 @@ public class MoveUtils {
 
 
     public interface OnCallBack {
+        /**
+         * 角度返回  这里的角度返回是根据两个点坐标来计算汽车在地图上的角度的
+         * 并不是传感器返回的
+         *
+         * @param rotate 角度
+         */
         void onSetRotateAngle(float rotate);
 
+
+        /**
+         * 设置坐标IPoint
+         *
+         * @param point IPoint
+         */
         void onSetGeoPoint(IPoint point);
     }
 

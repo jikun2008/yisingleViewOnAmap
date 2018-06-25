@@ -10,21 +10,26 @@ import com.amap.api.location.AMapLocationListener;
 
 
 /**
- * Created by jikun on 2016/12/12.
+ * @author jikun
+ * @date 2016/12/12
  */
 
 
-public class AMapLocationHelper {
+public class AmapLocationHelper {
 
 
-    private final String TAG = AMapLocationHelper.class.getSimpleName();
+    private final String TAG = AmapLocationHelper.class.getSimpleName();
 
 
-    //默认不使用一次定位
-    private boolean is_default_once_location = false;
+    /**
+     * 默认不使用一次定位
+     */
+    private boolean isDefaultOnceLocation = false;
 
-    //定位间隔,多次定位时才有效
-    private int time_location_interval = 5000;
+    /**
+     * 定位间隔,多次定位时才有效
+     */
+    private int duration = 5000;
 
     private AMapLocationClient locationClient = null;
     private AMapLocationClientOption locationOption = new AMapLocationClientOption();
@@ -33,13 +38,13 @@ public class AMapLocationHelper {
     private OnLocationGetListener onLocationGetListener;
 
 
-    public AMapLocationHelper(Context context) {
+    public AmapLocationHelper(Context context) {
         initLocation(context);
 
     }
 
-    public AMapLocationHelper(Context context, int time_location_interval) {
-        this.time_location_interval = time_location_interval;
+    public AmapLocationHelper(Context context, int duration) {
+        this.duration = duration;
         initLocation(context);
 
     }
@@ -54,7 +59,7 @@ public class AMapLocationHelper {
         //初始化client
         locationClient = new AMapLocationClient(context);
         //设置定位参数
-        locationOption = getDefaultOption(is_default_once_location, time_location_interval);
+        locationOption = getDefaultOption(isDefaultOnceLocation, duration);
         locationClient.setLocationOption(locationOption);
         // 设置定位监听
         locationClient.setLocationListener(locationListener);
@@ -102,7 +107,7 @@ public class AMapLocationHelper {
     public void startLocation() {
         if (null != locationClient) {
 
-            locationOption = getDefaultOption(false, time_location_interval);
+            locationOption = getDefaultOption(false, duration);
             // 设置定位参数
             locationClient.setLocationOption(locationOption);
             // 启动定位
@@ -249,8 +254,13 @@ public class AMapLocationHelper {
         this.onLocationGetListener = onLocationGetListener;
     }
 
-    public static abstract class OnLocationGetListeneAdapter implements OnLocationGetListener {
+    public static class OnLocationGetListeneAdapter implements OnLocationGetListener {
 
+
+        @Override
+        public void onLocationGetSuccess(AMapLocation loc) {
+
+        }
 
         @Override
         public void onLocationGetFail(AMapLocation loc) {
@@ -260,8 +270,16 @@ public class AMapLocationHelper {
 
     public interface OnLocationGetListener {
 
+        /**
+         * 定位成功
+         * @param loc 定位成功返回
+         */
         void onLocationGetSuccess(AMapLocation loc);
 
+        /**
+         * 定位失败
+         * @param loc 定位失败
+         */
         void onLocationGetFail(AMapLocation loc);
     }
 

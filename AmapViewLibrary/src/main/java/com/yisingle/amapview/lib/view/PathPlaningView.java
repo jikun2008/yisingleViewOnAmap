@@ -29,6 +29,8 @@ import com.yisingle.amapview.lib.utils.GaoDeErrorUtils;
 public class PathPlaningView<S, E> extends BaseView {
 
 
+    private final int successCode = 1000;
+
     private final static String TAG = PathPlaningView.class.getSimpleName();
 
     private PointMarkerView<S> startPointMarkerView;
@@ -98,11 +100,11 @@ public class PathPlaningView<S, E> extends BaseView {
         startPointMarkerView.setIcon(icon);
     }
 
-    public void bindStartInfoWindowView(@NonNull BaseMarkerView.InfoWindowView<S> infoWindowView) {
+    public void bindStartInfoWindowView(@NonNull BaseMarkerView.BaseInfoWindowView<S> infoWindowView) {
         startPointMarkerView.bindInfoWindowView(infoWindowView);
     }
 
-    public void bindEndInfoWindowView(@NonNull BaseMarkerView.InfoWindowView<E> infoWindowView) {
+    public void bindEndInfoWindowView(@NonNull BaseMarkerView.BaseInfoWindowView<E> infoWindowView) {
         endPointMarkerView.bindInfoWindowView(infoWindowView);
     }
 
@@ -165,7 +167,7 @@ public class PathPlaningView<S, E> extends BaseView {
 
             @Override
             public void onDriveRouteSearched(DriveRouteResult driveRouteResult, int i) {
-                if (i == 1000) {
+                if (i == successCode) {
                     if (null != callBack) {
                         callBack.onSucccess(driveRouteResult);
                     }
@@ -267,10 +269,23 @@ public class PathPlaningView<S, E> extends BaseView {
 
     public interface OnPathPlaningCallBack {
 
+        /**
+         * 路径规划开始
+         */
         void onStart();
 
+        /**
+         * 路径规划成功
+         *
+         * @param routeResult DriveRouteResult
+         */
         void onSucccess(DriveRouteResult routeResult);
 
+        /**
+         * 路径规划失败
+         *
+         * @param errorInfo 失败信息
+         */
         void onFailed(String errorInfo);
     }
 
@@ -359,174 +374,6 @@ public class PathPlaningView<S, E> extends BaseView {
             return this;
         }
 
-
-//        public Builder setText(String startText, String endText) {
-//
-//            setStartText(startText);
-//            setEndText(endText);
-//            return this;
-//        }
-
-//        public Builder setStartText(String text) {
-//            startMarkBuilder.setText(text);
-//            return this;
-//        }
-//
-//        public Builder setStartTextPaddingLeftOrRight(int padding) {
-//            startMarkBuilder.setTextPaddingLeftOrRight(padding);
-//            return this;
-//        }
-//
-//        public Builder setStartTextRowSpaceMult(@FloatRange(from = 1f) float textSpaceMult) {
-//            startMarkBuilder.setTextRowSpaceMult(textSpaceMult);
-//            return this;
-//        }
-//
-//
-//        public Builder setStartTextRowSpaceAdd(@IntRange(from = 0) int textSpaceAdd) {
-//            startMarkBuilder.setTextRowSpaceAdd(textSpaceAdd);
-//            return this;
-//        }
-//
-//
-//        public Builder setStartTextMaxTextLength(int maxTextLength) {
-//            startMarkBuilder.setTextMaxTextLength(maxTextLength);
-//            return this;
-//        }
-//
-//        public Builder setStartTextOnlyTextShow(boolean onlyTextShow) {
-//            startMarkBuilder.setTextOnlyTextShow(onlyTextShow);
-//            return this;
-//        }
-//
-//
-//        /**
-//         * 设置描边的范围
-//         *
-//         * @param width 范围
-//         * @return
-//         */
-//        public Builder setStartTextStrokeWidth(float width) {
-//            startMarkBuilder.setTextStrokeWidth(width);
-//            return this;
-//        }
-//
-//        /**
-//         * 设置描边的颜色值
-//         *
-//         * @param color color
-//         * @return
-//         */
-//        public Builder setStartTextStrokeColor(int color) {
-//            startMarkBuilder.setTextStrokeColor(color);
-//            return this;
-//        }
-//
-//
-//        public Builder setStartTextAlign(@TextMarkerParam.TextAlign int algin) {
-//            startMarkBuilder.setTextAlign(algin);
-//
-//            return this;
-//        }
-//
-//
-//        public Builder setStartTextSize(float textSize) {
-//            startMarkBuilder.setTextSize(textSize);
-//            return this;
-//        }
-//
-//
-//        public Builder setStartTextColor(int color) {
-//            startMarkBuilder.setTextColor(color);
-//            return this;
-//        }
-//
-//
-//        public Builder setStartTextPointIcon(BitmapDescriptor bitmapDescriptor) {
-//            startMarkBuilder.setTextPointIcon(bitmapDescriptor);
-//            return this;
-//        }
-//
-//
-//        public Builder setEndText(String text) {
-//            endMarkBuilder.setText(text);
-//            return this;
-//        }
-//
-//        public Builder setEndTextPaddingLeftOrRight(int padding) {
-//            endMarkBuilder.setTextPaddingLeftOrRight(padding);
-//            return this;
-//        }
-//
-//        public Builder setEndTextRowSpaceMult(@FloatRange(from = 1f) float textSpaceMult) {
-//            endMarkBuilder.setTextRowSpaceMult(textSpaceMult);
-//            return this;
-//        }
-//
-//
-//        public Builder setEndTextRowSpaceAdd(@IntRange(from = 0) int textSpaceAdd) {
-//            endMarkBuilder.setTextRowSpaceAdd(textSpaceAdd);
-//            return this;
-//        }
-//
-//
-//        public Builder setEndTextMaxTextLength(int maxTextLength) {
-//            endMarkBuilder.setTextMaxTextLength(maxTextLength);
-//            return this;
-//        }
-//
-//        public Builder setEndTextOnlyTextShow(boolean onlyTextShow) {
-//            endMarkBuilder.setTextOnlyTextShow(onlyTextShow);
-//            return this;
-//        }
-//
-//
-//        /**
-//         * 设置描边的范围
-//         *
-//         * @param width 范围
-//         * @return
-//         */
-//        public Builder setEndTextStrokeWidth(float width) {
-//            endMarkBuilder.setTextStrokeWidth(width);
-//            return this;
-//        }
-//
-//        /**
-//         * 设置描边的颜色值
-//         *
-//         * @param color color
-//         * @return
-//         */
-//        public Builder setEndTextStrokeColor(int color) {
-//            endMarkBuilder.setTextStrokeColor(color);
-//            return this;
-//        }
-//
-//
-//        public Builder setEndTextAlign(@TextMarkerParam.TextAlign int algin) {
-//            endMarkBuilder.setTextAlign(algin);
-//
-//            return this;
-//        }
-//
-//
-//        public Builder setEndTextSize(float textSize) {
-//            endMarkBuilder.setTextSize(textSize);
-//            return this;
-//        }
-//
-//
-//        public Builder setEndTextColor(int color) {
-//            endMarkBuilder.setTextColor(color);
-//            return this;
-//        }
-//
-//
-//        public Builder setEndTextPointIcon(BitmapDescriptor bitmapDescriptor) {
-//            endMarkBuilder.setTextPointIcon(bitmapDescriptor);
-//            return this;
-//        }
 
         public Builder(Context context, AMap map) {
             super(context, map);

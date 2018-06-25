@@ -12,7 +12,7 @@ import com.yisingle.amapview.lib.base.view.circle.BaseCircleView;
 import com.yisingle.amapview.lib.base.view.marker.BaseMarkerBuilder;
 import com.yisingle.amapview.lib.base.view.marker.BaseMarkerView;
 import com.yisingle.amapview.lib.param.LocationMarkerParam;
-import com.yisingle.amapview.lib.utils.AMapLocationHelper;
+import com.yisingle.amapview.lib.utils.AmapLocationHelper;
 import com.yisingle.amapview.lib.utils.SensorEventHelper;
 
 /**
@@ -33,10 +33,10 @@ public class LocationMarkerView<W> extends BaseMarkerView<LocationMarkerParam, W
     /**
      * 定位帮助类
      */
-    private AMapLocationHelper locationHelper;
+    private AmapLocationHelper locationHelper;
 
 
-    private onLocationMarkerViewListener listener;
+    private OnLocationMarkerViewListener listener;
 
 
     /**
@@ -45,7 +45,7 @@ public class LocationMarkerView<W> extends BaseMarkerView<LocationMarkerParam, W
     private BaseCircleView circleView;
 
 
-    protected LocationMarkerView(@NonNull Context context, @NonNull AMap amap, @NonNull LocationMarkerParam param) {
+    private LocationMarkerView(@NonNull Context context, @NonNull AMap amap, @NonNull LocationMarkerParam param) {
         super(context, amap, param);
         circleView = new BaseCircleView.Builder(getContext(), getAmap()).create();
     }
@@ -64,7 +64,7 @@ public class LocationMarkerView<W> extends BaseMarkerView<LocationMarkerParam, W
         }
     }
 
-    public void setListener(onLocationMarkerViewListener listener) {
+    public void setListener(OnLocationMarkerViewListener listener) {
         this.listener = listener;
     }
 
@@ -122,11 +122,11 @@ public class LocationMarkerView<W> extends BaseMarkerView<LocationMarkerParam, W
      */
     private void initLocationHelper() {
         if (null == locationHelper) {
-            locationHelper = new AMapLocationHelper(getContext(), getParam().getLocationDurtion());
+            locationHelper = new AmapLocationHelper(getContext(), getParam().getLocationDurtion());
 
         }
 
-        locationHelper.setOnLocationGetListener(new AMapLocationHelper.OnLocationGetListeneAdapter() {
+        locationHelper.setOnLocationGetListener(new AmapLocationHelper.OnLocationGetListeneAdapter() {
             @Override
             public void onLocationGetSuccess(AMapLocation loc) {
                 setPosition(new LatLng(loc.getLatitude(), loc.getLongitude()));
@@ -229,16 +229,15 @@ public class LocationMarkerView<W> extends BaseMarkerView<LocationMarkerParam, W
 
         @Override
         public <W> LocationMarkerView<W> create() {
-            LocationMarkerView locationMarkerView = new LocationMarkerView<>(getContext(), getMap(), getParam());
-            return locationMarkerView;
+            return new LocationMarkerView<>(getContext(), getMap(), getParam());
         }
 
 
         /**
          * 设置没有手机方向传感器的图片
          *
-         * @param drawableId
-         * @return
+         * @param drawableId 图片资源文件
+         * @return Builder
          */
         public Builder setWithOutSensorDrawableId(@DrawableRes int drawableId) {
             getParam().setWithOutSensorDrawableId(drawableId);
@@ -262,23 +261,11 @@ public class LocationMarkerView<W> extends BaseMarkerView<LocationMarkerParam, W
         }
 
 
-//        /**
-//         * 设置圆的半径，单位米。半径必须大于等于0。
-//         *
-//         * @param radius - 半径，单位米
-//         * @return
-//         */
-//        public Builder setCircleRadius(double radius) {
-//            getParam().getCircleOptions().radius(radius);
-//            return this;
-//        }
-
-
         /**
          * 设置圆的边框颜色，ARGB格式。如果设置透明，则边框不会被绘制。默认黑色。
          *
          * @param color - 设置边框颜色，ARGB格式。
-         * @return
+         * @return Builder
          */
         public Builder setCircleStrokeColor(int color) {
             getParam().getCircleOptions().strokeColor(color);
@@ -290,7 +277,7 @@ public class LocationMarkerView<W> extends BaseMarkerView<LocationMarkerParam, W
          * 设置圆的边框宽度，单位像素。参数必须大于等于0，默认10。
          *
          * @param width 边框宽度，单位像素
-         * @return
+         * @return Builder
          */
         public Builder setCircleStrokeWidth(float width) {
             getParam().getCircleOptions().strokeWidth(width);
@@ -301,7 +288,7 @@ public class LocationMarkerView<W> extends BaseMarkerView<LocationMarkerParam, W
          * 设置圆的可见属性
          *
          * @param visible true为可见，false为不可见
-         * @return
+         * @return Builder
          */
         public Builder setCircleVisible(boolean visible) {
             getParam().getCircleOptions().visible(visible);
@@ -313,7 +300,7 @@ public class LocationMarkerView<W> extends BaseMarkerView<LocationMarkerParam, W
          * 设置圆的Z轴数值，默认为0。
          *
          * @param zIndex zIndex - z轴数值
-         * @return
+         * @return Builder
          */
         public Builder setCircleZindex(float zIndex) {
 
@@ -325,21 +312,41 @@ public class LocationMarkerView<W> extends BaseMarkerView<LocationMarkerParam, W
 
     }
 
-    public interface onLocationMarkerViewListener {
+    public interface OnLocationMarkerViewListener {
 
+
+        /**
+         *
+         * 定位成功返回
+         * @param loc 定位成功返回
+         */
         void onLocationSuccess(AMapLocation loc);
 
+        /**
+         *
+         * 定位失败返回
+         * @param loc 定位失败返回
+         */
         void onLocationFailed(AMapLocation loc);
 
 
+        /**
+         * 手机角度旋转的时候返回
+         * @param angle 角度旋转
+         */
         void onRotationSuccess(float angle);
 
+
+        /**
+         * 没有角度相关传感器的时候返回
+         * @param erroInfo 错误信息
+         */
         void onRotationFailed(String erroInfo);
 
     }
 
 
-    public static class onLocationMarkerViewListenerAdapter implements onLocationMarkerViewListener {
+    public static class OnLocationMarkerViewListenerAdapter implements OnLocationMarkerViewListener {
 
         @Override
         public void onLocationSuccess(AMapLocation loc) {

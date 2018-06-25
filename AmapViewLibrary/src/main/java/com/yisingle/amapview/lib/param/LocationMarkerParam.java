@@ -6,7 +6,7 @@ import com.amap.api.maps.model.BitmapDescriptorFactory;
 import com.amap.api.maps.model.CircleOptions;
 import com.yisingle.amap.lib.R;
 import com.yisingle.amapview.lib.base.param.BaseMarkerParam;
-import com.yisingle.amapview.lib.utils.AMapOptionsUtils;
+import com.yisingle.amapview.lib.utils.AmapOptionsUtils;
 
 /**
  * @author jikun
@@ -39,7 +39,7 @@ public class LocationMarkerParam extends BaseMarkerParam {
         //设置锚点在图片中间
         getOptions().anchor(0.5f, 0.5f);
         locationDurtion = 5000;
-        circleOptions = AMapOptionsUtils.getDefaultCircleOptions();
+        circleOptions = AmapOptionsUtils.getDefaultCircleOptions();
 
     }
 

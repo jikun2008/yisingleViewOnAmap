@@ -33,7 +33,7 @@ public abstract class BaseMarkerView<P extends BaseMarkerParam, W> extends Abstr
     private W infoData;
 
 
-    private InfoWindowView infoWindowView;
+    private BaseInfoWindowView infoWindowView;
 
     private final String TAG = BaseMarkerView.class.getSimpleName();
 
@@ -55,6 +55,7 @@ public abstract class BaseMarkerView<P extends BaseMarkerParam, W> extends Abstr
 
     @Override
     public void removeFromMap() {
+        stopMove();
         if (null != marker) {
             marker.remove();
             marker = null;
@@ -67,7 +68,6 @@ public abstract class BaseMarkerView<P extends BaseMarkerParam, W> extends Abstr
 
     @Override
     public void destory() {
-        stopMove();
         if (null != marker) {
             marker.remove();
             marker = null;
@@ -87,7 +87,7 @@ public abstract class BaseMarkerView<P extends BaseMarkerParam, W> extends Abstr
 
 
     @Override
-    public void bindInfoWindowView(@NonNull InfoWindowView<W> infoWindowView) {
+    public void bindInfoWindowView(@NonNull BaseInfoWindowView<W> infoWindowView) {
         this.infoWindowView = infoWindowView;
         if (null == infoWindowView) {
             Log.e("BaseMarkerView", "BaseMarkerView please do not setInfoWindowView(null)");
@@ -197,7 +197,7 @@ public abstract class BaseMarkerView<P extends BaseMarkerParam, W> extends Abstr
      * @author jikun
      * Created by jikun on 2018/5/30.
      */
-    public static abstract class InfoWindowView<W> {
+    public static abstract class BaseInfoWindowView<W> {
 
         private W infoData;
 
@@ -210,7 +210,7 @@ public abstract class BaseMarkerView<P extends BaseMarkerParam, W> extends Abstr
 
         private MapInfoWindowViewHolder viewHolder;
 
-        public InfoWindowView(@LayoutRes int layoutId, W infoData) {
+        public BaseInfoWindowView(@LayoutRes int layoutId, W infoData) {
             this.layoutId = layoutId;
             this.infoData = infoData;
 
@@ -220,13 +220,18 @@ public abstract class BaseMarkerView<P extends BaseMarkerParam, W> extends Abstr
             this.context = context;
 
             infoWindowView = LayoutInflater.from(context).inflate(R.layout.lib_info_window, null);
-            LinearLayout ll_real_layout = infoWindowView.findViewById(R.id.ll_real_layout);
+            LinearLayout llRealLayout = infoWindowView.findViewById(R.id.ll_real_layout);
             View view = LayoutInflater.from(context).inflate(layoutId, null);
-            ll_real_layout.addView(view);
+            llRealLayout.addView(view);
             viewHolder = new MapInfoWindowViewHolder(0, view);
         }
 
 
+        /**
+         * 绑定数据
+         * @param viewHolder MapInfoWindowViewHolder
+         * @param data W
+         */
         public abstract void bindData(MapInfoWindowViewHolder viewHolder, W data);
 
 

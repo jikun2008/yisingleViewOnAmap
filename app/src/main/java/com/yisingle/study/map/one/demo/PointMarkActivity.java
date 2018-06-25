@@ -20,6 +20,7 @@ import com.yisingle.study.map.one.base.BaseMapActivity;
  * @author jikun
  * Created by jikun on 2018/5/16.
  */
+@SuppressWarnings("AlibabaMethodTooLong")
 public class PointMarkActivity extends BaseMapActivity {
     private TextureMapView textureMapView;
 
@@ -108,7 +109,7 @@ public class PointMarkActivity extends BaseMapActivity {
                 .create();
 
 
-        pointMarkerView.bindInfoWindowView(new BaseMarkerView.InfoWindowView<String>(R.layout.info_window1, "结束") {
+        pointMarkerView.bindInfoWindowView(new BaseMarkerView.BaseInfoWindowView<String>(R.layout.info_window1, "结束") {
             @Override
             public void bindData(MapInfoWindowViewHolder viewHolder, String data) {
                 viewHolder.setText(R.id.tvInfoWindow1, data);

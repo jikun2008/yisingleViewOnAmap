@@ -229,42 +229,15 @@ public class TextMarkerView<W> extends BaseMarkerView<TextMarkerParam, W> {
 
         BigDecimal y = new BigDecimal(0);
         if (staticLayout.getLineCount() > 0) {
-            
+
             Paint.FontMetrics fontMetrics = getParam().getTextPaint().getFontMetrics();
 
             BigDecimal textHeight = new BigDecimal(fontMetrics.descent - fontMetrics.ascent);
 
 
-//            int top1 = staticLayout.getLineTop(0);
-//            int bottom = staticLayout.getLineBottom(0);
-//
-//            int add = getParam().getTextRowSpaceAdd();
-//            float multy = getParam().getTextRowSpaceMult();
-//            int lineHeight = bottom - top1;
-//            BigDecimal textHeight1 = new BigDecimal(lineHeight);
-//
-//            StringBuilder stringBuilder = new StringBuilder();
-//            stringBuilder.append("top" + fontMetrics.top + "\n");
-//            stringBuilder.append("ascent" + fontMetrics.ascent + "\n");
-//            stringBuilder.append("descent" + fontMetrics.descent + "\n");
-//            stringBuilder.append("bottom" + fontMetrics.bottom + "\n");
-//            stringBuilder.append("leading" + fontMetrics.leading);
-//            Log.e("测试代码", "测试代码FontMetrics:" + stringBuilder.toString());
-//
-//            Log.e("测试代码", "测试代码staticLayout=" + "top=" + top1 + "\n" + "--bottom=" + bottom);
-
             y = textHeight.divide(new BigDecimal(staticLayout.getHeight()).multiply(new BigDecimal(2)), 2, BigDecimal.ROUND_HALF_UP);
 
         }
-//        Log.e("测试代码", "测试代码-y=" + y.floatValue());
-
-//        int top = staticLayout.getLineTop(0);
-//        int bottom = staticLayout.getLineBottom(0);
-//        int height = staticLayout.getHeight();
-//        Log.e("测试代码", "测试代码-getSpacingAdd=" + staticLayout.getSpacingAdd());
-//        Log.e("测试代码", "测试代码-top=" + top);
-//        Log.e("测试代码", "测试代码-bottom=" + bottom);
-//        Log.e("测试代码", "测试代码-height=" + height);
         switch (getParam().getAlign()) {
             case TextMarkerParam.TextAlign.LEFT:
                 anchor[0] = 0;
@@ -304,8 +277,8 @@ public class TextMarkerView<W> extends BaseMarkerView<TextMarkerParam, W> {
                 //这里为什么和left不同
                 //因为StaticLayout.draw的时候是靠左画文字的，如果这个时候向左移动后 会发生移动文字显示不全的BUG
                 //又因为靠着右边
-                // 所以我们可以通过Bitmap.createBitmap(width+padding,height, Bitmap.Config.ARGB_8888);
-                //width+padding添加画布的宽度来达到显示效果  所以是一样的
+                // 所以我们可以通过----Bitmap.createBitmap(width+padding,height, Bitmap.Config.ARGB_8888)-----
+                //----------width加上padding添加画布的宽度来达到显示效果  所以是一样的
                 canvas.translate(0, 0);
                 break;
             default:

@@ -61,7 +61,7 @@ public class PointMarkUseMoveActivty extends BaseMapActivity {
                 .setAnchor(0.5f, 0.5f)
                 .setIcon(BitmapDescriptorFactory.fromResource(R.mipmap.car)).create();
 
-        moveMarkerView.bindInfoWindowView(new BaseMarkerView.InfoWindowView<String>(R.layout.info_window, "") {
+        moveMarkerView.bindInfoWindowView(new BaseMarkerView.BaseInfoWindowView<String>(R.layout.info_window, "") {
             @Override
             public void bindData(MapInfoWindowViewHolder viewHolder, String data) {
 

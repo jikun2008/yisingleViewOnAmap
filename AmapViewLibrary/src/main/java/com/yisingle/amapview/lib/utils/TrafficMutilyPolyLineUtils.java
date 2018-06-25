@@ -22,13 +22,15 @@ import java.util.List;
 public class TrafficMutilyPolyLineUtils {
 
 
+
+
     public static List<BasePolyLineView> changeTrafficStateLine(@NonNull Context context, @NonNull AMap amap, @NonNull List<BasePolyLineView> polyLineViewList, @NonNull List<TMC> tmcList, @NonNull TrafficMutilyPolyLineParam param) {
 
         List<TrafficStateData> list = buildTrafficListData(tmcList);
         boolean isPolyLineMore = polyLineViewList.size() > list.size();
 
-        //Log.e("测试代码", "测试代码traffic" + "-----新的TrafficStateData.size = " + list.size());
-        //Log.e("测试代码", "测试代码traffic" + "-----原始的PolyLineViewList.size = " + polyLineViewList.size());
+        //-------------------------Log0e("测试代码", "测试代码traffic" + "-----新的TrafficStateData0size = " + list0size());
+        //-------------------------Log0e("测试代码", "测试代码traffic" + "-----原始的PolyLineViewList数量大小 = " + polyLineViewList0size());
         int count = 0;
         for (int i = 0; i < list.size(); i++) {
             TrafficStateData trafficStateData = list.get(i);
@@ -54,7 +56,7 @@ public class TrafficMutilyPolyLineUtils {
                 polyLineViewList.add(basePolyLineView);
             }
         }
-        //Log.e("测试代码", "测试代码traffic" + "-----添加了PolyLineView的数量为 size=" + count);
+        //Log0e("测试代码", "测试代码traffic" + "-----添加了PolyLineView的数量为 size=" + count);
 
         if (isPolyLineMore) {
             //移除多余的PolyLineView
@@ -62,7 +64,7 @@ public class TrafficMutilyPolyLineUtils {
             for (int i = list.size(); i < polyLineViewList.size(); i++) {
                 moreThanPolyLineViewList.add(polyLineViewList.get(i));
             }
-            //Log.e("测试代码", "测试代码traffic  移除了moreThanPolyLineView的数量为 size=" + moreThanPolyLineViewList.size());
+            //Log0e("测试代码", "测试代码traffic  移除了moreThanPolyLineView的数量为 size=" + moreThanPolyLineViewList0size());
             polyLineViewList.removeAll(moreThanPolyLineViewList);
 
             for (BasePolyLineView view : moreThanPolyLineViewList) {
@@ -71,7 +73,7 @@ public class TrafficMutilyPolyLineUtils {
             }
         }
 
-        //Log.e("测试代码", "测试代码traffic 最后产生的值=" + list.size() + "-----polyLineViewList.size=" + polyLineViewList.size());
+        //("测试代码", "测试代码traffic 最后产生的值=" + list0size() + "-----polyLineViewList0size数量大小=" + polyLineViewList0size());
         return polyLineViewList;
 
     }
@@ -80,7 +82,7 @@ public class TrafficMutilyPolyLineUtils {
     /**
      * 根据不同的路段拥堵情况展示不同的颜色
      *
-     * @param tmcList
+     * @param tmcList List<Tmc>
      */
     public static List<BasePolyLineView> addTrafficStateLine(@NonNull Context context, @NonNull AMap amap, List<TMC> tmcList, @NonNull TrafficMutilyPolyLineParam param) {
 
@@ -120,7 +122,7 @@ public class TrafficMutilyPolyLineUtils {
      * 来绘制多个PolyLineView的数据
      *
      * @param tmcList 交通状态数据
-     * @return
+     * @return List<TrafficStateData>
      */
     private static List<TrafficStateData> buildTrafficListData(List<TMC> tmcList) {
         //这是下面循环中上一次的交通坐标集合对象
@@ -162,29 +164,38 @@ public class TrafficMutilyPolyLineUtils {
     }
 
 
+    private static final String SMOOTH_TRAFFIC ="畅通";
+
+    private static final String SLOW_TRAFFIC ="缓行";
+
+    private static final String JAM_TRAFFIC ="拥堵";
+
+    private static final String VERY_JAM_TRAFFIC ="严重拥堵";
+
     /**
      * 2018年05月14日11:29:11
      * 根据交通状态返回BitmapDescriptor
      *
      * @param tmc   交通状态图标
-     * @param param
-     * @return
+     * @param param 交通状态的一些数据
+     * @return BitmapDescriptor
      */
+    @SuppressWarnings("AlibabaUndefineMagicConstant")
     private static BitmapDescriptor getTrafficStausBitMapByTmc(@NonNull TMC tmc, @NonNull TrafficMutilyPolyLineParam param) {
 
 
         String status = tmc.getStatus();
-        BitmapDescriptor bitmapDescriptor = null;
+        BitmapDescriptor bitmapDescriptor;
         if (status == null) {
             status = "";
         }
-        if (status.equals("畅通")) {
+        if (SMOOTH_TRAFFIC .equals(status)) {
             bitmapDescriptor = param.getSmoothTrafficRouteBitMap();
-        } else if (status.equals("缓行")) {
+        } else if (SLOW_TRAFFIC .equals(status)) {
             bitmapDescriptor = param.getSlowTrafficRouteBitMap();
-        } else if (status.equals("拥堵")) {
+        } else if (JAM_TRAFFIC .equals(status)) {
             bitmapDescriptor = param.getJamTrafficRouteBitMap();
-        } else if (status.equals("严重拥堵")) {
+        } else if (VERY_JAM_TRAFFIC .equals(status)) {
             bitmapDescriptor = param.getVeryJamTrafficRouteBitMap();
         } else {
             bitmapDescriptor = param.getUnknownTrafficRouteBitMap();

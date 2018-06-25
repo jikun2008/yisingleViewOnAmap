@@ -6,7 +6,7 @@ import android.support.annotation.NonNull;
 import com.amap.api.maps.AMap;
 import com.amap.api.maps.model.CircleOptions;
 import com.yisingle.amapview.lib.base.BaseBuilder;
-import com.yisingle.amapview.lib.utils.AMapOptionsUtils;
+import com.yisingle.amapview.lib.utils.AmapOptionsUtils;
 
 /**
  * @author jikun
@@ -18,7 +18,7 @@ public abstract class BaseCircleBuilder<T> extends BaseBuilder {
     /**
      * 设置一些默认的CircleOptions的值
      */
-    private CircleOptions circleOptions = AMapOptionsUtils.getDefaultCircleOptions();
+    private CircleOptions circleOptions = AmapOptionsUtils.getDefaultCircleOptions();
 
 
     public BaseCircleBuilder(@NonNull Context context, @NonNull AMap map) {

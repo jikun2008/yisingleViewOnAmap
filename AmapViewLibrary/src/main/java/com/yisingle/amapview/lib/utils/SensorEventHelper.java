@@ -9,11 +9,13 @@ import android.util.Log;
 
 /**
  * 手机角度帮助类
+ *
+ * @author jikun
  */
 @SuppressWarnings("unused")
 public class SensorEventHelper implements SensorEventListener {
 
-    public String TAG = SensorEventHelper.class.getSimpleName();
+    private final String TAG = SensorEventHelper.class.getSimpleName();
     private SensorManager mSensorManager;
     private Sensor magneticSensor, accelerometerSensor;
     private long lastTime = 0;
@@ -30,26 +32,27 @@ public class SensorEventHelper implements SensorEventListener {
         mContext = context;
         mSensorManager = (SensorManager) context
                 .getSystemService(Context.SENSOR_SERVICE);
+        if (null != mSensorManager) {
 
-        //磁力传感器
-        magneticSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
-        //加速度传感器
-        accelerometerSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+            //磁力传感器
+            magneticSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
+            //加速度传感器
+            accelerometerSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 
-        //初始化数组
-        //用来保存最终的结果
-        values = new float[3];
-        //用来保存加速度传感器的值
-        gravity = new float[3];
-        r = new float[9];
-        //用来保存地磁传感器的值
-        geomagnetic = new float[3];
-        if (null != magneticSensor && null != accelerometerSensor) {
-            init();
-        } else {
-            Log.e(TAG, TAG + ":" + getErrorInfo());
+            //初始化数组
+            //用来保存最终的结果
+            values = new float[3];
+            //用来保存加速度传感器的值
+            gravity = new float[3];
+            r = new float[9];
+            //用来保存地磁传感器的值
+            geomagnetic = new float[3];
+            if (null != magneticSensor && null != accelerometerSensor) {
+                init();
+            } else {
+                Log.e(TAG, TAG + ":" + getErrorInfo());
+            }
         }
-
 
     }
 
@@ -104,10 +107,8 @@ public class SensorEventHelper implements SensorEventListener {
     }
 
     private String getErrorInfo() {
-        StringBuilder builder = new StringBuilder();
-        builder.append(magneticSensor == null ? "设备没有磁力传感器" : "");
-        builder.append(accelerometerSensor == null ? "设备没有加速度传感器为" : "");
-        return builder.toString();
+        return (magneticSensor == null ? "设备没有磁力传感器" : "") +
+                (accelerometerSensor == null ? "设备没有加速度传感器为" : "");
     }
 
 
@@ -127,7 +128,7 @@ public class SensorEventHelper implements SensorEventListener {
 
     }
 
-    public void getValue() {
+    private void getValue() {
         // r从这里返回
         SensorManager.getRotationMatrix(r, null, gravity, geomagnetic);
         //values从这里返回
@@ -145,8 +146,18 @@ public class SensorEventHelper implements SensorEventListener {
 
     public interface OnRotationListener {
 
+        /**
+         * 角度回调
+         *
+         * @param angle 角度
+         */
         void onRotationChange(float angle);
 
+        /**
+         * 角度回调
+         *
+         * @param erroInfo 错误信息
+         */
         void onRotationFailed(String erroInfo);
 
 

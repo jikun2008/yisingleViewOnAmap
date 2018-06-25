@@ -10,6 +10,9 @@ import android.support.v4.app.Fragment;
 import android.view.View;
 import android.widget.AdapterView;
 
+/**
+ * @author jikun
+ */
 public class MapInfoWindowViewHolder {
 
 
@@ -101,15 +104,6 @@ public class MapInfoWindowViewHolder {
         return this;
     }
 
-    public MapInfoWindowViewHolder setImageUrl(Context aty, int viewId, String url) {
-        mHolderImpl.setImageUrl(aty, viewId, url);
-        return this;
-    }
-
-    public MapInfoWindowViewHolder setImageUrl(Fragment fmt, int viewId, String url) {
-        mHolderImpl.setImageUrl(fmt, viewId, url);
-        return this;
-    }
 
     public MapInfoWindowViewHolder setImageBitmap(int viewId, Bitmap bitmap) {
         mHolderImpl.setImageBitmap(viewId, bitmap);
@@ -142,7 +136,8 @@ public class MapInfoWindowViewHolder {
 
 
     public MapInfoWindowViewHolder setDrawableLeft(int viewId, Drawable drawable) {
-        mHolderImpl.setDrawableLeft(viewId, drawable); //设置左图标
+        //设置左图标
+        mHolderImpl.setDrawableLeft(viewId, drawable);
         return this;
     }
 

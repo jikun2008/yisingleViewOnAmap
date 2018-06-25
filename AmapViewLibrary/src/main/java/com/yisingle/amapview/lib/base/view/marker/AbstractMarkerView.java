@@ -466,7 +466,7 @@ public abstract class AbstractMarkerView<P extends BaseMarkerParam> extends Base
     }
 
 
-    protected MarkerOptions getInfoWindowMarkerOptions(BaseMarkerView.InfoWindowView infoWindowView) {
+    protected MarkerOptions getInfoWindowMarkerOptions(BaseMarkerView.BaseInfoWindowView infoWindowView) {
 
         //position 坐标
         MarkerOptions markerOptions = new MarkerOptions();

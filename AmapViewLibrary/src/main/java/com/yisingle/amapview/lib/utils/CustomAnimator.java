@@ -1,6 +1,5 @@
 package com.yisingle.amapview.lib.utils;
 
-import android.util.Log;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -75,7 +74,7 @@ public class CustomAnimator {
         }
 
 
-        //Log.e("测试代码", "测试代码----cancale");
+        //--------------Log0e("测试代码", "测试代码----cancale");
 
     }
 
@@ -97,12 +96,12 @@ public class CustomAnimator {
         public void run() {
             setRunning(true);
             while (!exitFlag.get()) {
-                //Log.e("测试代码", "测试代码+run--ThreadName=" + Thread.currentThread().getName());
+
                 try {
                     Thread.sleep(20L);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
-                    //Log.e("测试代码", "测试代码+run--InterruptedException=" + e.toString());
+
                 }
                 if (!exitFlag.get()) {
                     long currentTime = System.currentTimeMillis();
@@ -125,14 +124,14 @@ public class CustomAnimator {
 
                 start(true);
 
-                //Log.e("测试代码", "测试代码----repeat---" + "index=" + index + "--重新开启线程");
+                //--------------Log0e("测试代码", "测试代码----repeat---" + "index=" + index + "--重新开启线程");
 
             } else {
                 setRunning(false);
                 //Log.e("测试代码", "测试代码----end---" + "index=" + index + "--线程结束");
             }
 
-            //Log.e("测试代码", "测试代码----end---" + "index=" + index + "--线程结束");
+            //-----------Log0e("测试代码", "测试代码----end---" + "index=" + index + "--线程结束");
 
 
         }
@@ -154,10 +153,22 @@ public class CustomAnimator {
 
     public interface OnTimeListener {
 
+
+        /**
+         * 重新开始
+         */
         void onRepeatStart();
 
+        /**
+         * 开始
+         */
         void onStart();
 
+        /**
+         * 更新
+         *
+         * @param t float
+         */
         void onUpdate(float t);
 
 
@@ -184,6 +195,6 @@ public class CustomAnimator {
 
     public void setRunning(boolean isrun) {
         isrunning.set(isrun);
-        //Log.e("测试代码", "测试代码----setRunning---" + "setRunning=" + isrunning.get() + "");
+        //------------Log0e("测试代码", "测试代码----setRunning---" + "setRunning=" + isrunning.get() + "");
     }
 }

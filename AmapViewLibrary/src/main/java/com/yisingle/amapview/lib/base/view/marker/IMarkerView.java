@@ -11,11 +11,24 @@ import android.support.annotation.NonNull;
 public interface IMarkerView<W> {
 
 
-    void bindInfoWindowView(@NonNull BaseMarkerView.InfoWindowView<W> infoWindowView);
+    /**
+     * 绑定数据
+     *
+     * @param infoWindowView BaseInfoWindowView
+     */
+    void bindInfoWindowView(@NonNull BaseMarkerView.BaseInfoWindowView<W> infoWindowView);
 
 
+    /**
+     * 显示InfoWindow
+     *
+     * @param data W
+     */
     void showInfoWindow(W data);
 
+    /**
+     * 隐藏InfoWindow
+     */
     void hideInfoWindow();
 
 
