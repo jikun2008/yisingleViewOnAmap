@@ -68,11 +68,7 @@ public abstract class BaseMarkerView<P extends BaseMarkerParam, W> extends Abstr
 
     @Override
     public void destory() {
-        if (null != marker) {
-            marker.remove();
-            marker = null;
-
-        }
+        removeFromMap();
         infoData = null;
         if (null != infoWindowView) {
             infoWindowView.destory();
@@ -229,8 +225,9 @@ public abstract class BaseMarkerView<P extends BaseMarkerParam, W> extends Abstr
 
         /**
          * 绑定数据
+         *
          * @param viewHolder MapInfoWindowViewHolder
-         * @param data W
+         * @param data       W
          */
         public abstract void bindData(MapInfoWindowViewHolder viewHolder, W data);
 
