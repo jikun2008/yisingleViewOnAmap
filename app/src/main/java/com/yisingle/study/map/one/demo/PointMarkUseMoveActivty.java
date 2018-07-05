@@ -2,6 +2,7 @@ package com.yisingle.study.map.one.demo;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.View;
 
 import com.amap.api.maps.CameraUpdateFactory;
@@ -10,6 +11,7 @@ import com.amap.api.maps.model.BitmapDescriptorFactory;
 import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.LatLngBounds;
 import com.amap.api.maps.model.PolylineOptions;
+import com.yisingle.amapview.lib.base.view.marker.AbstractMarkerView;
 import com.yisingle.amapview.lib.base.view.marker.BaseMarkerView;
 import com.yisingle.amapview.lib.view.PointMarkerView;
 import com.yisingle.amapview.lib.viewholder.MapInfoWindowViewHolder;
@@ -19,6 +21,8 @@ import com.yisingle.study.map.one.base.BaseMapActivity;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.security.auth.login.LoginException;
 
 
 /**
@@ -67,6 +71,13 @@ public class PointMarkUseMoveActivty extends BaseMapActivity {
 
                 viewHolder.setText(R.id.tvInfoWindow, data);
 
+            }
+        });
+
+        moveMarkerView.setMoveListener(new AbstractMarkerView.OnMoveListener() {
+            @Override
+            public void onMove(LatLng latLng) {
+                Log.e("测试代码", "测试代码--" + "latitude=" + latLng.latitude + "--longitude=" + latLng.longitude);
             }
         });
 

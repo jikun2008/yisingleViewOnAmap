@@ -41,6 +41,8 @@ public abstract class AbstractMarkerView<P extends BaseMarkerParam> extends Base
 
     private List<LatLng> latLngList = new ArrayList<>();
 
+    private OnMoveListener moveListener;
+
 
     public AbstractMarkerView(Context context, AMap amap) {
         super(context, amap);
@@ -99,6 +101,10 @@ public abstract class AbstractMarkerView<P extends BaseMarkerParam> extends Base
     @Override
     public void onSetGeoPoint(IPoint point) {
         setGeoPoint(point);
+        if (null != moveListener && null != marker && null != marker.getPosition()) {
+
+            moveListener.onMove(marker.getPosition());
+        }
     }
 
 
@@ -466,6 +472,14 @@ public abstract class AbstractMarkerView<P extends BaseMarkerParam> extends Base
     }
 
 
+    public OnMoveListener getMoveListener() {
+        return moveListener;
+    }
+
+    public void setMoveListener(OnMoveListener moveListener) {
+        this.moveListener = moveListener;
+    }
+
     protected MarkerOptions getInfoWindowMarkerOptions(BaseMarkerView.BaseInfoWindowView infoWindowView) {
 
         //position 坐标
@@ -485,6 +499,12 @@ public abstract class AbstractMarkerView<P extends BaseMarkerParam> extends Base
         markerOptions.anchor(anchorH, 1f);
         //anchor 锚点
         return markerOptions;
+
+    }
+
+    public interface OnMoveListener {
+
+        void onMove(LatLng latLng);
 
     }
 
