@@ -9,8 +9,6 @@ import com.amap.api.services.core.LatLonPoint;
 public class PathPlaningParam {
 
 
-    private boolean isAuotDrawPath;
-
     private LatLonPoint startLatLonPoint;
 
     private LatLonPoint endLatLonPoint;
@@ -28,7 +26,7 @@ public class PathPlaningParam {
 
 
     public PathPlaningParam() {
-        this.isAuotDrawPath = true;
+
 
         trafficLineZindex = 0f;
 
@@ -55,14 +53,6 @@ public class PathPlaningParam {
 
     public void setEndLatLonPoint(LatLonPoint endLatLonPoint) {
         this.endLatLonPoint = endLatLonPoint;
-    }
-
-    public boolean isAuotDrawPath() {
-        return isAuotDrawPath;
-    }
-
-    public void setAuotDrawPath(boolean auotDrawPath) {
-        isAuotDrawPath = auotDrawPath;
     }
 
 

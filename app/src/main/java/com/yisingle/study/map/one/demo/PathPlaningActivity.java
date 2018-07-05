@@ -12,10 +12,8 @@ import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.LatLngBounds;
 import com.amap.api.services.core.LatLonPoint;
 import com.amap.api.services.route.DriveRouteResult;
-import com.yisingle.amapview.lib.base.view.marker.BaseMarkerView;
 import com.yisingle.amapview.lib.view.PathPlaningView;
 import com.yisingle.amapview.lib.view.PointMarkerView;
-import com.yisingle.amapview.lib.viewholder.MapInfoWindowViewHolder;
 import com.yisingle.study.map.one.R;
 import com.yisingle.study.map.one.base.BaseMapActivity;
 
@@ -36,7 +34,6 @@ public class PathPlaningActivity extends BaseMapActivity {
 
 
         pathPlaningView = new PathPlaningView.Builder(getApplicationContext(), getAmap())
-                .setAuotDrawPath(true)
                 .setEndMarkBuilder(
                         new PointMarkerView.Builder(getApplicationContext(), getAmap())
                                 .setText("终点")
@@ -84,7 +81,7 @@ public class PathPlaningActivity extends BaseMapActivity {
 
     private void planing(LatLonPoint start, LatLonPoint end) {
 
-        pathPlaningView.beginDriveRouteSearched(start, end,
+        pathPlaningView.beginDriveRouteSearched(start, end, true,
                 new PathPlaningView.OnPathPlaningCallBack() {
                     @Override
                     public void onStart() {

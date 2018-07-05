@@ -141,7 +141,7 @@ public class PathPlaningView<S, E> extends BaseView {
     /**
      * 开始路径规划
      */
-    public void beginDriveRouteSearched(LatLonPoint stratLatLonPoint, LatLonPoint endLatLonPoint, OnPathPlaningCallBack onPathPlaningCallBack) {
+    public void beginDriveRouteSearched(LatLonPoint stratLatLonPoint, LatLonPoint endLatLonPoint, final boolean isAuotDrawPath, OnPathPlaningCallBack onPathPlaningCallBack) {
 
         setStartLatLonPoint(stratLatLonPoint);
         setEndLatLonPoint(endLatLonPoint);
@@ -171,7 +171,7 @@ public class PathPlaningView<S, E> extends BaseView {
                     if (null != callBack) {
                         callBack.onSucccess(driveRouteResult);
                     }
-                    if (param.isAuotDrawPath()) {
+                    if (isAuotDrawPath) {
                         draw(driveRouteResult);
                     }
                 } else {
@@ -266,6 +266,14 @@ public class PathPlaningView<S, E> extends BaseView {
 
     }
 
+    public LatLonPoint getStartLatLonPoint() {
+        return getParam().getStartLatLonPoint();
+    }
+
+    public LatLonPoint getEndLatLonPoint() {
+        return getParam().getEndLatLonPoint();
+    }
+
 
     public interface OnPathPlaningCallBack {
 
@@ -333,11 +341,6 @@ public class PathPlaningView<S, E> extends BaseView {
             return this;
         }
 
-
-        public Builder setAuotDrawPath(boolean auotDrawPath) {
-            getParam().setAuotDrawPath(auotDrawPath);
-            return this;
-        }
 
         public Builder setStartMarkerZindex(float zindex) {
             getParam().setStartMarkerZindex(zindex);
