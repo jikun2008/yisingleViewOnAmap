@@ -1,4 +1,4 @@
-package com.yisingle.amapview.lib.utils;
+package com.yisingle.amapview.lib.helper;
 
 import android.content.Context;
 import android.hardware.Sensor;

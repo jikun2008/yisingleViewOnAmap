@@ -94,6 +94,11 @@ public class TextMarkerView<W> extends BaseMarkerView<TextMarkerParam, W> {
         }
     }
 
+    public void draw(LatLng latLng, String text) {
+        setPosition(latLng);
+        setText(text);
+    }
+
     @Override
     public void setPosition(LatLng latLng) {
         super.setPosition(latLng);

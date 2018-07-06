@@ -1,4 +1,4 @@
-package com.yisingle.amapview.lib.utils;
+package com.yisingle.amapview.lib.helper;
 
 import android.content.Context;
 import android.util.Log;
@@ -7,6 +7,7 @@ import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
+import com.yisingle.amapview.lib.utils.YiSingleDeBug;
 
 
 /**

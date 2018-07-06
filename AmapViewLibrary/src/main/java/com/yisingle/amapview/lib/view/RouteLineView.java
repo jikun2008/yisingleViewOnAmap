@@ -2,13 +2,10 @@ package com.yisingle.amapview.lib.view;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import com.amap.api.maps.AMap;
-import com.amap.api.maps.CameraUpdateFactory;
 import com.amap.api.maps.model.BitmapDescriptor;
 import com.amap.api.maps.model.LatLng;
-import com.amap.api.maps.model.LatLngBounds;
 import com.amap.api.services.core.LatLonPoint;
 import com.amap.api.services.route.DrivePath;
 import com.amap.api.services.route.DriveStep;
@@ -31,9 +28,6 @@ import java.util.List;
 public class RouteLineView extends BaseView {
 
 
-    private static final String TAG = RouteLineView.class.getSimpleName();
-
-
     /**
      * 一条路径规划的路线 如果显示交通状态  那么是由多个PolyLine组成的
      */
@@ -41,7 +35,7 @@ public class RouteLineView extends BaseView {
 
 
     /**
-     * 路线显示箭头
+     * 路线显示箭头 /SpatialRelationUtil spatialRelationUtil;
      */
     private BasePolyLineView arrowPolyLineView;
 
@@ -55,7 +49,7 @@ public class RouteLineView extends BaseView {
     private RouteLineParam routeLineParam;
 
 
-    private DrivePath drivePath;
+    private DrawData drawData;
 
 
     private RouteLineView(@NonNull Context context, @NonNull AMap amap, @NonNull RouteLineParam routeLineParam) {
@@ -82,35 +76,20 @@ public class RouteLineView extends BaseView {
     }
 
 
-    private void drawLine(DrivePath drivePath) {
-        if (null == drivePath) {
-            return;
+    public List<TMC> getTmcList() {
+        if (null == trafficPolyLinewView) {
+            return null;
+        } else {
+            return trafficPolyLinewView.getTmcList();
         }
-        //线路中所有的坐标
-        List<LatLng> totalLatLng = new ArrayList<>();
-        //线路中交通情况
-        List<TMC> trafficTmcs = new ArrayList<>();
-        //组装数据
-        List<DriveStep> driveStepList = drivePath.getSteps();
-        for (DriveStep step : driveStepList) {
-            // 获取交通状态不同的坐标点的集合
-            // 后面将根据trafficTmcs来进行交通状态画线
-            // trafficPolyLinewViews会根据trafficTmcs来画线
-            trafficTmcs.addAll(step.getTMCs());
-            //根据数据来区分将 defaultBasePolyLineView将根据这个来画线
-            List<LatLonPoint> latlonPoints = step.getPolyline();
-            for (LatLonPoint latlonpoint : latlonPoints) {
-                //将所有的点添加到totalLatLng中为后面使用做准备
-                totalLatLng.add(new LatLng(latlonpoint.getLatitude(), latlonpoint.getLongitude()));
-            }
-        }
+    }
 
-        trafficPolyLinewView.draw(trafficTmcs);
-        trafficPolyLinewView.setVisible(getRouteLineParam().isTrafficshow());
-        defaultBasePolyLineView.draw(totalLatLng);
-        defaultBasePolyLineView.setVisible(!getRouteLineParam().isTrafficshow());
-        arrowPolyLineView.draw(totalLatLng);
-        arrowPolyLineView.setVisible(getRouteLineParam().isArrowRouteShow());
+    public List<LatLng> getTotalLatLng() {
+        if (null == arrowPolyLineView) {
+            return null;
+        } else {
+            return arrowPolyLineView.getLatLngList();
+        }
 
 
     }
@@ -119,7 +98,7 @@ public class RouteLineView extends BaseView {
     @Override
     public void addToMap() {
         if (isRemove()) {
-            drawLine(getDrivePath());
+            draw(getDrawData());
         }
     }
 
@@ -149,6 +128,18 @@ public class RouteLineView extends BaseView {
 
     }
 
+    public BaseTrafficMutilyPolyLineView getTrafficPolyLinewView() {
+        return trafficPolyLinewView;
+    }
+
+    public BasePolyLineView getArrowPolyLineView() {
+        return arrowPolyLineView;
+    }
+
+    public BasePolyLineView getDefaultBasePolyLineView() {
+        return defaultBasePolyLineView;
+    }
+
     @Override
     public boolean isRemove() {
         return defaultBasePolyLineView.isRemove();
@@ -164,23 +155,33 @@ public class RouteLineView extends BaseView {
     }
 
 
-    public DrivePath getDrivePath() {
-        return drivePath;
-    }
-
-    public void setDrivePath(DrivePath drivePath) {
-        this.drivePath = drivePath;
-
+    public DrawData getDrawData() {
+        return drawData;
     }
 
 
     public void draw(DrivePath drivePath) {
-        this.drivePath = drivePath;
+        this.drawData = DrawData.produceDrawData(drivePath);
         if (isRemove()) {
             addToMap();
         } else {
-            drawLine(getDrivePath());
+            draw(getDrawData());
         }
+
+    }
+
+
+    public void draw(DrawData data) {
+        this.drawData = data;
+        if (null != drawData) {
+            trafficPolyLinewView.draw(drawData.getTrafficTmcs());
+            trafficPolyLinewView.setVisible(getRouteLineParam().isTrafficshow());
+            defaultBasePolyLineView.draw(drawData.getTotalLatlngList());
+            defaultBasePolyLineView.setVisible(!getRouteLineParam().isTrafficshow());
+            arrowPolyLineView.draw(drawData.getTotalLatlngList());
+            arrowPolyLineView.setVisible(getRouteLineParam().isArrowRouteShow());
+        }
+
 
     }
 
@@ -273,6 +274,79 @@ public class RouteLineView extends BaseView {
         }
 
 
+    }
+
+    public static class DrawData {
+        List<TMC> trafficTmcs;
+        List<LatLng> totalLatlngList;
+
+
+        private DrawData(List<TMC> trafficTmcs, List<LatLng> totalLatlngList) {
+            this.trafficTmcs = trafficTmcs;
+            this.totalLatlngList = totalLatlngList;
+        }
+
+
+        public List<TMC> getTrafficTmcs() {
+            return trafficTmcs;
+        }
+
+        public void setTrafficTmcs(List<TMC> trafficTmcs) {
+            this.trafficTmcs = trafficTmcs;
+        }
+
+        public List<LatLng> getTotalLatlngList() {
+            return totalLatlngList;
+        }
+
+        public void setTotalLatlngList(List<LatLng> totalLatlngList) {
+            this.totalLatlngList = totalLatlngList;
+        }
+
+
+        /**
+         * 生成 绘制的数据
+         *
+         * @param drivePath 地图路径规划返回的类
+         * @return 返回DrawData
+         */
+
+        public static DrawData produceDrawData(DrivePath drivePath) {
+            if (null == drivePath) {
+                return new DrawData(new ArrayList<TMC>(), new ArrayList<LatLng>());
+            }
+            //线路中所有的坐标
+            List<LatLng> totalLatLng = new ArrayList<>();
+
+
+            //线路中交通情况
+            List<TMC> trafficTmcs = new ArrayList<>();
+            //组装数据
+            List<DriveStep> driveStepList = drivePath.getSteps();
+            for (DriveStep step : driveStepList) {
+                // 获取交通状态不同的坐标点的集合
+                // 后面将根据trafficTmcs来进行交通状态画线
+                // trafficPolyLinewViews会根据trafficTmcs来画线
+                trafficTmcs.addAll(step.getTMCs());
+                //根据数据来区分将 defaultBasePolyLineView将根据这个来画线
+                List<LatLonPoint> latlonPoints = step.getPolyline();
+                for (LatLonPoint latlonpoint : latlonPoints) {
+                    //将所有的点添加到totalLatLng中为后面使用做准备
+                    totalLatLng.add(new LatLng(latlonpoint.getLatitude(), latlonpoint.getLongitude()));
+                }
+            }
+
+
+            return new DrawData(trafficTmcs, totalLatLng);
+
+        }
+
+
+        public static DrawData produceDrawData(List<TMC> trafficTmcs, List<LatLng> totalLatlngList) {
+
+            return new DrawData(trafficTmcs, totalLatlngList);
+
+        }
     }
 
 

@@ -10,6 +10,7 @@ import com.yisingle.amapview.lib.base.BaseView;
 import com.yisingle.amapview.lib.base.param.TrafficMutilyPolyLineParam;
 import com.yisingle.amapview.lib.utils.TrafficMutilyPolyLineUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -61,6 +62,11 @@ public class BaseTrafficMutilyPolyLineView extends BaseView {
 
         }
 
+    }
+
+
+    public List<BasePolyLineView> getTrafficPolyLineViews() {
+        return trafficPolyLineViews;
     }
 
 

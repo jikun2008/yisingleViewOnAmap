@@ -8,6 +8,7 @@ import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.Polyline;
 import com.amap.api.maps.model.PolylineOptions;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -67,6 +68,17 @@ public class BasePolyLineView extends AbstractPolyLineView {
     }
 
 
+    public List<LatLng> getLatLngList() {
+        if (null != polyline && null != polyline.getPoints()) {
+            return polyline.getPoints();
+
+        } else {
+            return new ArrayList<>();
+        }
+
+    }
+
+
     public Polyline getPolyline() {
         return polyline;
     }
@@ -99,4 +111,5 @@ public class BasePolyLineView extends AbstractPolyLineView {
             return basePolyLineView;
         }
     }
+
 }

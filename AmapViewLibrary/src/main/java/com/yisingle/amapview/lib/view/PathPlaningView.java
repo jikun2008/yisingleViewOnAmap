@@ -58,8 +58,6 @@ public class PathPlaningView<S, E> extends BaseView {
             endPointMarkerView.addToMap();
             simpleRouteLineView.addToMap();
         }
-
-
     }
 
 
@@ -84,6 +82,25 @@ public class PathPlaningView<S, E> extends BaseView {
         startPointMarkerView.setPosition(new LatLng(driveRouteResult.getStartPos().getLatitude(), driveRouteResult.getStartPos().getLongitude()));
         endPointMarkerView.setPosition(new LatLng(driveRouteResult.getTargetPos().getLatitude(), driveRouteResult.getTargetPos().getLongitude()));
         simpleRouteLineView.draw(driveRouteResult.getPaths().get(0));
+    }
+
+    /**
+     * 可以根据数据只画Line
+     *
+     * @param drawData DrawData
+     */
+    public void drawLine(RouteLineView.DrawData drawData) {
+        simpleRouteLineView.draw(drawData);
+    }
+
+
+    public RouteLineView.DrawData getRouteLineDrawData() {
+        if (null != simpleRouteLineView) {
+            return simpleRouteLineView.getDrawData();
+        } else {
+            return null;
+        }
+
 
     }
 

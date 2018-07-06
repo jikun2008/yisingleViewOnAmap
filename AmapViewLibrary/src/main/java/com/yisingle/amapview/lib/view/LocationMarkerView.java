@@ -12,8 +12,8 @@ import com.yisingle.amapview.lib.base.view.circle.BaseCircleView;
 import com.yisingle.amapview.lib.base.view.marker.BaseMarkerBuilder;
 import com.yisingle.amapview.lib.base.view.marker.BaseMarkerView;
 import com.yisingle.amapview.lib.param.LocationMarkerParam;
-import com.yisingle.amapview.lib.utils.AmapLocationHelper;
-import com.yisingle.amapview.lib.utils.SensorEventHelper;
+import com.yisingle.amapview.lib.helper.AmapLocationHelper;
+import com.yisingle.amapview.lib.helper.SensorEventHelper;
 
 /**
  * 定位Marker
