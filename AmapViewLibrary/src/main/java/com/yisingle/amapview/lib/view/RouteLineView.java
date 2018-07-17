@@ -194,7 +194,7 @@ public class RouteLineView extends BaseView {
 
         public Builder(@NonNull Context context, @NonNull AMap map) {
             super(context, map);
-            routeLineView = new RouteLineView(context, map, routeLineParam);
+
         }
 
 
@@ -269,8 +269,7 @@ public class RouteLineView extends BaseView {
 
 
         public RouteLineView create() {
-            routeLineView.setRouteLineParam(getRouteLineParam());
-            return routeLineView;
+            return new RouteLineView(getContext(), getMap(), routeLineParam);
         }
 
 
