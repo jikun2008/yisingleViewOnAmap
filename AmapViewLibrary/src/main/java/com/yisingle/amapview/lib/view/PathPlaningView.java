@@ -394,6 +394,17 @@ public class PathPlaningView<S, E> extends BaseView {
             return this;
         }
 
+        public RouteLineView.Builder getLineBuilder() {
+            return lineBuilder;
+        }
+
+        public PointMarkerView.Builder getStartMarkBuilder() {
+            return startMarkBuilder;
+        }
+
+        public PointMarkerView.Builder getEndMarkBuilder() {
+            return endMarkBuilder;
+        }
 
         public Builder(Context context, AMap map) {
             super(context, map);

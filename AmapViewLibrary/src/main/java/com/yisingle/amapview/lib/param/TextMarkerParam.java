@@ -36,7 +36,7 @@ public class TextMarkerParam extends BaseMarkerParam {
     /**
      * 是否只显示文字
      */
-    private boolean isOnlyTextShow = false;
+    private boolean isPointShow = true;
 
     /**
      * 文字描边默认值
@@ -155,12 +155,12 @@ public class TextMarkerParam extends BaseMarkerParam {
     }
 
 
-    public boolean isOnlyTextShow() {
-        return isOnlyTextShow;
+    public boolean isPointShow() {
+        return isPointShow;
     }
 
-    public void setOnlyTextShow(boolean onlyTextShow) {
-        isOnlyTextShow = onlyTextShow;
+    public void setPointShow(boolean pointShow) {
+        isPointShow = pointShow;
     }
 
     //添加支持注解的依赖到你的项目中，需要在build.gradle文件中的依赖块中添加：

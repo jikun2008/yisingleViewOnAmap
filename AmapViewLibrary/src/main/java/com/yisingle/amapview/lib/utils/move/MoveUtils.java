@@ -1,9 +1,10 @@
-package com.yisingle.amapview.lib.utils;
+package com.yisingle.amapview.lib.utils.move;
 
 import com.amap.api.maps.AMapUtils;
 import com.amap.api.maps.model.LatLng;
 import com.autonavi.amap.mapcore.IPoint;
 import com.autonavi.amap.mapcore.MapProjection;
+import com.yisingle.amapview.lib.utils.CustomAnimator;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;

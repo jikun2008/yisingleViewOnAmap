@@ -166,6 +166,11 @@ public class PointMarkerView<W> extends BaseMarkerView<PointMarkerParam, W> {
             return this;
         }
 
+        public Builder setTextVisible(boolean visible) {
+            textBuilder.setVisible(visible);
+            return this;
+        }
+
         public Builder setTextPaddingLeftOrRight(int padding) {
             textBuilder.setTextPaddingLeftOrRight(padding);
             return this;
@@ -188,8 +193,8 @@ public class PointMarkerView<W> extends BaseMarkerView<PointMarkerParam, W> {
             return this;
         }
 
-        public Builder setTextOnlyTextShow(boolean onlyTextShow) {
-            textBuilder.setTextOnlyTextShow(onlyTextShow);
+        public Builder setTextPointShow(boolean isshow) {
+            textBuilder.setTextPointShow(isshow);
             return this;
         }
 

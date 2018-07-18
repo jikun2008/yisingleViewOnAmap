@@ -51,6 +51,12 @@
         android:onClick="toPathPlaningActivity"
         android:text="路径规划界面" />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="toMoveCarOnPathPlaningActivity"
+        android:text="移动车辆路径规划效果" />
+
 
     <Button
         android:layout_width="wrap_content"

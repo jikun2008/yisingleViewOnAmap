@@ -51,7 +51,11 @@ public class TextMarkerView<W> extends BaseMarkerView<TextMarkerParam, W> {
             getParam().getTextMarkerOptions().icon(BitmapDescriptorFactory.fromBitmap(getTextBitMap(staticLayout)));
             getParam().getTextMarkerOptions().zIndex(getParam().getOptions().getZIndex());
             textMarker = getAmap().addMarker(getParam().getTextMarkerOptions());
-            getMarker().setVisible(!getParam().isOnlyTextShow());
+
+            getMarker().setVisible(getParam().getTextMarkerOptions().isVisible() && getParam().isPointShow());
+            textMarker.setVisible(getParam().getTextMarkerOptions().isVisible());
+
+
         }
 
     }
@@ -74,23 +78,20 @@ public class TextMarkerView<W> extends BaseMarkerView<TextMarkerParam, W> {
 
     }
 
-    public void setOnlyTextShow(boolean onlyTextShow) {
-        getParam().setOnlyTextShow(onlyTextShow);
-        if (null != getMarker()) {
-            getMarker().setVisible(!onlyTextShow);
+    public void setTextPointShow(boolean isshow) {
+        getParam().setPointShow(isshow);
+        if (null != getMarker() && null != textMarker) {
+            getMarker().setVisible(getParam().getTextMarkerOptions().isVisible() && getParam().isPointShow());
+            textMarker.setVisible(getParam().getTextMarkerOptions().isVisible());
         }
     }
 
     @Override
     public void setVisible(boolean isVisible) {
-        if (null != textMarker) {
-            if (getParam().isOnlyTextShow()) {
-                super.setVisible(false);
-            } else {
-                super.setVisible(isVisible);
-            }
-
-            textMarker.setVisible(isVisible);
+        getParam().getTextMarkerOptions().visible(isVisible);
+        if (null != getMarker() && null != textMarker) {
+            getMarker().setVisible(getParam().getTextMarkerOptions().isVisible() && getParam().isPointShow());
+            textMarker.setVisible(getParam().getTextMarkerOptions().isVisible());
         }
     }
 
@@ -345,6 +346,18 @@ public class TextMarkerView<W> extends BaseMarkerView<TextMarkerParam, W> {
             return this;
         }
 
+
+        public Builder setTextVisible(boolean visible) {
+            getParam().getTextMarkerOptions().visible(visible);
+            return this;
+        }
+
+        @Override
+        public Builder setVisible(boolean visible) {
+            getParam().getTextMarkerOptions().visible(visible);
+            return this;
+        }
+
         public Builder setTextPaddingLeftOrRight(int padding) {
             getParam().setPaddingLeftOrRight(padding);
             return this;
@@ -367,8 +380,8 @@ public class TextMarkerView<W> extends BaseMarkerView<TextMarkerParam, W> {
             return this;
         }
 
-        public Builder setTextOnlyTextShow(boolean onlyTextShow) {
-            getParam().setOnlyTextShow(onlyTextShow);
+        public Builder setTextPointShow(boolean isshow) {
+            getParam().setPointShow(isshow);
             return this;
         }
 

@@ -90,7 +90,7 @@ public class PointMarkActivity extends BaseMapActivity {
                 //设置单行文字最大字数 默认是6
                 .setTextMaxTextLength(6)
                 //是否只显示文字  默认值为false
-                .setTextOnlyTextShow(false)
+                .setTextPointShow(true)
                 //设置Ponit显示的图片
                 .setTextPointIcon(BitmapDescriptorFactory.fromResource(R.mipmap.hot_point))
                 //设置文字描边的范围 默认是6

@@ -14,7 +14,7 @@ import com.autonavi.amap.mapcore.IPoint;
 import com.yisingle.amapview.lib.base.BaseView;
 import com.yisingle.amapview.lib.base.param.BaseMarkerParam;
 import com.yisingle.amapview.lib.utils.InfoWindowUtils;
-import com.yisingle.amapview.lib.utils.MoveUtils;
+import com.yisingle.amapview.lib.utils.move.MoveUtils;
 import com.yisingle.amapview.lib.utils.ViewToBitMapUtil;
 
 import java.util.ArrayList;

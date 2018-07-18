@@ -43,6 +43,10 @@
         <activity
             android:name=".demo.ThreadActivity"
             android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".demo.DidiDetailActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>
