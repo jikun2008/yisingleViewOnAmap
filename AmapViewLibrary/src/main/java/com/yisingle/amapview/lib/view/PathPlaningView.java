@@ -12,6 +12,7 @@ import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.LatLngBounds;
 import com.amap.api.services.core.LatLonPoint;
 import com.amap.api.services.route.BusRouteResult;
+import com.amap.api.services.route.DrivePath;
 import com.amap.api.services.route.DriveRouteResult;
 import com.amap.api.services.route.RideRouteResult;
 import com.amap.api.services.route.RouteSearch;
@@ -46,6 +47,8 @@ public class PathPlaningView<S, E> extends BaseView {
 
     private OnPathPlaningCallBack callBack;
 
+    private DrivePath drivePath;
+
     private PathPlaningView(Context context, AMap amap, @NonNull PathPlaningParam param) {
         super(context, amap);
         this.param = param;
@@ -79,9 +82,12 @@ public class PathPlaningView<S, E> extends BaseView {
     }
 
     public void draw(DriveRouteResult driveRouteResult) {
-        startPointMarkerView.setPosition(new LatLng(driveRouteResult.getStartPos().getLatitude(), driveRouteResult.getStartPos().getLongitude()));
-        endPointMarkerView.setPosition(new LatLng(driveRouteResult.getTargetPos().getLatitude(), driveRouteResult.getTargetPos().getLongitude()));
-        simpleRouteLineView.draw(driveRouteResult.getPaths().get(0));
+        if (null != driveRouteResult && null != driveRouteResult.getPaths() && driveRouteResult.getPaths().size() > 0) {
+            startPointMarkerView.setPosition(new LatLng(driveRouteResult.getStartPos().getLatitude(), driveRouteResult.getStartPos().getLongitude()));
+            endPointMarkerView.setPosition(new LatLng(driveRouteResult.getTargetPos().getLatitude(), driveRouteResult.getTargetPos().getLongitude()));
+            drivePath = driveRouteResult.getPaths().get(0);
+            simpleRouteLineView.draw(drivePath);
+        }
     }
 
     /**
@@ -445,5 +451,11 @@ public class PathPlaningView<S, E> extends BaseView {
 
     }
 
+    public DrivePath getDrivePath() {
+        return drivePath;
+    }
 
+    public void setDrivePath(DrivePath drivePath) {
+        this.drivePath = drivePath;
+    }
 }

@@ -19,6 +19,8 @@ import com.yisingle.amapview.lib.utils.ditance.DistanceUtils;
 import com.yisingle.amapview.lib.view.PathPlaningView;
 import com.yisingle.amapview.lib.view.RouteLineView;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -51,6 +53,8 @@ public class MovePathPlanningUtils {
 
 
     private PathPlaningView pathPlaningView;
+
+    private DistanceDurationData distanceDurationData;
 
 
     public MovePathPlanningUtils(Context context, PathPlaningView pathPlaningView) {
@@ -88,6 +92,10 @@ public class MovePathPlanningUtils {
                         isRouteSearchSuccess = true;
                         if (null != pathPlaningView) {
                             pathPlaningView.draw(driveRouteResult);
+
+                            if (null != pathPlaningView && null != pathPlaningView.getDrivePath()) {
+                                distanceDurationData = new DistanceDurationData(pathPlaningView.getDrivePath().getDistance(), pathPlaningView.getDrivePath().getDuration());
+                            }
                         }
                     }
 
@@ -208,6 +216,11 @@ public class MovePathPlanningUtils {
 
 
                 }
+
+                @Override
+                public void onMoveDistance(float moveDistance) {
+
+                }
             });
         }
 
@@ -237,8 +250,51 @@ public class MovePathPlanningUtils {
                     isRouteSearchSuccess = false;
 
                 }
+
+                @Override
+                public void onMoveDistance(float moveDistance) {
+
+                    if (null != distanceDurationData) {
+
+                        calculatDistanceAndDuration(distanceDurationData, moveDistance);
+
+                        Log.e("测试代码", "测试代码" + distanceDurationData.toString());
+
+                    }
+                }
             });
         }
+
+    }
+
+
+    /**
+     * 计算距离和时间
+     */
+    private void calculatDistanceAndDuration(@NonNull DistanceDurationData data, float moveDistance) {
+        if(data.getDistance()<=0){
+            data.setDistance(1);
+        }
+        if (0 != data.getDuration()) {
+            BigDecimal speed = new BigDecimal(data.getDistance()).divide(new BigDecimal(data.getDuration()), 2, RoundingMode.HALF_DOWN);
+            data.setDistance(data.getDistance() - moveDistance);
+            if (0 != speed.intValue()) {
+                long nowduration = new BigDecimal(data.getDistance()).divide(speed, 2, RoundingMode.HALF_DOWN).longValue();
+                data.setDuration(nowduration);
+            }
+
+
+        }
+
+        if(data.getDistance()<=0){
+            data.setDistance(1);
+        }
+        if(data.getDuration()<=0){
+               data.setDuration(60);
+        }
+
+
+
 
     }
 
@@ -267,8 +323,12 @@ public class MovePathPlanningUtils {
         latLngList.set(pair.first, new LatLng(move.getLatitude(), move.getLongitude()));
 
         latLngList.subList(0, pair.first).clear();
+        //Log.e("测试代码", "测试代码距离shortDistance=" + shortDistance);
+
+
 //        List<LatLng> subList = latLngList.subList(pair.first, latLngList.size());
         if (null != onCallBack) {
+            onCallBack.onMoveDistance(shortDistance);
             onCallBack.onListCallBack(latLngList);
         }
 
@@ -310,5 +370,49 @@ public class MovePathPlanningUtils {
          */
         void onFarAwayPath();
 
+        /**
+         * 移动过的距离
+         *
+         * @param moveDistance
+         */
+        void onMoveDistance(float moveDistance);
+
     }
+
+    public static class DistanceDurationData {
+        private float distance;
+        private long duration;
+
+        public DistanceDurationData(float distance, long duration) {
+            this.distance = distance;
+            this.duration = duration;
+        }
+
+
+        public float getDistance() {
+            return distance;
+        }
+
+        public void setDistance(float distance) {
+            this.distance = distance;
+        }
+
+        public long getDuration() {
+            return duration;
+        }
+
+        public void setDuration(long duration) {
+            this.duration = duration;
+        }
+
+        @Override
+        public String toString() {
+            return "DistanceDurationData{" +
+                    "distance=" + distance +
+                    ", duration=" + duration +
+                    '}';
+        }
+    }
+
+
 }
