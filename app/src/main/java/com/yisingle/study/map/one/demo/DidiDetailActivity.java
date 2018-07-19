@@ -8,7 +8,11 @@ import com.amap.api.maps.CameraUpdateFactory;
 import com.amap.api.maps.TextureMapView;
 import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.LatLngBounds;
+import com.yisingle.amapview.lib.base.view.marker.BaseMarkerView;
+import com.yisingle.amapview.lib.utils.move.MovePathPlanningUtils;
+import com.yisingle.amapview.lib.utils.move.MovePathPlanningUtils.DistanceDurationData;
 import com.yisingle.amapview.lib.view.CarMoveOnPathPlaningView;
+import com.yisingle.amapview.lib.viewholder.MapInfoWindowViewHolder;
 import com.yisingle.study.map.one.R;
 import com.yisingle.study.map.one.TestDataUtils;
 import com.yisingle.study.map.one.base.BaseMapActivity;
@@ -24,9 +28,9 @@ public class DidiDetailActivity extends BaseMapActivity {
 
     private TextureMapView textureMapView;
 
-    private CarMoveOnPathPlaningView carMoveOnLineViewGroup;
+    private CarMoveOnPathPlaningView<DistanceDurationData, String, String> carMoveOnLineViewGroup;
 
-    private List<LatLng> nowListPoints = TestDataUtils.readLatLngsAll();
+    private List<LatLng> nowListPoints = TestDataUtils.readLatLngscarMove();
 
 
     @Override
@@ -46,6 +50,20 @@ public class DidiDetailActivity extends BaseMapActivity {
                 .create();
 
         carMoveOnLineViewGroup.startMove(nowListPoints, new LatLng(30.657616, 104.06625));
+        carMoveOnLineViewGroup.bingMoveCarInfoWindowView(new BaseMarkerView.BaseInfoWindowView<DistanceDurationData>(R.layout.info_window, null) {
+            @Override
+            public void bindData(MapInfoWindowViewHolder viewHolder, DistanceDurationData data) {
+                viewHolder.setText(R.id.tvInfoWindow, "距离=" + data.getDistance() + "时间=" + data.getDuration());
+
+            }
+        });
+
+        carMoveOnLineViewGroup.setListener(new MovePathPlanningUtils.OnDistanceDurationListener() {
+            @Override
+            public void onDataCallBack(MovePathPlanningUtils.DistanceDurationData data) {
+                carMoveOnLineViewGroup.showMoveCarInfoWindow(data);
+            }
+        });
         moveCamre(nowListPoints);
 
 

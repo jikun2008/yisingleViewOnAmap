@@ -300,4 +300,14 @@ public class TestDataUtils {
     }
 
 
+    public static List<LatLng> readLatLngscarMove() {
+
+        List<LatLng> points = new ArrayList<>();
+        for (int i = 0; i < coordsresumeLong.length; i += 2) {
+            points.add(new LatLng(coordsresumeLong[i], coordsresumeLong[i + 1]));
+        }
+        return points;
+    }
+
+
 }

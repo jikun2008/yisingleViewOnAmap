@@ -10,6 +10,7 @@ import com.yisingle.amap.lib.R;
 import com.yisingle.amapview.lib.base.BaseBuilder;
 import com.yisingle.amapview.lib.base.BaseView;
 import com.yisingle.amapview.lib.base.view.marker.AbstractMarkerView;
+import com.yisingle.amapview.lib.base.view.marker.BaseMarkerView;
 import com.yisingle.amapview.lib.utils.move.MovePathPlanningUtils;
 
 import java.util.List;
@@ -62,6 +63,13 @@ public class CarMoveOnPathPlaningView<C, S, E> extends BaseView {
         startMove(list);
     }
 
+    public void setListener(MovePathPlanningUtils.OnDistanceDurationListener listener) {
+        if (null != movePathPlanningUtils) {
+            movePathPlanningUtils.setOnDistanceDurationListener(listener);
+        }
+    }
+
+
     private void startMove(List<LatLng> list) {
 
         if (null != list && list.size() > 0 && null != carMoveMarkerView) {
@@ -89,6 +97,26 @@ public class CarMoveOnPathPlaningView<C, S, E> extends BaseView {
         }
 
 
+    }
+
+    public void bingMoveCarInfoWindowView(BaseMarkerView.BaseInfoWindowView<C> infoWindowView) {
+        if (null != carMoveMarkerView) {
+            carMoveMarkerView.bindInfoWindowView(infoWindowView);
+        }
+
+    }
+
+
+    public void showMoveCarInfoWindow(C data) {
+        if (null != carMoveMarkerView) {
+            carMoveMarkerView.showInfoWindow(data);
+        }
+    }
+
+    public void hideMoveCarInfoWindow() {
+        if (null != carMoveMarkerView) {
+            carMoveMarkerView.hideInfoWindow();
+        }
     }
 
     @Deprecated
@@ -139,6 +167,7 @@ public class CarMoveOnPathPlaningView<C, S, E> extends BaseView {
     public void setPathPlaningView(PathPlaningView<S, E> pathPlaningView) {
         this.pathPlaningView = pathPlaningView;
     }
+
 
     public static final class Builder extends BaseBuilder {
         private PointMarkerView.Builder carMoveMarkerBuilder;

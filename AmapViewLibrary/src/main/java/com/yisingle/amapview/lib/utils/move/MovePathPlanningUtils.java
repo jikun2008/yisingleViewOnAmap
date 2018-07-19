@@ -56,6 +56,8 @@ public class MovePathPlanningUtils {
 
     private DistanceDurationData distanceDurationData;
 
+    private OnDistanceDurationListener onDistanceDurationListener;
+
 
     public MovePathPlanningUtils(Context context, PathPlaningView pathPlaningView) {
         this.context = context;
@@ -95,6 +97,9 @@ public class MovePathPlanningUtils {
 
                             if (null != pathPlaningView && null != pathPlaningView.getDrivePath()) {
                                 distanceDurationData = new DistanceDurationData(pathPlaningView.getDrivePath().getDistance(), pathPlaningView.getDrivePath().getDuration());
+                                if (null != onDistanceDurationListener) {
+                                    onDistanceDurationListener.onDataCallBack(distanceDurationData);
+                                }
                             }
                         }
                     }
@@ -258,7 +263,10 @@ public class MovePathPlanningUtils {
 
                         calculatDistanceAndDuration(distanceDurationData, moveDistance);
 
-                        Log.e("测试代码", "测试代码" + distanceDurationData.toString());
+                        if (null != onDistanceDurationListener) {
+                            onDistanceDurationListener.onDataCallBack(distanceDurationData);
+                        }
+                        Log.e("测试代码", "测试代码距离和时间=" + distanceDurationData.toString());
 
                     }
                 }
@@ -272,7 +280,7 @@ public class MovePathPlanningUtils {
      * 计算距离和时间
      */
     private void calculatDistanceAndDuration(@NonNull DistanceDurationData data, float moveDistance) {
-        if(data.getDistance()<=0){
+        if (data.getDistance() <= 0) {
             data.setDistance(1);
         }
         if (0 != data.getDuration()) {
@@ -286,14 +294,12 @@ public class MovePathPlanningUtils {
 
         }
 
-        if(data.getDistance()<=0){
+        if (data.getDistance() <= 0) {
             data.setDistance(1);
         }
-        if(data.getDuration()<=0){
-               data.setDuration(60);
+        if (data.getDuration() <= 0) {
+            data.setDuration(60);
         }
-
-
 
 
     }
@@ -323,10 +329,7 @@ public class MovePathPlanningUtils {
         latLngList.set(pair.first, new LatLng(move.getLatitude(), move.getLongitude()));
 
         latLngList.subList(0, pair.first).clear();
-        //Log.e("测试代码", "测试代码距离shortDistance=" + shortDistance);
 
-
-//        List<LatLng> subList = latLngList.subList(pair.first, latLngList.size());
         if (null != onCallBack) {
             onCallBack.onMoveDistance(shortDistance);
             onCallBack.onListCallBack(latLngList);
@@ -348,10 +351,18 @@ public class MovePathPlanningUtils {
         return context;
     }
 
+    public OnDistanceDurationListener getOnDistanceDurationListener() {
+        return onDistanceDurationListener;
+    }
+
+    public void setOnDistanceDurationListener(OnDistanceDurationListener onDistanceDurationListener) {
+        this.onDistanceDurationListener = onDistanceDurationListener;
+    }
 
     public void detory() {
         threadPoolExecutor.shutdownNow();
         pathPlaningView = null;
+        onDistanceDurationListener = null;
     }
 
 
@@ -376,6 +387,13 @@ public class MovePathPlanningUtils {
          * @param moveDistance
          */
         void onMoveDistance(float moveDistance);
+
+    }
+
+
+    public static interface OnDistanceDurationListener {
+
+        void onDataCallBack(DistanceDurationData data);
 
     }
 
