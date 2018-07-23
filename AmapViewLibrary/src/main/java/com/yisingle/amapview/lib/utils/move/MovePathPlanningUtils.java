@@ -2,7 +2,6 @@ package com.yisingle.amapview.lib.utils.move;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
-import android.util.Log;
 import android.util.Pair;
 
 import com.amap.api.maps.model.LatLng;
@@ -77,7 +76,7 @@ public class MovePathPlanningUtils {
 
     private void searchRoute(LatLonPoint stratLatLonPoint, LatLonPoint endLatLonPoint) {
 
-        Log.e("测试代码", "测试代码距离+searchRoute");
+        //searchRoute
         isRouteSearching = true;
         RouteSearch routeSearch = new RouteSearch(getContext());
         routeSearch.setRouteSearchListener(new RouteSearch.OnRouteSearchListener() {
@@ -106,7 +105,7 @@ public class MovePathPlanningUtils {
 
                 } else {
 
-                    // Log.e("测试代码", "测试代码距离+searchRoute--failed");
+                    //searchRoute--failed
                 }
             }
 
@@ -266,7 +265,6 @@ public class MovePathPlanningUtils {
                         if (null != onDistanceDurationListener) {
                             onDistanceDurationListener.onDataCallBack(distanceDurationData);
                         }
-                        Log.e("测试代码", "测试代码距离和时间=" + distanceDurationData.toString());
 
                     }
                 }

@@ -18,7 +18,7 @@ import java.util.List;
 public class MoveUtils {
 
 
-    private final int limitSize=2;
+    private final int limitSize = 2;
     private CustomAnimator customAnimator = new CustomAnimator();
 
     private int index;
@@ -130,7 +130,7 @@ public class MoveUtils {
                 if (latLngList.size() >= limitSize) {
                     calculate();
                 } else {
-                    //-----------Log0e("测试代码", "测试代码--未能开始移动 因为坐标集合数量小于2");
+                    //未能开始移动 因为坐标集合数量小于2
                     customAnimator.end();
                 }
 
@@ -141,7 +141,7 @@ public class MoveUtils {
 
 
                 if (!isOver) {
-                    // Log0e("测试代码", "测试代码---onUpdate");
+                    //---onUpdate
                     Float value = t;
                     int plugX = nextPoint.x - startIPoint.x;
                     int plugY = nextPoint.y - startIPoint.y;
@@ -175,7 +175,6 @@ public class MoveUtils {
 
             int time = new BigDecimal(distance).divide(new BigDecimal(speed), 3, RoundingMode.HALF_DOWN).multiply(new BigDecimal(1000)).intValue();
 
-            //Log0e("测试代码", "测试代码time=" + time + "index=" + index);
 
             customAnimator.setDuration(time);
         }

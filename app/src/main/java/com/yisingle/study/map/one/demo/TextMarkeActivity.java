@@ -81,8 +81,6 @@ public class TextMarkeActivity extends BaseMapActivity {
 
     public void testChangeText(View view) {
 
-        Log.e("测试代码", "测试代码U" + textMarkerView.getMarker().getAnchorU());
-        Log.e("测试代码", "测试代码V" + textMarkerView.getMarker().getAnchorV());
         if ("王王王王王".equals(textMarkerView.getText())) {
             textMarkerView.setText("王王王王王123");
         } else {

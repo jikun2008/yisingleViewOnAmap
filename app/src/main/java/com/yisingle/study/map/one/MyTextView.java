@@ -56,17 +56,13 @@ public class MyTextView extends View {
         textPaint.setTextSize(120);
 
         canvas.drawBitmap(getTextBitMap(textPaint), 0, 0, textPaint);
-
-//        StaticLayout staticLayout = new StaticLayout("测试代码测试代码", textPaint, 300, Layout.Alignment.ALIGN_CENTER, 1.0f, 0.0f, true);
-//        canvas.drawRect(0, 0, staticLayout.getWidth(), staticLayout.getHeight(), paint);
-//        staticLayout.draw(canvas);
     }
 
 
     private Bitmap getTextBitMap(TextPaint textPaint) {
         //获取最大MaxWidth
         float maxWidth = TextPaintUtils.getMaxTextWidth(textPaint, 1);
-        StaticLayout staticLayout = new StaticLayout("测试代码测试代码", textPaint, (int) maxWidth, Layout.Alignment.ALIGN_CENTER, 1.0f, 0.0f, true);
+        StaticLayout staticLayout = new StaticLayout("文字显示", textPaint, (int) maxWidth, Layout.Alignment.ALIGN_CENTER, 1.0f, 0.0f, true);
         Bitmap bitmap = Bitmap.createBitmap(staticLayout.getWidth(),
                 staticLayout.getHeight(), Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bitmap);

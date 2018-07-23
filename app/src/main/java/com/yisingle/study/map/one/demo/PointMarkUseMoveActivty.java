@@ -77,12 +77,12 @@ public class PointMarkUseMoveActivty extends BaseMapActivity {
         moveMarkerView.setMoveListener(new AbstractMarkerView.OnMoveListener() {
             @Override
             public void onMove(LatLng latLng) {
-                Log.e("测试代码", "测试代码--" + "latitude=" + latLng.latitude + "--longitude=" + latLng.longitude);
+
             }
         });
 
 
-        moveMarkerView.showInfoWindow("我的代码");
+        moveMarkerView.showInfoWindow("infoWindow显示");
 
     }
 

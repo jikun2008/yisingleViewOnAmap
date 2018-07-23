@@ -74,7 +74,7 @@ public class CustomAnimator {
         }
 
 
-        //--------------Log0e("测试代码", "测试代码----cancale");
+        //----cancale
 
     }
 
@@ -124,14 +124,14 @@ public class CustomAnimator {
 
                 start(true);
 
-                //--------------Log0e("测试代码", "测试代码----repeat---" + "index=" + index + "--重新开启线程");
+                //-----重新开启线程
 
             } else {
                 setRunning(false);
-                //Log.e("测试代码", "测试代码----end---" + "index=" + index + "--线程结束");
+                //--线程结束
             }
 
-            //-----------Log0e("测试代码", "测试代码----end---" + "index=" + index + "--线程结束");
+            //--线程结束
 
 
         }
@@ -195,6 +195,5 @@ public class CustomAnimator {
 
     public void setRunning(boolean isrun) {
         isrunning.set(isrun);
-        //------------Log0e("测试代码", "测试代码----setRunning---" + "setRunning=" + isrunning.get() + "");
     }
 }

@@ -29,8 +29,8 @@ public class TrafficMutilyPolyLineUtils {
         List<TrafficStateData> list = buildTrafficListData(tmcList);
         boolean isPolyLineMore = polyLineViewList.size() > list.size();
 
-        //-------------------------Log0e("测试代码", "测试代码traffic" + "-----新的TrafficStateData0size = " + list0size());
-        //-------------------------Log0e("测试代码", "测试代码traffic" + "-----原始的PolyLineViewList数量大小 = " + polyLineViewList0size());
+        //-----新的TrafficStateData0size = " + list0size());
+        //-----原始的PolyLineViewList数量大小 = " + polyLineViewList0size());
         int count = 0;
         for (int i = 0; i < list.size(); i++) {
             TrafficStateData trafficStateData = list.get(i);
@@ -56,7 +56,6 @@ public class TrafficMutilyPolyLineUtils {
                 polyLineViewList.add(basePolyLineView);
             }
         }
-        //Log0e("测试代码", "测试代码traffic" + "-----添加了PolyLineView的数量为 size=" + count);
 
         if (isPolyLineMore) {
             //移除多余的PolyLineView
@@ -64,7 +63,7 @@ public class TrafficMutilyPolyLineUtils {
             for (int i = list.size(); i < polyLineViewList.size(); i++) {
                 moreThanPolyLineViewList.add(polyLineViewList.get(i));
             }
-            //Log0e("测试代码", "测试代码traffic  移除了moreThanPolyLineView的数量为 size=" + moreThanPolyLineViewList0size());
+            //traffic  移除了moreThanPolyLineView的数量为 size=" + moreThanPolyLineViewList0size());
             polyLineViewList.removeAll(moreThanPolyLineViewList);
 
             for (BasePolyLineView view : moreThanPolyLineViewList) {
@@ -73,7 +72,7 @@ public class TrafficMutilyPolyLineUtils {
             }
         }
 
-        //("测试代码", "测试代码traffic 最后产生的值=" + list0size() + "-----polyLineViewList0size数量大小=" + polyLineViewList0size());
+        // + list0size() + "-----polyLineViewList0size数量大小=" + polyLineViewList0size());
         return polyLineViewList;
 
     }
