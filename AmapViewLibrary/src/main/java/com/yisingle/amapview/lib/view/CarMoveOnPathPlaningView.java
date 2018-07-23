@@ -103,7 +103,6 @@ public class CarMoveOnPathPlaningView<C, S, E> extends BaseView {
         if (null != carMoveMarkerView) {
             carMoveMarkerView.bindInfoWindowView(infoWindowView);
         }
-
     }
 
 
@@ -117,6 +116,23 @@ public class CarMoveOnPathPlaningView<C, S, E> extends BaseView {
         if (null != carMoveMarkerView) {
             carMoveMarkerView.hideInfoWindow();
         }
+    }
+
+
+    public PointMarkerView<C> getCarMoveMarkerView() {
+        return carMoveMarkerView;
+    }
+
+    public PathPlaningView<S, E> getPathPlaningView() {
+        return pathPlaningView;
+    }
+
+    public MovePathPlanningUtils getMovePathPlanningUtils() {
+        return movePathPlanningUtils;
+    }
+
+    public LatLng getEndLatlng() {
+        return endLatlng;
     }
 
     @Deprecated
