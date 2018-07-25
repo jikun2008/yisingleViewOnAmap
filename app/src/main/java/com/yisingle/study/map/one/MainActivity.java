@@ -18,6 +18,7 @@ import com.yisingle.study.map.one.demo.LocationMarkerActivity;
 import com.yisingle.study.map.one.demo.PointMarkUseMoveActivty;
 import com.yisingle.study.map.one.demo.PathPlaningActivity;
 import com.yisingle.study.map.one.demo.PointMarkActivity;
+import com.yisingle.study.map.one.demo.TestMemoryActivity;
 import com.yisingle.study.map.one.demo.TextMarkeActivity;
 import com.yisingle.study.map.one.demo.ThreadActivity;
 
@@ -120,6 +121,12 @@ public class MainActivity extends AppCompatActivity {
     public void toThreadActivity(View view) {
         Intent intent = new Intent();
         intent.setClass(this, ThreadActivity.class);
+        startActivity(intent);
+    }
+
+    public void toMemoryActiviy(View view){
+        Intent intent = new Intent();
+        intent.setClass(this, TestMemoryActivity.class);
         startActivity(intent);
     }
 

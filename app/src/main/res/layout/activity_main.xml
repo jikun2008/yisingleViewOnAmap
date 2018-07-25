@@ -61,6 +61,12 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:onClick="toMemoryActiviy"
+        android:text="去内存界面" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:onClick="toThreadActivity"
         android:text="线程池界面" />
 

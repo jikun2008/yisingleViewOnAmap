@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.amap.api.maps.AMap;
 import com.amap.api.maps.CameraUpdateFactory;
+import com.amap.api.maps.model.BitmapDescriptor;
 import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.Marker;
 import com.amap.api.maps.model.MarkerOptions;
@@ -20,6 +21,12 @@ import com.yisingle.amap.lib.R;
 import com.yisingle.amapview.lib.base.param.BaseMarkerParam;
 import com.yisingle.amapview.lib.utils.YiSingleDeBug;
 import com.yisingle.amapview.lib.viewholder.MapInfoWindowViewHolder;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 
 /**
@@ -37,10 +44,22 @@ public abstract class BaseMarkerView<P extends BaseMarkerParam, W> extends Abstr
 
     private final String TAG = BaseMarkerView.class.getSimpleName();
 
+    private ThreadPoolExecutor threadPoolExecutor;
+
+    private List<BitmapDescriptor> bitmapList = new ArrayList<>();
+
 
     protected BaseMarkerView(@NonNull Context context, @NonNull AMap amap, @NonNull P param) {
         super(context, amap);
         this.param = param;
+        //线程池  采用  线程池数为1 的
+        threadPoolExecutor = new ThreadPoolExecutor(
+                1,
+                1,
+                50,
+                TimeUnit.SECONDS,
+                new ArrayBlockingQueue<Runnable>(1), new ThreadPoolExecutor.DiscardOldestPolicy());
+
     }
 
 
@@ -69,10 +88,16 @@ public abstract class BaseMarkerView<P extends BaseMarkerParam, W> extends Abstr
     @Override
     public void destory() {
         removeFromMap();
+        for (int i = 0; i < bitmapList.size(); i++) {
+            bitmapList.get(i).recycle();
+
+        }
+
         infoData = null;
         if (null != infoWindowView) {
             infoWindowView.destory();
         }
+        threadPoolExecutor.shutdownNow();
         super.destory();
     }
 
@@ -100,30 +125,48 @@ public abstract class BaseMarkerView<P extends BaseMarkerParam, W> extends Abstr
         if (null != infoWindowView) {
             infoWindowView.setInfoData(data);
         }
-
-        if (null == marker || null == infoWindowView) {
-            return;
-        }
-
-        MarkerOptions infoWindowParam = getInfoWindowMarkerOptions(infoWindowView);
-        if (null == infoMarker || infoMarker.isRemoved()) {
-
-            infoMarker = getAmap().addMarker(infoWindowParam);
-
-            infoMarker.setAnchor(infoWindowParam.getAnchorU(), 1f);
+        threadPoolExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                if (null == marker || null == infoWindowView) {
+                    return;
+                }
 
 
-        } else {
-            if (!infoMarker.isVisible()) {
-                infoMarker.setVisible(true);
+                MarkerOptions infoWindowParam = getInfoWindowMarkerOptions(infoWindowView);
+
+
+                if (null == infoMarker || infoMarker.isRemoved()) {
+                    if (null != getAmap()) {
+                        infoMarker = getAmap().addMarker(infoWindowParam);
+
+                        infoMarker.setAnchor(infoWindowParam.getAnchorU(), 1f);
+
+                        infoMarker.setVisible(true);
+                    }
+
+                } else {
+
+                    if (null != infoMarker) {
+                        if (!infoMarker.isVisible()) {
+                            infoMarker.setVisible(true);
+                        }
+                    }
+                    if (null != infoMarker) {
+                        infoMarker.setPosition(infoWindowParam.getPosition());
+                    }
+                    if (null != infoMarker) {
+                        infoMarker.setAnchor(infoWindowParam.getAnchorU(), 1f);
+                    }
+
+                    if (null != infoMarker) {
+                        infoMarker.setIcon(infoWindowParam.getIcon());
+                    }
+
+
+                }
             }
-            infoMarker.setPosition(infoWindowParam.getPosition());
-            infoMarker.setAnchor(infoWindowParam.getAnchorU(), 1f);
-            infoMarker.setIcon(infoWindowParam.getIcon());
-
-        }
-
-
+        });
     }
 
 

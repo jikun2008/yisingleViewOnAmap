@@ -2,6 +2,7 @@ package com.yisingle.study.map.one.demo;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.View;
 
 import com.amap.api.maps.CameraUpdateFactory;
@@ -49,10 +50,11 @@ public class DidiDetailActivity extends BaseMapActivity {
         carMoveOnLineViewGroup = new CarMoveOnPathPlaningView.Builder(getApplicationContext(), getAmap())
                 .create();
 
-        carMoveOnLineViewGroup.startMove(nowListPoints, new LatLng(30.657616, 104.06625));
+
         carMoveOnLineViewGroup.bingMoveCarInfoWindowView(new BaseMarkerView.BaseInfoWindowView<DistanceDurationData>(R.layout.info_window, null) {
             @Override
             public void bindData(MapInfoWindowViewHolder viewHolder, DistanceDurationData data) {
+                Log.e("测试代码","测试代码Thread=="+Thread.currentThread().getName());
                 viewHolder.setText(R.id.tvInfoWindow, "距离=" + data.getDistance() + "时间=" + data.getDuration());
 
             }
@@ -65,6 +67,7 @@ public class DidiDetailActivity extends BaseMapActivity {
             }
         });
         moveCamre(nowListPoints);
+        carMoveOnLineViewGroup.startMove(nowListPoints, new LatLng(30.657616, 104.06625));
 
 
     }

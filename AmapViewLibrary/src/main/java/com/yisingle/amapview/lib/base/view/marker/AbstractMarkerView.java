@@ -14,8 +14,8 @@ import com.autonavi.amap.mapcore.IPoint;
 import com.yisingle.amapview.lib.base.BaseView;
 import com.yisingle.amapview.lib.base.param.BaseMarkerParam;
 import com.yisingle.amapview.lib.utils.InfoWindowUtils;
-import com.yisingle.amapview.lib.utils.move.MoveUtils;
 import com.yisingle.amapview.lib.utils.ViewToBitMapUtil;
+import com.yisingle.amapview.lib.utils.move.MoveUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -480,6 +480,9 @@ public abstract class AbstractMarkerView<P extends BaseMarkerParam> extends Base
         this.moveListener = moveListener;
     }
 
+    BitmapDescriptor historyBitmapDescriptor;
+    private List<BitmapDescriptor> bitmapDescriptorList = new ArrayList<>();
+
     protected MarkerOptions getInfoWindowMarkerOptions(BaseMarkerView.BaseInfoWindowView infoWindowView) {
 
         //position 坐标
@@ -491,13 +494,30 @@ public abstract class AbstractMarkerView<P extends BaseMarkerParam> extends Base
         int width = getParam().getOptions().getIcon().getWidth();
         int height = InfoWindowUtils.calueInfoWindowSpaceHeight(getParam().getOptions());
         View view = infoWindowView.getView(width, height);
-        BitmapDescriptor bitmapDescript = BitmapDescriptorFactory.fromBitmap(ViewToBitMapUtil.convertViewToBitmap(view));
-        markerOptions.icon(bitmapDescript);
+
+
+        //BitmapDescriptor bitmapDescript = BitmapDescriptorFactory.fromBitmap(bmp);
+
+//        if (null != historyBitmapDescriptor) {
+//            historyBitmapDescriptor.recycle();
+//        }
+
+        for (int i = 0; i < bitmapDescriptorList.size(); i++) {
+            bitmapDescriptorList.get(i).recycle();
+
+        }
+        bitmapDescriptorList.clear();
+        BitmapDescriptor bitmapDescriptor = BitmapDescriptorFactory.fromBitmap(ViewToBitMapUtil.convertBitmapFromXML(view));
+        markerOptions.icon(bitmapDescriptor);
         //icon 图片
         //anchor 锚点
-        float anchorH = InfoWindowUtils.calueHorizontalInfoAnchor(getParam().getOptions(), bitmapDescript);
+        float anchorH = InfoWindowUtils.calueHorizontalInfoAnchor(getParam().getOptions(), bitmapDescriptor);
         markerOptions.anchor(anchorH, 1f);
-        //anchor 锚点
+
+
+        bitmapDescriptorList.add(bitmapDescriptor);
+
+//        historyBitmapDescriptor = bitmapDescriptor;
         return markerOptions;
 
     }

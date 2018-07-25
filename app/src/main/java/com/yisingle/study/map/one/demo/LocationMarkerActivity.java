@@ -13,7 +13,9 @@ import com.amap.api.maps.CameraUpdateFactory;
 import com.amap.api.maps.TextureMapView;
 import com.amap.api.maps.model.BitmapDescriptorFactory;
 import com.amap.api.maps.model.LatLng;
+import com.yisingle.amapview.lib.base.view.marker.BaseMarkerView;
 import com.yisingle.amapview.lib.view.LocationMarkerView;
+import com.yisingle.amapview.lib.viewholder.MapInfoWindowViewHolder;
 import com.yisingle.study.map.one.R;
 import com.yisingle.study.map.one.base.BaseMapActivity;
 
@@ -43,6 +45,16 @@ public class LocationMarkerActivity extends BaseMapActivity {
     public void onDestroy() {
         super.onDestroy();
         locationMarkerView.destory();
+
+    }
+
+    public void testShowInfoWindow(View view) {
+        boolean isShow = locationMarkerView.isShowInfoWindow();
+        if (isShow) {
+            locationMarkerView.hideInfoWindow();
+        } else {
+            locationMarkerView.showInfoWindow("显示的文字效果");
+        }
 
     }
 
@@ -107,6 +119,13 @@ public class LocationMarkerActivity extends BaseMapActivity {
 
         locationMarkerView.startLocation();
 
+        locationMarkerView.bindInfoWindowView(new BaseMarkerView.BaseInfoWindowView<String>(R.layout.info_window,null) {
+            @Override
+            public void bindData(MapInfoWindowViewHolder viewHolder, String data) {
+                viewHolder.setText(R.id.tvInfoWindow,data);
+            }
+        });
+
 
     }
 
@@ -128,6 +147,7 @@ public class LocationMarkerActivity extends BaseMapActivity {
         if (null != locationMarkerView.getMarker() && null != locationMarkerView.getMarker().getPosition()) {
             moveToCamera(locationMarkerView.getMarker().getPosition());
         }
+        testShowInfoWindow(null);
 
     }
 

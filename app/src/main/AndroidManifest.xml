@@ -43,6 +43,9 @@
         <activity
             android:name=".demo.ThreadActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".demo.TestMemoryActivity"
+            android:screenOrientation="portrait" />
 
         <activity
             android:name=".demo.DidiDetailActivity"
