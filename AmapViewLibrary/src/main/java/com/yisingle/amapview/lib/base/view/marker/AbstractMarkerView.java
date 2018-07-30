@@ -480,8 +480,6 @@ public abstract class AbstractMarkerView<P extends BaseMarkerParam> extends Base
         this.moveListener = moveListener;
     }
 
-    BitmapDescriptor historyBitmapDescriptor;
-    private List<BitmapDescriptor> bitmapDescriptorList = new ArrayList<>();
 
     protected MarkerOptions getInfoWindowMarkerOptions(BaseMarkerView.BaseInfoWindowView infoWindowView) {
 
@@ -489,24 +487,10 @@ public abstract class AbstractMarkerView<P extends BaseMarkerParam> extends Base
         MarkerOptions markerOptions = new MarkerOptions();
         markerOptions.position(param.getOptions().getPosition());
         //position 坐标
-
         //icon 图片
         int width = getParam().getOptions().getIcon().getWidth();
         int height = InfoWindowUtils.calueInfoWindowSpaceHeight(getParam().getOptions());
         View view = infoWindowView.getView(width, height);
-
-
-        //BitmapDescriptor bitmapDescript = BitmapDescriptorFactory.fromBitmap(bmp);
-
-//        if (null != historyBitmapDescriptor) {
-//            historyBitmapDescriptor.recycle();
-//        }
-
-        for (int i = 0; i < bitmapDescriptorList.size(); i++) {
-            bitmapDescriptorList.get(i).recycle();
-
-        }
-        bitmapDescriptorList.clear();
         BitmapDescriptor bitmapDescriptor = BitmapDescriptorFactory.fromBitmap(ViewToBitMapUtil.convertBitmapFromXML(view));
         markerOptions.icon(bitmapDescriptor);
         //icon 图片
@@ -515,9 +499,6 @@ public abstract class AbstractMarkerView<P extends BaseMarkerParam> extends Base
         markerOptions.anchor(anchorH, 1f);
 
 
-        bitmapDescriptorList.add(bitmapDescriptor);
-
-//        historyBitmapDescriptor = bitmapDescriptor;
         return markerOptions;
 
     }

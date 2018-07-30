@@ -7,68 +7,78 @@
     tools:context="com.yisingle.study.map.one.MainActivity">
 
 
-    <TextView
-        android:id="@+id/tvInfo"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    <Button
-        android:id="@+id/btCheck"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="test"
-        android:text="点我验证是否集成成功" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="toLocationMarkerMapActivity"
-        android:text="定位Marker界面" />
+            <TextView
+                android:id="@+id/tvInfo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="toMoveMarkerMapActivty"
-        android:text="轨迹移动的Marker" />
+            <Button
+                android:id="@+id/btCheck"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="test"
+                android:text="点我验证是否集成成功" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="toNearByMarkeActivity"
-        android:text="附近的点界面" />
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="toLocationMarkerMapActivity"
+                android:text="定位Marker界面" />
 
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="toMoveMarkerMapActivty"
+                android:text="轨迹移动的Marker" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="toStartEndActivity"
-        android:text="起点终点界面" />
-
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="toPathPlaningActivity"
-        android:text="路径规划界面" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="toMoveCarOnPathPlaningActivity"
-        android:text="移动车辆路径规划效果" />
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="toNearByMarkeActivity"
+                android:text="附近的点界面" />
 
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="toMemoryActiviy"
-        android:text="去内存界面" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="toThreadActivity"
-        android:text="线程池界面" />
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="toStartEndActivity"
+                android:text="起点终点界面" />
 
 
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="toPathPlaningActivity"
+                android:text="路径规划界面" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="toMoveCarOnPathPlaningActivity"
+                android:text="车辆移动类似滴滴出行界面效果" />
+
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="toMemoryActiviy"
+                android:text="去mareker不断设置图片发生内存泄露的界面" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="toThreadActivity"
+                android:text="测试线程池工具界面" />
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>
