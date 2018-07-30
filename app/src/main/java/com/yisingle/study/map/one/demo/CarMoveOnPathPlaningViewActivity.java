@@ -24,7 +24,7 @@ import java.util.List;
  * @author jikun
  * Created by jikun on 2018/7/5.
  */
-public class DidiDetailActivity extends BaseMapActivity {
+public class CarMoveOnPathPlaningViewActivity extends BaseMapActivity {
 
 
     private TextureMapView textureMapView;

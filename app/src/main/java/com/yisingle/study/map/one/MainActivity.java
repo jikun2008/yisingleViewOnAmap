@@ -13,7 +13,7 @@ import com.amap.api.services.route.RideRouteResult;
 import com.amap.api.services.route.RouteSearch;
 import com.amap.api.services.route.WalkRouteResult;
 import com.yisingle.amapview.lib.utils.GaoDeErrorUtils;
-import com.yisingle.study.map.one.demo.DidiDetailActivity;
+import com.yisingle.study.map.one.demo.CarMoveOnPathPlaningViewActivity;
 import com.yisingle.study.map.one.demo.LocationMarkerActivity;
 import com.yisingle.study.map.one.demo.PointMarkUseMoveActivty;
 import com.yisingle.study.map.one.demo.PathPlaningActivity;
@@ -133,7 +133,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void toMoveCarOnPathPlaningActivity(View view) {
         Intent intent = new Intent();
-        intent.setClass(this, DidiDetailActivity.class);
+        intent.setClass(this, CarMoveOnPathPlaningViewActivity.class);
         startActivity(intent);
     }
 }

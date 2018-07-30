@@ -48,7 +48,7 @@
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".demo.DidiDetailActivity"
+            android:name=".demo.CarMoveOnPathPlaningViewActivity"
             android:screenOrientation="portrait" />
     </application>
 
