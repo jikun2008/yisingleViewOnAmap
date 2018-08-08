@@ -191,11 +191,13 @@ public class PathPlaningView<S, E> extends BaseView {
             @Override
             public void onDriveRouteSearched(DriveRouteResult driveRouteResult, int i) {
                 if (i == successCode) {
-                    if (null != callBack) {
-                        callBack.onSucccess(driveRouteResult);
-                    }
+
                     if (isAuotDrawPath) {
                         draw(driveRouteResult);
+                    }
+
+                    if (null != callBack) {
+                        callBack.onSucccess(driveRouteResult);
                     }
                 } else {
                     if (null != callBack) {
@@ -381,7 +383,7 @@ public class PathPlaningView<S, E> extends BaseView {
          * 路径规划的起点
          *
          * @param startLatLonPoint 路径规划的起点
-         * @return
+         * @return Builder
          */
         public Builder setStartLatLonPoint(LatLonPoint startLatLonPoint) {
             getParam().setStartLatLonPoint(startLatLonPoint);
@@ -393,7 +395,7 @@ public class PathPlaningView<S, E> extends BaseView {
          * 路径规划的终点
          *
          * @param endLatLonPoint 路径规划的终点
-         * @return
+         * @return Builder
          */
         public Builder setEndLatLonPoint(LatLonPoint endLatLonPoint) {
             getParam().setEndLatLonPoint(endLatLonPoint);

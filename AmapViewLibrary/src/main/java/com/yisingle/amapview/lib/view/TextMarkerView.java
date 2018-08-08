@@ -11,6 +11,7 @@ import android.support.annotation.NonNull;
 import android.text.Layout;
 import android.text.StaticLayout;
 import android.text.TextPaint;
+import android.text.TextUtils;
 
 import com.amap.api.maps.AMap;
 import com.amap.api.maps.model.BitmapDescriptor;
@@ -193,10 +194,29 @@ public class TextMarkerView<W> extends BaseMarkerView<TextMarkerParam, W> {
         return bitmap;
     }
 
+    @Override
+    public int getWidth() {
+        int width = super.getWidth();
+        if (null != textMarker && !textMarker.isRemoved() && textMarker.isVisible() && !TextUtils.isEmpty(getParam().getText())) {
+            width = width + textMarker.getOptions().getIcon().getWidth();
+        }
+        return width;
+    }
+
+    @Override
+    public int getHeight() {
+        int height = super.getHeight();
+        if (null != textMarker && !textMarker.isRemoved() && textMarker.isVisible()&& !TextUtils.isEmpty(getParam().getText())) {
+            height = height + textMarker.getOptions().getIcon().getHeight();
+        }
+        return height;
+
+    }
+
     /**
      * 画描边
      *
-     * @param canvas
+     * @param canvas Canvas
      */
     private void drawTextStroke(Canvas canvas) {
         TextPaint textPaint = getParam().getStrokeTextPaint();
@@ -224,7 +244,7 @@ public class TextMarkerView<W> extends BaseMarkerView<TextMarkerParam, W> {
     /**
      * 根据staticLayout设置锚点参数
      *
-     * @param staticLayout
+     * @param staticLayout StaticLayout
      * @return float[]
      */
     private float[] getanchorByStaticLayout(StaticLayout staticLayout) {
@@ -325,7 +345,7 @@ public class TextMarkerView<W> extends BaseMarkerView<TextMarkerParam, W> {
 
         @Override
         public <W> TextMarkerView<W> create() {
-            TextMarkerView<W> textMarkerView = new TextMarkerView<>(getContext(), getMap(), getParam());
+            TextMarkerView<W> textMarkerView = new TextMarkerView<W>(getContext(), getMap(), getParam());
             return textMarkerView;
         }
 
@@ -390,7 +410,7 @@ public class TextMarkerView<W> extends BaseMarkerView<TextMarkerParam, W> {
          * 设置描边的范围
          *
          * @param width 范围
-         * @return
+         * @return Builder
          */
         public Builder setTextStrokeWidth(float width) {
             getParam().getStrokeTextPaint().setStrokeWidth(width);
@@ -401,7 +421,7 @@ public class TextMarkerView<W> extends BaseMarkerView<TextMarkerParam, W> {
          * 设置描边的颜色值
          *
          * @param color color
-         * @return
+         * @return Builder
          */
         public Builder setTextStrokeColor(int color) {
             getParam().getStrokeTextPaint().setColor(color);

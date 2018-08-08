@@ -46,8 +46,6 @@ public abstract class BaseMarkerView<P extends BaseMarkerParam, W> extends Abstr
 
     private ThreadPoolExecutor threadPoolExecutor;
 
-    private List<BitmapDescriptor> bitmapList = new ArrayList<>();
-
 
     protected BaseMarkerView(@NonNull Context context, @NonNull AMap amap, @NonNull P param) {
         super(context, amap);
@@ -88,10 +86,6 @@ public abstract class BaseMarkerView<P extends BaseMarkerParam, W> extends Abstr
     @Override
     public void destory() {
         removeFromMap();
-        for (int i = 0; i < bitmapList.size(); i++) {
-            bitmapList.get(i).recycle();
-
-        }
 
         infoData = null;
         if (null != infoWindowView) {
@@ -176,6 +170,41 @@ public abstract class BaseMarkerView<P extends BaseMarkerParam, W> extends Abstr
         if (null != infoMarker) {
             infoMarker.setVisible(false);
         }
+    }
+
+    public int getWidth() {
+        int width = 0;
+        if (null != marker && !marker.isRemoved() && marker.isVisible()) {
+            width = width + marker.getOptions().getIcon().getWidth();
+        }
+        return width;
+    }
+
+    public int getHeight() {
+        if (null != marker && !marker.isRemoved() && marker.isVisible()) {
+            return marker.getOptions().getIcon().getHeight();
+        } else {
+            return 0;
+        }
+
+    }
+
+
+    public int getInfoWidth() {
+        int width = 0;
+        if (null != infoMarker && !infoMarker.isRemoved() && infoMarker.isVisible()) {
+            width = width + infoMarker.getOptions().getIcon().getWidth();
+        }
+        return width;
+    }
+
+    public int getInfoHeight() {
+        if (null != infoMarker && !infoMarker.isRemoved() && infoMarker.isVisible()) {
+            return infoMarker.getOptions().getIcon().getHeight();
+        } else {
+            return 0;
+        }
+
     }
 
 

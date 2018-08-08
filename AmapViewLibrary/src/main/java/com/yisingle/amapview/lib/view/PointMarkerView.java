@@ -47,6 +47,29 @@ public class PointMarkerView<W> extends BaseMarkerView<PointMarkerParam, W> {
     }
 
 
+    @Override
+    public int getWidth() {
+        int width = super.getWidth();
+        if (null != textMarkerView) {
+            width = width + textMarkerView.getWidth();
+        }
+
+        return width;
+    }
+
+
+    @Override
+    public int getHeight() {
+        int height = super.getHeight();
+        if (null != textMarkerView) {
+
+            height = height + textMarkerView.getHeight();
+        }
+
+        return height;
+    }
+
+
     public void draw(LatLng position) {
         setPosition(position);
     }
@@ -140,7 +163,7 @@ public class PointMarkerView<W> extends BaseMarkerView<PointMarkerParam, W> {
         @Override
         public <W> PointMarkerView<W> create() {
 
-            PointMarkerView<W> pointMarkerView = new PointMarkerView<W>(getContext(), getMap(), getParam());
+            PointMarkerView<W> pointMarkerView = new PointMarkerView<>(getContext(), getMap(), getParam());
             pointMarkerView.setTextMarkerView(textBuilder.create());
             return pointMarkerView;
         }
@@ -203,7 +226,7 @@ public class PointMarkerView<W> extends BaseMarkerView<PointMarkerParam, W> {
          * 设置描边的范围
          *
          * @param width 范围
-         * @return
+         * @return Builder
          */
         public Builder setTextStrokeWidth(float width) {
             textBuilder.setTextStrokeWidth(width);
@@ -214,7 +237,7 @@ public class PointMarkerView<W> extends BaseMarkerView<PointMarkerParam, W> {
          * 设置描边的颜色值
          *
          * @param color color
-         * @return
+         * @return Builder
          */
         public Builder setTextStrokeColor(int color) {
             textBuilder.setTextStrokeColor(color);

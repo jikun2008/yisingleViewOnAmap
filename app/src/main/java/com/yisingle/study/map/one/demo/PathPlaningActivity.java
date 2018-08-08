@@ -2,6 +2,7 @@ package com.yisingle.study.map.one.demo;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -12,6 +13,7 @@ import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.LatLngBounds;
 import com.amap.api.services.core.LatLonPoint;
 import com.amap.api.services.route.DriveRouteResult;
+import com.yisingle.amapview.lib.param.TextMarkerParam;
 import com.yisingle.amapview.lib.view.PathPlaningView;
 import com.yisingle.amapview.lib.view.PointMarkerView;
 import com.yisingle.study.map.one.R;
@@ -36,12 +38,14 @@ public class PathPlaningActivity extends BaseMapActivity {
         pathPlaningView = new PathPlaningView.Builder(getApplicationContext(), getAmap())
                 .setEndMarkBuilder(
                         new PointMarkerView.Builder(getApplicationContext(), getAmap())
-                                .setText("终点")
+                                .setText("终点终点终点终点终点终点终点终点终点终点终点终点终点终点")
                                 .setIcon(BitmapDescriptorFactory.fromResource(R.mipmap.amap_end))
                 )
                 .setStartMarkBuilder(
                         new PointMarkerView.Builder(getApplicationContext(), getAmap())
-                                .setText("起点")
+                                .setTextAlign(TextMarkerParam.TextAlign.RIGHT)
+                                .setTextPointShow(true)
+                                .setText("起点起点起点起点起点起点起点起点起点起点起点起点起点起点起点起点起点起点")
                                 .setIcon(BitmapDescriptorFactory.fromResource(R.mipmap.amap_start))
                 )
                 .create();
@@ -92,8 +96,20 @@ public class PathPlaningActivity extends BaseMapActivity {
                     @Override
                     public void onSucccess(DriveRouteResult routeResult) {
                         infoTextView.setText("路径规划成功");
-                        moveCamera(routeResult.getStartPos(), routeResult.getTargetPos());
 
+
+                        int startWidth = pathPlaningView.getStartPointMarkerView().getWidth();
+                        int startHeight = pathPlaningView.getStartPointMarkerView().getHeight();
+
+
+                        int endWidth = pathPlaningView.getEndPointMarkerView().getWidth();
+                        int endHeight = pathPlaningView.getEndPointMarkerView().getHeight();
+
+
+                        moveCamera(routeResult.getStartPos(), routeResult.getTargetPos(), endWidth, endWidth, endHeight, endHeight);
+                        Log.e("测试代码", "测试代码beginDriveRouteSearched---start---startWidth=" + startWidth + "-------startHeight=" + startHeight);
+
+                        Log.e("测试代码", "测试代码beginDriveRouteSearched---end---endWidth=" + endWidth + "-------endHeight=" + endHeight);
                     }
 
                     @Override
@@ -111,14 +127,14 @@ public class PathPlaningActivity extends BaseMapActivity {
         pathPlaningView.destory();
     }
 
-    private void moveCamera(LatLonPoint start, LatLonPoint end) {
+    private void moveCamera(LatLonPoint start, LatLonPoint end, int paddingLeft, int paddingRight, int paddingTop, int paddingBottom) {
         LatLngBounds.Builder b = LatLngBounds.builder();
         LatLng latLng1 = new LatLng(start.getLatitude(), start.getLongitude());
         LatLng latLng2 = new LatLng(end.getLatitude(), end.getLongitude());
         b.include(latLng1);
         b.include(latLng2);
         LatLngBounds bounds = b.build();
-        getMapView().getMap().animateCamera(CameraUpdateFactory.newLatLngBounds(bounds, 100));
+        getMapView().getMap().animateCamera(CameraUpdateFactory.newLatLngBoundsRect(bounds, paddingLeft, paddingRight, paddingTop, paddingBottom));
     }
 
 
