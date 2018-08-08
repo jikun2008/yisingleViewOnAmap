@@ -46,7 +46,7 @@ public class TextMarkeActivity extends BaseMapActivity {
                 //设置文字的TextPaint
                 //.setTextPaint(new TextPaint())
                 //设置文字
-                .setText("王王王王王123")
+                .setText("")
                 //设置文字距离左边或者右边的距离 默认为10
                 .setTextPaddingLeftOrRight(20)
                 //设置文字间的行距是字体多少倍 默认是1倍
@@ -81,11 +81,12 @@ public class TextMarkeActivity extends BaseMapActivity {
 
     public void testChangeText(View view) {
 
-        if ("王王王王王".equals(textMarkerView.getText())) {
-            textMarkerView.setText("王王王王王123");
+        if ("王王王王王王王王王王王王王王王王王王王王王王王王王".equals(textMarkerView.getText())) {
+            textMarkerView.setText("王王王");
         } else {
-            textMarkerView.setText("王王王王王");
+            textMarkerView.setText("王王王王王王王王王王王王王王王王王王王王王王王王王");
         }
+        Log.e("测试代码", "测试代码Width==" + textMarkerView.getWidth());
 
     }
 

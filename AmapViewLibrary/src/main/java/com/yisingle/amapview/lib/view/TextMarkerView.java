@@ -118,7 +118,10 @@ public class TextMarkerView<W> extends BaseMarkerView<TextMarkerParam, W> {
             if (null != textMarker) {
 
                 StaticLayout staticLayout = createStaticLayout(getParam().getTextPaint());
-                textMarker.setIcon((BitmapDescriptorFactory.fromBitmap(getTextBitMap(staticLayout))));
+                BitmapDescriptor bitmapDescriptor = BitmapDescriptorFactory.fromBitmap(getTextBitMap(staticLayout));
+                textMarker.getOptions().icon(bitmapDescriptor);
+                textMarker.setIcon(bitmapDescriptor);
+
                 //设置锚点参数
                 float[] anchor = getanchorByStaticLayout(staticLayout);
                 textMarker.setAnchor(anchor[0], anchor[1]);
@@ -206,7 +209,7 @@ public class TextMarkerView<W> extends BaseMarkerView<TextMarkerParam, W> {
     @Override
     public int getHeight() {
         int height = super.getHeight();
-        if (null != textMarker && !textMarker.isRemoved() && textMarker.isVisible()&& !TextUtils.isEmpty(getParam().getText())) {
+        if (null != textMarker && !textMarker.isRemoved() && textMarker.isVisible() && !TextUtils.isEmpty(getParam().getText())) {
             height = height + textMarker.getOptions().getIcon().getHeight();
         }
         return height;
