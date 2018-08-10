@@ -12,7 +12,6 @@ import android.widget.TextView;
 
 import com.amap.api.maps.AMap;
 import com.amap.api.maps.CameraUpdateFactory;
-import com.amap.api.maps.model.BitmapDescriptor;
 import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.Marker;
 import com.amap.api.maps.model.MarkerOptions;
@@ -22,8 +21,7 @@ import com.yisingle.amapview.lib.base.param.BaseMarkerParam;
 import com.yisingle.amapview.lib.utils.YiSingleDeBug;
 import com.yisingle.amapview.lib.viewholder.MapInfoWindowViewHolder;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.math.BigDecimal;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -172,21 +170,37 @@ public abstract class BaseMarkerView<P extends BaseMarkerParam, W> extends Abstr
         }
     }
 
-    public int getWidth() {
-        int width = 0;
+    public int getCameraPaddingLeft() {
+        int left = 0;
         if (null != marker && !marker.isRemoved() && marker.isVisible()) {
-            width = width + marker.getOptions().getIcon().getWidth();
+            left = new BigDecimal(marker.getOptions().getIcon().getWidth()).multiply(new BigDecimal(marker.getAnchorU())).intValue();
         }
-        return width;
+        return left;
     }
 
-    public int getHeight() {
+    public int getCameraPaddingRight() {
+        int right = 0;
         if (null != marker && !marker.isRemoved() && marker.isVisible()) {
-            return marker.getOptions().getIcon().getHeight();
-        } else {
-            return 0;
+            right = new BigDecimal(marker.getOptions().getIcon().getWidth()).multiply(new BigDecimal(1 - marker.getAnchorU())).intValue();
         }
+        return right;
+    }
 
+
+    public int getCameraPaddingTop() {
+        int top = 0;
+        if (null != marker && !marker.isRemoved() && marker.isVisible()) {
+            top = new BigDecimal(marker.getOptions().getIcon().getWidth()).multiply(new BigDecimal(marker.getAnchorV())).intValue();
+        }
+        return top;
+    }
+
+    public int getCameraPaddingBottom() {
+        int bottom = 0;
+        if (null != marker && !marker.isRemoved() && marker.isVisible()) {
+            bottom = new BigDecimal(marker.getOptions().getIcon().getWidth()).multiply(new BigDecimal(1 - marker.getAnchorV())).intValue();
+        }
+        return bottom;
     }
 
 

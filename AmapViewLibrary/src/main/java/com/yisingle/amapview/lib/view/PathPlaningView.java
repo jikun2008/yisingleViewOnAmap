@@ -460,4 +460,47 @@ public class PathPlaningView<S, E> extends BaseView {
     public void setDrivePath(DrivePath drivePath) {
         this.drivePath = drivePath;
     }
+
+
+    public int getCameraPaddingTop() {
+        int startPadding = startPointMarkerView.getCameraPaddingTop();
+
+        int endPadding = endPointMarkerView.getCameraPaddingTop();
+
+
+        return startPadding > endPadding ? startPadding : endPadding;
+    }
+
+
+    public int getCameraPaddingLeft() {
+
+        int startPadding = startPointMarkerView.getCameraPaddingLeft();
+
+        int endPadding = endPointMarkerView.getCameraPaddingLeft();
+
+
+        return startPadding > endPadding ? startPadding : endPadding;
+    }
+
+
+    public int getCameraPaddingRight() {
+
+        int startPadding = startPointMarkerView.getCameraPaddingRight();
+
+        int endPadding = endPointMarkerView.getCameraPaddingRight();
+
+
+        return startPadding > endPadding ? startPadding : endPadding;
+    }
+
+
+    public int getCameraPaddingBottom() {
+
+        int startPadding = startPointMarkerView.getCameraPaddingBottom();
+
+        int endPadding = endPointMarkerView.getCameraPaddingBottom();
+
+
+        return startPadding > endPadding ? startPadding : endPadding;
+    }
 }

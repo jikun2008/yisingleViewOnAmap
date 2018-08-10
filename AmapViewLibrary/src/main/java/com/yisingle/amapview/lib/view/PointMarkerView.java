@@ -48,25 +48,39 @@ public class PointMarkerView<W> extends BaseMarkerView<PointMarkerParam, W> {
 
 
     @Override
-    public int getWidth() {
-        int width = super.getWidth();
+    public int getCameraPaddingTop() {
+        int paddingTop = super.getCameraPaddingTop();
         if (null != textMarkerView) {
-            width = width + textMarkerView.getWidth();
+            paddingTop = paddingTop + textMarkerView.getCameraPaddingTop();
         }
-
-        return width;
+        return paddingTop;
     }
 
+    @Override
+    public int getCameraPaddingLeft() {
+        int paddingLeft = super.getCameraPaddingLeft();
+        if (null != textMarkerView) {
+            paddingLeft = paddingLeft + textMarkerView.getCameraPaddingLeft();
+        }
+        return paddingLeft;
+    }
 
     @Override
-    public int getHeight() {
-        int height = super.getHeight();
+    public int getCameraPaddingRight() {
+        int paddingRight = super.getCameraPaddingRight();
         if (null != textMarkerView) {
-
-            height = height + textMarkerView.getHeight();
+            paddingRight = textMarkerView.getCameraPaddingRight();
         }
+        return paddingRight;
+    }
 
-        return height;
+    @Override
+    public int getCameraPaddingBottom() {
+        int paddingBottom = super.getCameraPaddingBottom();
+        if (null != textMarkerView) {
+            paddingBottom = paddingBottom + textMarkerView.getCameraPaddingBottom();
+        }
+        return paddingBottom;
     }
 
 

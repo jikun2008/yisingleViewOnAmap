@@ -38,14 +38,13 @@ public class PathPlaningActivity extends BaseMapActivity {
         pathPlaningView = new PathPlaningView.Builder(getApplicationContext(), getAmap())
                 .setEndMarkBuilder(
                         new PointMarkerView.Builder(getApplicationContext(), getAmap())
-                                .setText("终点终点终点终点终点终点终点终点终点终点终点终点终点终点")
+                                .setText("起")
                                 .setIcon(BitmapDescriptorFactory.fromResource(R.mipmap.amap_end))
                 )
                 .setStartMarkBuilder(
                         new PointMarkerView.Builder(getApplicationContext(), getAmap())
-                                .setTextAlign(TextMarkerParam.TextAlign.RIGHT)
-                                .setTextPointShow(true)
-                                .setText("起点起点起点起点起点起点起点起点起点起点起点起点起点起点起点起点起点起点")
+                                .setTextAlign(TextMarkerParam.TextAlign.LEFT)
+                                .setText("起")
                                 .setIcon(BitmapDescriptorFactory.fromResource(R.mipmap.amap_start))
                 )
                 .create();
@@ -69,9 +68,7 @@ public class PathPlaningActivity extends BaseMapActivity {
 
 
     public void beginPlanning(View view) {
-
-
-        planing(new LatLonPoint(30.655688, 104.065957), new LatLonPoint(30.654825, 104.066048));
+        planing(new LatLonPoint(30.599935, 104.027712), new LatLonPoint(30.596167, 104.10393));
 
 
     }
@@ -98,18 +95,16 @@ public class PathPlaningActivity extends BaseMapActivity {
                         infoTextView.setText("路径规划成功");
 
 
-                        int startWidth = pathPlaningView.getStartPointMarkerView().getWidth();
-                        int startHeight = pathPlaningView.getStartPointMarkerView().getHeight();
+                        int left = pathPlaningView.getCameraPaddingLeft();
+                        int right = pathPlaningView.getCameraPaddingRight();
+                        int top = pathPlaningView.getCameraPaddingTop();
+                        int bottom = pathPlaningView.getCameraPaddingBottom();
 
 
-                        int endWidth = pathPlaningView.getEndPointMarkerView().getWidth();
-                        int endHeight = pathPlaningView.getEndPointMarkerView().getHeight();
+                        moveCamera(routeResult.getStartPos(), routeResult.getTargetPos(), left, right, top, bottom);
+                        Log.e("测试代码", "测试代码beginDriveRouteSearched------left=" + left + "-------right=" + right);
 
-
-                        moveCamera(routeResult.getStartPos(), routeResult.getTargetPos(), endWidth, endWidth, endHeight, endHeight);
-                        Log.e("测试代码", "测试代码beginDriveRouteSearched---start---startWidth=" + startWidth + "-------startHeight=" + startHeight);
-
-                        Log.e("测试代码", "测试代码beginDriveRouteSearched---end---endWidth=" + endWidth + "-------endHeight=" + endHeight);
+                        Log.e("测试代码", "测试代码beginDriveRouteSearched------top=" + top + "-------bottom=" + bottom);
                     }
 
                     @Override
@@ -135,6 +130,8 @@ public class PathPlaningActivity extends BaseMapActivity {
         b.include(latLng2);
         LatLngBounds bounds = b.build();
         getMapView().getMap().animateCamera(CameraUpdateFactory.newLatLngBoundsRect(bounds, paddingLeft, paddingRight, paddingTop, paddingBottom));
+
+        //getMapView().getMap().animateCamera(CameraUpdateFactory.newLatLngBoundsRect(bounds, 0, 0, 0, 0));
     }
 
 

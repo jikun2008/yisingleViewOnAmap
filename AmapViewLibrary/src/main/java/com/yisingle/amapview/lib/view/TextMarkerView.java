@@ -198,23 +198,86 @@ public class TextMarkerView<W> extends BaseMarkerView<TextMarkerParam, W> {
     }
 
     @Override
-    public int getWidth() {
-        int width = super.getWidth();
+    public int getCameraPaddingBottom() {
+        int paddingBottom = 0;
         if (null != textMarker && !textMarker.isRemoved() && textMarker.isVisible() && !TextUtils.isEmpty(getParam().getText())) {
-            width = width + textMarker.getOptions().getIcon().getWidth();
+            paddingBottom = new BigDecimal(textMarker.getOptions().getIcon().getHeight())
+                    .intValue();
         }
-        return width;
+        return paddingBottom;
     }
 
     @Override
-    public int getHeight() {
-        int height = super.getHeight();
+    public int getCameraPaddingTop() {
+        int paddingTop = 0;
         if (null != textMarker && !textMarker.isRemoved() && textMarker.isVisible() && !TextUtils.isEmpty(getParam().getText())) {
-            height = height + textMarker.getOptions().getIcon().getHeight();
+            paddingTop = new BigDecimal(textMarker.getOptions().getIcon().getHeight())
+                    .multiply(new BigDecimal(textMarker.getAnchorV()))
+                    .multiply(new BigDecimal(2))
+                    .setScale(0, BigDecimal.ROUND_HALF_UP)
+                    .intValue();
         }
-        return height;
-
+        return paddingTop;
     }
+
+    @Override
+    public int getCameraPaddingLeft() {
+        int paddingLeft = 0;
+        switch (getParam().getAlign()) {
+            case TextMarkerParam.TextAlign.LEFT:
+                if (null != marker && !marker.isRemoved() && marker.isVisible()) {
+                    paddingLeft = marker.getOptions().getIcon().getWidth() / 2;
+                }
+                break;
+            case TextMarkerParam.TextAlign.CENTER:
+                if (null != textMarker && !textMarker.isRemoved() && textMarker.isVisible() && !TextUtils.isEmpty(getParam().getText())) {
+                    paddingLeft = textMarker.getOptions().getIcon().getWidth() / 2;
+                }
+                break;
+            case TextMarkerParam.TextAlign.RIGHT:
+
+                if (null != marker && !marker.isRemoved() && marker.isVisible()) {
+                    paddingLeft = paddingLeft + marker.getOptions().getIcon().getWidth() / 2;
+                }
+                if (null != textMarker && !textMarker.isRemoved() && textMarker.isVisible() && !TextUtils.isEmpty(getParam().getText())) {
+                    paddingLeft = paddingLeft + textMarker.getOptions().getIcon().getWidth();
+                }
+                break;
+            default:
+                break;
+        }
+        return paddingLeft;
+    }
+
+    @Override
+    public int getCameraPaddingRight() {
+        int paddingRight = 0;
+        switch (getParam().getAlign()) {
+            case TextMarkerParam.TextAlign.LEFT:
+
+                if (null != marker && !marker.isRemoved() && marker.isVisible()) {
+                    paddingRight = paddingRight + marker.getOptions().getIcon().getWidth() / 2;
+                }
+                if (null != textMarker && !textMarker.isRemoved() && textMarker.isVisible() && !TextUtils.isEmpty(getParam().getText())) {
+                    paddingRight = paddingRight + textMarker.getOptions().getIcon().getWidth();
+                }
+                break;
+            case TextMarkerParam.TextAlign.CENTER:
+                if (null != textMarker && !textMarker.isRemoved() && textMarker.isVisible() && !TextUtils.isEmpty(getParam().getText())) {
+                    paddingRight = textMarker.getOptions().getIcon().getWidth() / 2;
+                }
+                break;
+            case TextMarkerParam.TextAlign.RIGHT:
+                if (null != marker && !marker.isRemoved() && marker.isVisible()) {
+                    paddingRight = marker.getOptions().getIcon().getWidth() / 2;
+                }
+                break;
+            default:
+                break;
+        }
+        return paddingRight;
+    }
+
 
     /**
      * 画描边

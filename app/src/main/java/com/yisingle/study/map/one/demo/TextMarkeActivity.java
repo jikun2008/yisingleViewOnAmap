@@ -86,7 +86,7 @@ public class TextMarkeActivity extends BaseMapActivity {
         } else {
             textMarkerView.setText("王王王王王王王王王王王王王王王王王王王王王王王王王");
         }
-        Log.e("测试代码", "测试代码Width==" + textMarkerView.getWidth());
+
 
     }
 
