@@ -2,6 +2,7 @@ package com.yisingle.amapview.lib.utils.move;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.util.Log;
 import android.util.Pair;
 
 import com.amap.api.maps.model.LatLng;
@@ -92,6 +93,7 @@ public class MovePathPlanningUtils {
                     if (null != driveRouteResult && null != driveRouteResult.getPaths() && driveRouteResult.getPaths().size() > 0) {
                         isRouteSearchSuccess = true;
                         if (null != pathPlaningView) {
+                            Log.e("测试代码", "测试代码-----------");
                             pathPlaningView.draw(driveRouteResult);
 
                             if (null != pathPlaningView && null != pathPlaningView.getDrivePath()) {
@@ -389,7 +391,7 @@ public class MovePathPlanningUtils {
     }
 
 
-    public static interface OnDistanceDurationListener {
+    public  interface OnDistanceDurationListener {
 
         void onDataCallBack(DistanceDurationData data);
 

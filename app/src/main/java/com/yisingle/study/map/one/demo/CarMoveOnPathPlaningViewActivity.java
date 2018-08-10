@@ -18,6 +18,7 @@ import com.yisingle.study.map.one.R;
 import com.yisingle.study.map.one.TestDataUtils;
 import com.yisingle.study.map.one.base.BaseMapActivity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -54,7 +55,7 @@ public class CarMoveOnPathPlaningViewActivity extends BaseMapActivity {
         carMoveOnLineViewGroup.bingMoveCarInfoWindowView(new BaseMarkerView.BaseInfoWindowView<DistanceDurationData>(R.layout.info_window, null) {
             @Override
             public void bindData(MapInfoWindowViewHolder viewHolder, DistanceDurationData data) {
-                Log.e("测试代码","测试代码Thread=="+Thread.currentThread().getName());
+                Log.e("测试代码", "测试代码Thread==" + Thread.currentThread().getName());
                 viewHolder.setText(R.id.tvInfoWindow, "距离=" + data.getDistance() + "时间=" + data.getDuration());
 
             }
@@ -63,11 +64,15 @@ public class CarMoveOnPathPlaningViewActivity extends BaseMapActivity {
         carMoveOnLineViewGroup.setListener(new MovePathPlanningUtils.OnDistanceDurationListener() {
             @Override
             public void onDataCallBack(MovePathPlanningUtils.DistanceDurationData data) {
+                Log.e("测试代码","测试代码-----onDataCallBack");
+
                 carMoveOnLineViewGroup.showMoveCarInfoWindow(data);
             }
         });
         moveCamre(nowListPoints);
-        carMoveOnLineViewGroup.startMove(nowListPoints, new LatLng(30.657616, 104.06625));
+        List<LatLng> list = new ArrayList<>();
+        list.add(new LatLng(30.55184472222222, 104.06796444444444));
+        carMoveOnLineViewGroup.startMove(list, new LatLng(30.657616, 104.06625));
 
 
     }
@@ -88,6 +93,6 @@ public class CarMoveOnPathPlaningViewActivity extends BaseMapActivity {
     }
 
     public void test(View view) {
-
+        carMoveOnLineViewGroup.showMoveCarInfoWindow(new MovePathPlanningUtils.DistanceDurationData(1000,100));
     }
 }

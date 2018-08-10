@@ -11,6 +11,11 @@
         android:layout_width="wrap_content"
         android:onClick="test"
         android:layout_height="wrap_content" />
+    <Button
+        android:layout_width="wrap_content"
+        android:onClick="testShowInfo"
+        android:layout_centerHorizontal="true"
+        android:layout_height="wrap_content" />
 
 
 </RelativeLayout>
