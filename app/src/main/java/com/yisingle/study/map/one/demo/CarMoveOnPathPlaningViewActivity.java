@@ -1,5 +1,6 @@
 package com.yisingle.study.map.one.demo;
 
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -7,12 +8,15 @@ import android.view.View;
 
 import com.amap.api.maps.CameraUpdateFactory;
 import com.amap.api.maps.TextureMapView;
+import com.amap.api.maps.model.BitmapDescriptorFactory;
 import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.LatLngBounds;
 import com.yisingle.amapview.lib.base.view.marker.BaseMarkerView;
 import com.yisingle.amapview.lib.utils.move.MovePathPlanningUtils;
 import com.yisingle.amapview.lib.utils.move.MovePathPlanningUtils.DistanceDurationData;
 import com.yisingle.amapview.lib.view.CarMoveOnPathPlaningView;
+import com.yisingle.amapview.lib.view.PathPlaningView;
+import com.yisingle.amapview.lib.view.PointMarkerView;
 import com.yisingle.amapview.lib.viewholder.MapInfoWindowViewHolder;
 import com.yisingle.study.map.one.R;
 import com.yisingle.study.map.one.TestDataUtils;
@@ -49,6 +53,12 @@ public class CarMoveOnPathPlaningViewActivity extends BaseMapActivity {
     protected void afterMapViewLoad() {
 
         carMoveOnLineViewGroup = new CarMoveOnPathPlaningView.Builder(getApplicationContext(), getAmap())
+                .setPathPlaningViewBuilder(new PathPlaningView.Builder(getApplicationContext(),getAmap())
+
+                        .setEndMarkBuilder(new PointMarkerView.Builder(getApplicationContext(),getAmap())
+                        .setIcon(BitmapDescriptorFactory.fromResource(R.mipmap.amap_end))
+                        )
+                )
                 .create();
 
 
@@ -64,15 +74,27 @@ public class CarMoveOnPathPlaningViewActivity extends BaseMapActivity {
         carMoveOnLineViewGroup.setListener(new MovePathPlanningUtils.OnDistanceDurationListener() {
             @Override
             public void onDataCallBack(MovePathPlanningUtils.DistanceDurationData data) {
-                Log.e("测试代码","测试代码-----onDataCallBack");
+                Log.e("测试代码", "测试代码-----onDataCallBack");
 
                 carMoveOnLineViewGroup.showMoveCarInfoWindow(data);
             }
+
+            @Override
+            public void onDriverRouteSuccess() {
+                Log.e("测试代码", "测试代码-----onDriverRouteSuccess----Rect");
+                LatLng carLatLng = carMoveOnLineViewGroup.getCarMoveMarkerView().getPosition();
+
+                Rect rect = new Rect(carMoveOnLineViewGroup.getCameraPaddingLeft(), carMoveOnLineViewGroup.getCameraPaddingTop(), carMoveOnLineViewGroup.getCameraPaddingRight(), carMoveOnLineViewGroup.getCameraPaddingBottom());
+                moveToCamera(carLatLng, carMoveOnLineViewGroup.getEndLatlng(), rect);
+            }
         });
         moveCamre(nowListPoints);
+
+
+
         List<LatLng> list = new ArrayList<>();
         list.add(new LatLng(30.55184472222222, 104.06796444444444));
-        carMoveOnLineViewGroup.startMove(list, new LatLng(30.657616, 104.06625));
+        carMoveOnLineViewGroup.startMove(list, new LatLng(30.569049, 103.928406));
 
 
     }
@@ -93,6 +115,12 @@ public class CarMoveOnPathPlaningViewActivity extends BaseMapActivity {
     }
 
     public void test(View view) {
-        carMoveOnLineViewGroup.showMoveCarInfoWindow(new MovePathPlanningUtils.DistanceDurationData(1000,100));
+        //carMoveOnLineViewGroup.showMoveCarInfoWindow(new MovePathPlanningUtils.DistanceDurationData(1000,100));
+    }
+
+    public void showOther(View view) {
+        List<LatLng> list = new ArrayList<>();
+        list.add(new LatLng(30.55184472222222, 104.06796444444444));
+        carMoveOnLineViewGroup.startMove(list, new LatLng(30.657616, 104.06625));
     }
 }

@@ -1,6 +1,7 @@
 package com.yisingle.study.map.one.base;
 
 import android.app.Activity;
+import android.graphics.Rect;
 import android.os.Bundle;
 
 import com.amap.api.maps.AMap;
@@ -138,6 +139,32 @@ public abstract class BaseMapActivity extends Activity {
 
 
     }
+
+
+    /**
+     * 在导航的地图MapView上移动视角
+     */
+    public void moveToCamera(LatLng start, LatLng end, Rect rect) {
+
+        LatLngBounds.Builder builder = new LatLngBounds.Builder();
+
+
+        builder.include(start);
+        builder.include(end);
+        LatLngBounds latLngBounds = builder.build();
+        // newLatLngBoundsRect(LatLngBounds latlngbounds, int paddingLeft, int paddingRight, int paddingTop, int paddingBottom)
+        //newLatLngBoundsRect(LatLngBounds latlngbounds,
+        //int paddingLeft,设置经纬度范围和mapView左边缘的空隙。
+        //int paddingRight,设置经纬度范围和mapView右边缘的空隙
+        //int paddingTop,设置经纬度范围和mapView上边缘的空隙。
+        //int paddingBottom)设置经纬度范围和mapView下边缘的空隙。
+        if (null != getAmap()) {
+            getAmap().animateCamera(CameraUpdateFactory.newLatLngBoundsRect(latLngBounds, rect.left,  rect.right,rect.top, rect.bottom));
+        }
+
+
+    }
+
 
 
     public AMap getAmap() {

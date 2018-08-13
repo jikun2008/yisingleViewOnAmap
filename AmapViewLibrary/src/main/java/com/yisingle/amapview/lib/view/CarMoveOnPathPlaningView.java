@@ -1,6 +1,7 @@
 package com.yisingle.amapview.lib.view;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.amap.api.maps.AMap;
 import com.amap.api.maps.AMapUtils;
@@ -49,6 +50,7 @@ public class CarMoveOnPathPlaningView<C, S, E> extends BaseView {
             @Override
             public void onMove(LatLng latLng) {
                 //如果endLatln为null 不用画线
+                Log.e("测试代码", "测试代码onMove----onMove----onMove------onMove");
                 if (null == endLatlng || null == latLng) {
                     return;
                 }
@@ -59,8 +61,15 @@ public class CarMoveOnPathPlaningView<C, S, E> extends BaseView {
 
 
     public void startMove(List<LatLng> list, LatLng endLatlng) {
-        this.endLatlng = endLatlng;
-        startMove(list);
+        if (null != this.endLatlng && this.endLatlng.equals(endLatlng)) {
+            this.endLatlng = endLatlng;
+            startMove(list);
+        } else {
+            this.endLatlng = endLatlng;
+            carMoveMarkerView.stopMove();
+            carMoveMarkerView.startMove(list, false);
+        }
+
     }
 
     public void setListener(MovePathPlanningUtils.OnDistanceDurationListener listener) {
@@ -182,6 +191,51 @@ public class CarMoveOnPathPlaningView<C, S, E> extends BaseView {
 
     public void setPathPlaningView(PathPlaningView<S, E> pathPlaningView) {
         this.pathPlaningView = pathPlaningView;
+    }
+
+
+    public int getCameraPaddingTop() {
+        int startPadding = carMoveMarkerView.getCameraPaddingTop() + carMoveMarkerView.getInfoHeight();
+
+        int endPadding = pathPlaningView.getCameraPaddingTop();
+
+        Log.e("测试代码", "测试代码startPadding=" + startPadding+"---endPadding="+endPadding);
+
+
+        return startPadding > endPadding ? startPadding : endPadding;
+    }
+
+
+    public int getCameraPaddingLeft() {
+
+        int startPadding = carMoveMarkerView.getCameraPaddingLeft() + carMoveMarkerView.getInfoWidth() / 2;
+
+        int endPadding = pathPlaningView.getCameraPaddingLeft();
+
+
+        return startPadding > endPadding ? startPadding : endPadding;
+    }
+
+
+    public int getCameraPaddingRight() {
+
+        int startPadding = carMoveMarkerView.getCameraPaddingRight() + carMoveMarkerView.getInfoWidth() / 2;
+
+        int endPadding = pathPlaningView.getCameraPaddingRight();
+
+
+        return startPadding > endPadding ? startPadding : endPadding;
+    }
+
+
+    public int getCameraPaddingBottom() {
+
+        int startPadding = carMoveMarkerView.getCameraPaddingBottom();
+
+        int endPadding = pathPlaningView.getCameraPaddingBottom();
+
+
+        return startPadding > endPadding ? startPadding : endPadding;
     }
 
 

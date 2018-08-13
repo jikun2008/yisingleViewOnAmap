@@ -117,48 +117,87 @@ public abstract class BaseMarkerView<P extends BaseMarkerParam, W> extends Abstr
         if (null != infoWindowView) {
             infoWindowView.setInfoData(data);
         }
-        threadPoolExecutor.execute(new Runnable() {
-            @Override
-            public void run() {
-                if (null == marker || null == infoWindowView) {
-                    return;
-                }
 
 
-                MarkerOptions infoWindowParam = getInfoWindowMarkerOptions(infoWindowView);
+        if (null == marker || null == infoWindowView) {
+            return;
+        }
 
 
-                if (null == infoMarker || infoMarker.isRemoved()) {
-                    if (null != getAmap()) {
-                        infoMarker = getAmap().addMarker(infoWindowParam);
-
-                        infoMarker.setAnchor(infoWindowParam.getAnchorU(), 1f);
-
-                        infoMarker.setVisible(true);
-                    }
-
-                } else {
-
-                    if (null != infoMarker) {
-                        if (!infoMarker.isVisible()) {
-                            infoMarker.setVisible(true);
-                        }
-                    }
-                    if (null != infoMarker) {
-                        infoMarker.setPosition(infoWindowParam.getPosition());
-                    }
-                    if (null != infoMarker) {
-                        infoMarker.setAnchor(infoWindowParam.getAnchorU(), 1f);
-                    }
-
-                    if (null != infoMarker) {
-                        infoMarker.setIcon(infoWindowParam.getIcon());
-                    }
+        MarkerOptions infoWindowParam = getInfoWindowMarkerOptions(infoWindowView);
 
 
+        if (null == infoMarker || infoMarker.isRemoved()) {
+            if (null != getAmap()) {
+                infoMarker = getAmap().addMarker(infoWindowParam);
+
+                infoMarker.setAnchor(infoWindowParam.getAnchorU(), 1f);
+
+                infoMarker.setVisible(true);
+            }
+
+        } else {
+
+            if (null != infoMarker) {
+                if (!infoMarker.isVisible()) {
+                    infoMarker.setVisible(true);
                 }
             }
-        });
+            if (null != infoMarker) {
+                infoMarker.setPosition(infoWindowParam.getPosition());
+            }
+            if (null != infoMarker) {
+                infoMarker.setAnchor(infoWindowParam.getAnchorU(), 1f);
+            }
+
+            if (null != infoMarker) {
+                infoMarker.setIcon(infoWindowParam.getIcon());
+            }
+
+
+        }
+//        threadPoolExecutor.execute(new Runnable() {
+//            @Override
+//            public void run() {
+//                if (null == marker || null == infoWindowView) {
+//                    return;
+//                }
+//
+//
+//                MarkerOptions infoWindowParam = getInfoWindowMarkerOptions(infoWindowView);
+//
+//
+//                if (null == infoMarker || infoMarker.isRemoved()) {
+//                    if (null != getAmap()) {
+//                        infoMarker = getAmap().addMarker(infoWindowParam);
+//
+//                        infoMarker.setAnchor(infoWindowParam.getAnchorU(), 1f);
+//
+//                        infoMarker.setVisible(true);
+//                    }
+//
+//                } else {
+//
+//                    if (null != infoMarker) {
+//                        if (!infoMarker.isVisible()) {
+//                            infoMarker.setVisible(true);
+//                        }
+//                    }
+//                    if (null != infoMarker) {
+//                        infoMarker.setPosition(infoWindowParam.getPosition());
+//                    }
+//                    if (null != infoMarker) {
+//                        infoMarker.setAnchor(infoWindowParam.getAnchorU(), 1f);
+//                    }
+//
+//                    if (null != infoMarker) {
+//                        infoMarker.setIcon(infoWindowParam.getIcon());
+//                    }
+//
+//
+//                }
+//    }
+//        });
     }
 
 
@@ -172,7 +211,7 @@ public abstract class BaseMarkerView<P extends BaseMarkerParam, W> extends Abstr
 
     public int getCameraPaddingLeft() {
         int left = 0;
-        if (null != marker && !marker.isRemoved() && marker.isVisible()) {
+        if (null != marker && !marker.isRemoved() && marker.isVisible() && null != marker.getOptions().getIcon()) {
             left = new BigDecimal(marker.getOptions().getIcon().getWidth()).multiply(new BigDecimal(marker.getAnchorU())).intValue();
         }
         return left;
@@ -180,7 +219,7 @@ public abstract class BaseMarkerView<P extends BaseMarkerParam, W> extends Abstr
 
     public int getCameraPaddingRight() {
         int right = 0;
-        if (null != marker && !marker.isRemoved() && marker.isVisible()) {
+        if (null != marker && !marker.isRemoved() && marker.isVisible() && null != marker.getOptions().getIcon()) {
             right = new BigDecimal(marker.getOptions().getIcon().getWidth()).multiply(new BigDecimal(1 - marker.getAnchorU())).intValue();
         }
         return right;
@@ -189,16 +228,16 @@ public abstract class BaseMarkerView<P extends BaseMarkerParam, W> extends Abstr
 
     public int getCameraPaddingTop() {
         int top = 0;
-        if (null != marker && !marker.isRemoved() && marker.isVisible()) {
-            top = new BigDecimal(marker.getOptions().getIcon().getWidth()).multiply(new BigDecimal(marker.getAnchorV())).intValue();
+        if (null != marker && !marker.isRemoved() && marker.isVisible() && null != marker.getOptions().getIcon()) {
+            top = new BigDecimal(marker.getOptions().getIcon().getHeight()).multiply(new BigDecimal(marker.getAnchorV())).intValue();
         }
         return top;
     }
 
     public int getCameraPaddingBottom() {
         int bottom = 0;
-        if (null != marker && !marker.isRemoved() && marker.isVisible()) {
-            bottom = new BigDecimal(marker.getOptions().getIcon().getWidth()).multiply(new BigDecimal(1 - marker.getAnchorV())).intValue();
+        if (null != marker && !marker.isRemoved() && marker.isVisible() && null != marker.getOptions().getIcon()) {
+            bottom = new BigDecimal(marker.getOptions().getIcon().getHeight()).multiply(new BigDecimal(1 - marker.getAnchorV())).intValue();
         }
         return bottom;
     }

@@ -463,9 +463,9 @@ public class PathPlaningView<S, E> extends BaseView {
 
 
     public int getCameraPaddingTop() {
-        int startPadding = startPointMarkerView.getCameraPaddingTop();
+        int startPadding = startPointMarkerView != null ? startPointMarkerView.getCameraPaddingTop() : 0;
 
-        int endPadding = endPointMarkerView.getCameraPaddingTop();
+        int endPadding = endPointMarkerView != null ? endPointMarkerView.getCameraPaddingTop() : 0;
 
 
         return startPadding > endPadding ? startPadding : endPadding;
@@ -474,9 +474,9 @@ public class PathPlaningView<S, E> extends BaseView {
 
     public int getCameraPaddingLeft() {
 
-        int startPadding = startPointMarkerView.getCameraPaddingLeft();
+        int startPadding = startPointMarkerView != null ? startPointMarkerView.getCameraPaddingLeft() : 0;
 
-        int endPadding = endPointMarkerView.getCameraPaddingLeft();
+        int endPadding = endPointMarkerView != null ? endPointMarkerView.getCameraPaddingLeft() : 0;
 
 
         return startPadding > endPadding ? startPadding : endPadding;
@@ -485,9 +485,9 @@ public class PathPlaningView<S, E> extends BaseView {
 
     public int getCameraPaddingRight() {
 
-        int startPadding = startPointMarkerView.getCameraPaddingRight();
+        int startPadding = startPointMarkerView != null ? startPointMarkerView.getCameraPaddingRight() : 0;
 
-        int endPadding = endPointMarkerView.getCameraPaddingRight();
+        int endPadding = endPointMarkerView != null ? endPointMarkerView.getCameraPaddingRight() : 0;
 
 
         return startPadding > endPadding ? startPadding : endPadding;
@@ -496,9 +496,9 @@ public class PathPlaningView<S, E> extends BaseView {
 
     public int getCameraPaddingBottom() {
 
-        int startPadding = startPointMarkerView.getCameraPaddingBottom();
+        int startPadding = startPointMarkerView != null ? startPointMarkerView.getCameraPaddingBottom() : 0;
 
-        int endPadding = endPointMarkerView.getCameraPaddingBottom();
+        int endPadding = endPointMarkerView != null ? endPointMarkerView.getCameraPaddingBottom() : 0;
 
 
         return startPadding > endPadding ? startPadding : endPadding;

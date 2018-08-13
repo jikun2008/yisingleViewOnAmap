@@ -58,6 +58,8 @@ public class MovePathPlanningUtils {
 
     private OnDistanceDurationListener onDistanceDurationListener;
 
+    private RouteSearch routeSearch;
+
 
     public MovePathPlanningUtils(Context context, PathPlaningView pathPlaningView) {
         this.context = context;
@@ -79,7 +81,7 @@ public class MovePathPlanningUtils {
 
         //searchRoute
         isRouteSearching = true;
-        RouteSearch routeSearch = new RouteSearch(getContext());
+        routeSearch = new RouteSearch(getContext());
         routeSearch.setRouteSearchListener(new RouteSearch.OnRouteSearchListener() {
             @Override
             public void onBusRouteSearched(BusRouteResult busRouteResult, int i) {
@@ -100,6 +102,7 @@ public class MovePathPlanningUtils {
                                 distanceDurationData = new DistanceDurationData(pathPlaningView.getDrivePath().getDistance(), pathPlaningView.getDrivePath().getDuration());
                                 if (null != onDistanceDurationListener) {
                                     onDistanceDurationListener.onDataCallBack(distanceDurationData);
+                                    onDistanceDurationListener.onDriverRouteSuccess();
                                 }
                             }
                         }
@@ -140,45 +143,61 @@ public class MovePathPlanningUtils {
 
     private LatLonPoint lastLatLonPoint = null;
 
+
+    private LatLonPoint endLatLonPoint;
+
     /**
      * 移动并计算距离
      */
     public void moveCalcuDistanceTime(final LatLonPoint move, LatLonPoint end) {
 
-        if (isRouteSearching) {
-            //如果正在路径规划,不进行计算  直接返回
-            return;
-        }
-
-        if (!isRouteSearchSuccess) {
-            //判断如果需要路径规划
+        if (null != endLatLonPoint && !endLatLonPoint.equals(end)) {
+            //如果end坐标改变那么重新路径规划
+            cancleSearRoute();
             searchRoute(move, end);
+            endLatLonPoint = end;
+
         } else {
+            endLatLonPoint = end;
+            if (isRouteSearching) {
+                //如果正在路径规划,不进行计算  直接返回
+                return;
+            }
+
+            if (!isRouteSearchSuccess) {
+                //判断如果需要路径规划
+                searchRoute(move, end);
+            } else {
 
 
-            if (lastLatLonPoint != null) {
-                totalDistance = totalDistance + DistanceUtils.calculateTwoPointDistance(lastLatLonPoint, move);
-                if (totalDistance < 2f) {
-                    return;
+                if (lastLatLonPoint != null) {
+                    totalDistance = totalDistance + DistanceUtils.calculateTwoPointDistance(lastLatLonPoint, move);
+                    if (totalDistance < 2f) {
+                        return;
 
-                } else {
-                    totalDistance = 0f;
+                    } else {
+                        totalDistance = 0f;
+                    }
+
+
                 }
+                lastLatLonPoint = move;
 
+                threadPoolExecutor.execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        calulateRouteLineView(move);
+                    }
+                });
 
             }
-            lastLatLonPoint = move;
+        }
 
-            threadPoolExecutor.execute(new Runnable() {
-                @Override
-                public void run() {
+    }
 
-                    calulateRouteLineView(move);
-
-
-                }
-            });
-
+    private void cancleSearRoute() {
+        if (null != routeSearch) {
+            routeSearch.setRouteSearchListener(null);
         }
 
     }
@@ -391,9 +410,12 @@ public class MovePathPlanningUtils {
     }
 
 
-    public  interface OnDistanceDurationListener {
+    public interface OnDistanceDurationListener {
 
         void onDataCallBack(DistanceDurationData data);
+
+
+        void onDriverRouteSuccess();
 
     }
 
