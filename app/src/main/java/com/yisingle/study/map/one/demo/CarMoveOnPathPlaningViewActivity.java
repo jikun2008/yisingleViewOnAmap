@@ -93,7 +93,8 @@ public class CarMoveOnPathPlaningViewActivity extends BaseMapActivity {
 
 
         List<LatLng> list = new ArrayList<>();
-        list.add(new LatLng(30.55184472222222, 104.06796444444444));
+//        list.add(new LatLng(30.55184472222222, 104.06796444444444));
+        list.addAll(nowListPoints);
         carMoveOnLineViewGroup.startMove(list, new LatLng(30.569049, 103.928406));
 
 
