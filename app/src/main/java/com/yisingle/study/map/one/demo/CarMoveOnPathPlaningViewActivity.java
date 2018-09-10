@@ -2,6 +2,8 @@ package com.yisingle.study.map.one.demo;
 
 import android.graphics.Rect;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.View;
@@ -38,6 +40,8 @@ public class CarMoveOnPathPlaningViewActivity extends BaseMapActivity {
 
     private List<LatLng> nowListPoints = TestDataUtils.readLatLngscarMove();
 
+    private static Handler handler;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -53,16 +57,16 @@ public class CarMoveOnPathPlaningViewActivity extends BaseMapActivity {
     protected void afterMapViewLoad() {
 
         carMoveOnLineViewGroup = new CarMoveOnPathPlaningView.Builder(getApplicationContext(), getAmap())
-                .setPathPlaningViewBuilder(new PathPlaningView.Builder(getApplicationContext(),getAmap())
+                .setPathPlaningViewBuilder(new PathPlaningView.Builder(getApplicationContext(), getAmap())
 
-                        .setEndMarkBuilder(new PointMarkerView.Builder(getApplicationContext(),getAmap())
-                        .setIcon(BitmapDescriptorFactory.fromResource(R.mipmap.amap_end))
+                        .setEndMarkBuilder(new PointMarkerView.Builder(getApplicationContext(), getAmap())
+                                .setIcon(BitmapDescriptorFactory.fromResource(R.mipmap.amap_end))
                         )
                 )
                 .create();
 
 
-        carMoveOnLineViewGroup.bingMoveCarInfoWindowView(new BaseMarkerView.BaseInfoWindowView<DistanceDurationData>(R.layout.info_window, null) {
+        carMoveOnLineViewGroup.bindMoveCarInfoWindowView(new BaseMarkerView.BaseInfoWindowView<DistanceDurationData>(R.layout.info_window, null) {
             @Override
             public void bindData(MapInfoWindowViewHolder viewHolder, DistanceDurationData data) {
                 Log.e("测试代码", "测试代码Thread==" + Thread.currentThread().getName());
@@ -91,14 +95,36 @@ public class CarMoveOnPathPlaningViewActivity extends BaseMapActivity {
         moveCamre(nowListPoints);
 
 
+//        List<LatLng> list = new ArrayList<>();
+////        list.add(new LatLng(30.55184472222222, 104.06796444444444));
+//        list.addAll(nowListPoints);
+//
+//
+//        carMoveOnLineViewGroup.startMove(list, new LatLng(30.569049, 103.928406));
 
-        List<LatLng> list = new ArrayList<>();
-//        list.add(new LatLng(30.55184472222222, 104.06796444444444));
-        list.addAll(nowListPoints);
-        carMoveOnLineViewGroup.startMove(list, new LatLng(30.569049, 103.928406));
+
+        index = 0;
+        handler = new Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+                if (index < nowListPoints.size()) {
+                    LatLng latLng = nowListPoints.get(index);
+                    List<LatLng> list = new ArrayList<>();
+                    list.add(latLng);
+                    carMoveOnLineViewGroup.startMove(list, new LatLng(30.569049, 103.928406));
+                }
+                index=index+1;
+                sendEmptyMessageDelayed(0,50);
+
+            }
+        };
+
+        handler.sendEmptyMessage(0);
 
 
     }
+
+    int index = 0;
 
     private void moveCamre(List<LatLng> latLngList) {
         LatLngBounds.Builder b = LatLngBounds.builder();
@@ -112,7 +138,10 @@ public class CarMoveOnPathPlaningViewActivity extends BaseMapActivity {
     @Override
     public void onDestroy() {
         super.onDestroy();
+        handler.removeCallbacksAndMessages(null);
+        handler=null;
         carMoveOnLineViewGroup.destory();
+
     }
 
     public void test(View view) {

@@ -1,6 +1,7 @@
 package com.yisingle.amapview.lib.base.view.marker;
 
 import android.content.Context;
+import android.os.Looper;
 import android.support.annotation.IntRange;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
@@ -23,6 +24,7 @@ import com.yisingle.amapview.lib.viewholder.MapInfoWindowViewHolder;
 
 import java.math.BigDecimal;
 import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
@@ -54,7 +56,7 @@ public abstract class BaseMarkerView<P extends BaseMarkerParam, W> extends Abstr
                 1,
                 50,
                 TimeUnit.SECONDS,
-                new ArrayBlockingQueue<Runnable>(1), new ThreadPoolExecutor.DiscardOldestPolicy());
+                new ArrayBlockingQueue<Runnable>(3), new ThreadPoolExecutor.DiscardOldestPolicy());
 
     }
 
@@ -119,85 +121,48 @@ public abstract class BaseMarkerView<P extends BaseMarkerParam, W> extends Abstr
         }
 
 
-        if (null == marker || null == infoWindowView) {
-            return;
-        }
+        threadPoolExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                if (null == marker || null == infoWindowView) {
+                    return;
+                }
 
 
-        MarkerOptions infoWindowParam = getInfoWindowMarkerOptions(infoWindowView);
+                MarkerOptions infoWindowParam = getInfoWindowMarkerOptions(infoWindowView);
 
 
-        if (null == infoMarker || infoMarker.isRemoved()) {
-            if (null != getAmap()) {
-                infoMarker = getAmap().addMarker(infoWindowParam);
+                if (null == infoMarker || infoMarker.isRemoved()) {
+                    if (null != getAmap()) {
+                        infoMarker = getAmap().addMarker(infoWindowParam);
 
-                infoMarker.setAnchor(infoWindowParam.getAnchorU(), 1f);
+                        infoMarker.setAnchor(infoWindowParam.getAnchorU(), 1f);
 
-                infoMarker.setVisible(true);
-            }
+                        infoMarker.setVisible(true);
+                    }
 
-        } else {
+                } else {
 
-            if (null != infoMarker) {
-                if (!infoMarker.isVisible()) {
-                    infoMarker.setVisible(true);
+                    if (null != infoMarker) {
+                        if (!infoMarker.isVisible()) {
+                            infoMarker.setVisible(true);
+                        }
+                    }
+                    if (null != infoMarker) {
+                        infoMarker.setPosition(infoWindowParam.getPosition());
+                    }
+                    if (null != infoMarker) {
+                        infoMarker.setAnchor(infoWindowParam.getAnchorU(), 1f);
+                    }
+
+                    if (null != infoMarker) {
+                        infoMarker.setIcon(infoWindowParam.getIcon());
+                    }
+
+
                 }
             }
-            if (null != infoMarker) {
-                infoMarker.setPosition(infoWindowParam.getPosition());
-            }
-            if (null != infoMarker) {
-                infoMarker.setAnchor(infoWindowParam.getAnchorU(), 1f);
-            }
-
-            if (null != infoMarker) {
-                infoMarker.setIcon(infoWindowParam.getIcon());
-            }
-
-
-        }
-//        threadPoolExecutor.execute(new Runnable() {
-//            @Override
-//            public void run() {
-//                if (null == marker || null == infoWindowView) {
-//                    return;
-//                }
-//
-//
-//                MarkerOptions infoWindowParam = getInfoWindowMarkerOptions(infoWindowView);
-//
-//
-//                if (null == infoMarker || infoMarker.isRemoved()) {
-//                    if (null != getAmap()) {
-//                        infoMarker = getAmap().addMarker(infoWindowParam);
-//
-//                        infoMarker.setAnchor(infoWindowParam.getAnchorU(), 1f);
-//
-//                        infoMarker.setVisible(true);
-//                    }
-//
-//                } else {
-//
-//                    if (null != infoMarker) {
-//                        if (!infoMarker.isVisible()) {
-//                            infoMarker.setVisible(true);
-//                        }
-//                    }
-//                    if (null != infoMarker) {
-//                        infoMarker.setPosition(infoWindowParam.getPosition());
-//                    }
-//                    if (null != infoMarker) {
-//                        infoMarker.setAnchor(infoWindowParam.getAnchorU(), 1f);
-//                    }
-//
-//                    if (null != infoMarker) {
-//                        infoMarker.setIcon(infoWindowParam.getIcon());
-//                    }
-//
-//
-//                }
-//    }
-//        });
+        });
     }
 
 

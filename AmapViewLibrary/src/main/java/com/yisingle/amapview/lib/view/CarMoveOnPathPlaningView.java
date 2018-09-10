@@ -108,7 +108,7 @@ public class CarMoveOnPathPlaningView<C, S, E> extends BaseView {
 
     }
 
-    public void bingMoveCarInfoWindowView(BaseMarkerView.BaseInfoWindowView<C> infoWindowView) {
+    public void bindMoveCarInfoWindowView(BaseMarkerView.BaseInfoWindowView<C> infoWindowView) {
         if (null != carMoveMarkerView) {
             carMoveMarkerView.bindInfoWindowView(infoWindowView);
         }
