@@ -76,7 +76,7 @@ public class LocationMarkerActivity extends BaseMapActivity {
                         //设置圆的边框宽度，单位像素。参数必须大于等于0，默认1f。
                         .setCircleStrokeWidth(1f)
                         //设置圆的可见属性 默认可见
-                        .setCircleVisible(true)
+                        .setCircleVisible(false)
                         //设置圆的Z轴数值，默认为0。
                         .setCircleZindex(0f)
                         .create();
@@ -131,7 +131,6 @@ public class LocationMarkerActivity extends BaseMapActivity {
 
 
     public void testAddMarker(View view) {
-        locationMarkerView.addToMap();
         locationMarkerView.startLocation();
     }
 

@@ -11,9 +11,9 @@ import com.amap.api.maps.model.LatLng;
 import com.yisingle.amapview.lib.base.view.circle.BaseCircleView;
 import com.yisingle.amapview.lib.base.view.marker.BaseMarkerBuilder;
 import com.yisingle.amapview.lib.base.view.marker.BaseMarkerView;
-import com.yisingle.amapview.lib.param.LocationMarkerParam;
 import com.yisingle.amapview.lib.helper.AmapLocationHelper;
 import com.yisingle.amapview.lib.helper.SensorEventHelper;
+import com.yisingle.amapview.lib.param.LocationMarkerParam;
 
 /**
  * 定位Marker
@@ -54,12 +54,12 @@ public class LocationMarkerView<W> extends BaseMarkerView<LocationMarkerParam, W
     @Override
     public void addToMap() {
         if (isRemove()) {
-            setVisible(true);
             super.addToMap();
             if (null != circleView) {
                 circleView.getOptions().center(getParam().getOptions().getPosition());
                 circleView.addToMap();
             }
+            setVisible(true);
 
         }
     }
@@ -97,7 +97,7 @@ public class LocationMarkerView<W> extends BaseMarkerView<LocationMarkerParam, W
     @Override
     public void setVisible(boolean isVisible) {
         super.setVisible(isVisible);
-        circleView.setVisible(isVisible);
+        circleView.setVisible(getParam().getCircleOptions().isVisible());
     }
 
 
@@ -316,15 +316,15 @@ public class LocationMarkerView<W> extends BaseMarkerView<LocationMarkerParam, W
 
 
         /**
-         *
          * 定位成功返回
+         *
          * @param loc 定位成功返回
          */
         void onLocationSuccess(AMapLocation loc);
 
         /**
-         *
          * 定位失败返回
+         *
          * @param loc 定位失败返回
          */
         void onLocationFailed(AMapLocation loc);
@@ -332,6 +332,7 @@ public class LocationMarkerView<W> extends BaseMarkerView<LocationMarkerParam, W
 
         /**
          * 手机角度旋转的时候返回
+         *
          * @param angle 角度旋转
          */
         void onRotationSuccess(float angle);
@@ -339,6 +340,7 @@ public class LocationMarkerView<W> extends BaseMarkerView<LocationMarkerParam, W
 
         /**
          * 没有角度相关传感器的时候返回
+         *
          * @param erroInfo 错误信息
          */
         void onRotationFailed(String erroInfo);
