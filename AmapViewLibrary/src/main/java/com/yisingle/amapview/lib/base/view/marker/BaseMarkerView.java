@@ -37,6 +37,8 @@ import java.util.concurrent.TimeUnit;
 public abstract class BaseMarkerView<P extends BaseMarkerParam, W> extends AbstractMarkerView<P> implements IMarkerView<W> {
 
 
+    private CustomInfoWindowView customInfoWindowView;
+
     private W infoData;
 
 

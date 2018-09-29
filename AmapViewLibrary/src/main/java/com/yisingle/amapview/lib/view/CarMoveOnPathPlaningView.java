@@ -60,18 +60,6 @@ public class CarMoveOnPathPlaningView<C, S, E> extends BaseView {
     }
 
 
-    public void startMove(List<LatLng> list, LatLng endLatlng) {
-        if (null != this.endLatlng && this.endLatlng.equals(endLatlng)) {
-            this.endLatlng = endLatlng;
-            startMove(list);
-        } else {
-            this.endLatlng = endLatlng;
-            carMoveMarkerView.stopMove();
-            carMoveMarkerView.startMove(list, false);
-        }
-
-    }
-
     public void setListener(MovePathPlanningUtils.OnDistanceDurationListener listener) {
         if (null != movePathPlanningUtils) {
             movePathPlanningUtils.setOnDistanceDurationListener(listener);
@@ -79,14 +67,14 @@ public class CarMoveOnPathPlaningView<C, S, E> extends BaseView {
     }
 
 
-    private void startMove(List<LatLng> list) {
+    public void startMove(List<LatLng> list, int time) {
 
         if (null != list && list.size() > 0 && null != carMoveMarkerView) {
 
             LatLng nowLatLng = carMoveMarkerView.getPosition();
             if (null == nowLatLng) {
                 //如果carMoveView的坐标点为空 那么直接移动
-                carMoveMarkerView.startMove(list, false);
+                carMoveMarkerView.startMove(list, time, true);
 
             } else {
                 //----1/2=0.5  强制转换为0 实际为0
@@ -95,9 +83,9 @@ public class CarMoveOnPathPlaningView<C, S, E> extends BaseView {
                 //当传递过来的坐标数组中间的坐标   与marker现在的坐标距离大于distance
                 // 那么跳过以前坐标数组  直接到现在的坐标运动
                 if (AMapUtils.calculateLineDistance(nowLatLng, nowLatLng) >= DISTANCE) {
-                    carMoveMarkerView.startMove(list, false);
+                    carMoveMarkerView.startMove(list, time, true);
                 } else {
-                    carMoveMarkerView.startMove(list, true);
+                    carMoveMarkerView.startMove(list, time, true);
                 }
 
             }
@@ -199,7 +187,7 @@ public class CarMoveOnPathPlaningView<C, S, E> extends BaseView {
 
         int endPadding = pathPlaningView.getCameraPaddingTop();
 
-        Log.e("测试代码", "测试代码startPadding=" + startPadding+"---endPadding="+endPadding);
+        Log.e("测试代码", "测试代码startPadding=" + startPadding + "---endPadding=" + endPadding);
 
 
         return startPadding > endPadding ? startPadding : endPadding;

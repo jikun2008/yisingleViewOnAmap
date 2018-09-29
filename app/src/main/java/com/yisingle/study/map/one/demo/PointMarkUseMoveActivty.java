@@ -2,7 +2,6 @@ package com.yisingle.study.map.one.demo;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.View;
 
 import com.amap.api.maps.CameraUpdateFactory;
@@ -21,8 +20,6 @@ import com.yisingle.study.map.one.base.BaseMapActivity;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.security.auth.login.LoginException;
 
 
 /**
@@ -103,7 +100,7 @@ public class PointMarkUseMoveActivty extends BaseMapActivity {
          * @param isResume  是否延续运动 true 如果marker正在运动不会打断,而是将这个坐标点加入到运动的中轨迹坐标数组里
          *                              false 立即在新的运动轨迹数组里运动。
          */
-        moveMarkerView.startMove(nowListPoints, false);
+        moveMarkerView.startMove(nowListPoints, 5000, false);
 
     }
 
@@ -115,13 +112,13 @@ public class PointMarkUseMoveActivty extends BaseMapActivity {
 
     public void resumeMove(View view) {
 
-        moveCamre(TestDataUtils.readLatLngsAll());
+        moveCamre(resumeListPoints);
         /**
          *      * @param list
          * @param isResume  是否延续运动 true 如果marker正在运动不会打断,而是将这个坐标点加入到运动的中轨迹坐标数组里
          *                              false 立即在新的运动轨迹数组里运动。
          */
-        moveMarkerView.startMove(resumeListPoints, true);
+        moveMarkerView.startMove(resumeListPoints, 5000, true);
 
     }
 
@@ -135,7 +132,7 @@ public class PointMarkUseMoveActivty extends BaseMapActivity {
          * @param isResume  是否延续运动 true 如果marker正在运动不会打断,而是将这个坐标点加入到运动的中轨迹坐标数组里
          *                              false 立即在新的运动轨迹数组里运动。
          */
-        moveMarkerView.startMove(resumeListPoints, false);
+        moveMarkerView.startMove(resumeListPoints, 500, false);
 
 
     }
@@ -149,7 +146,7 @@ public class PointMarkUseMoveActivty extends BaseMapActivity {
         moveCamre(list);
         List<LatLng> oneList = new ArrayList<>();
         oneList.add(new LatLng(30.554803, 104.068991));
-        moveMarkerView.startMove(oneList, true);
+        moveMarkerView.startMove(oneList, 500, true);
 
     }
 
@@ -168,7 +165,7 @@ public class PointMarkUseMoveActivty extends BaseMapActivity {
          * @param isResume  是否延续运动 true 如果marker正在运动不会打断,而是将这个坐标点加入到运动的中轨迹坐标数组里
          *                              false 立即在新的运动轨迹数组里运动。
          */
-        moveMarkerView.startMove(oneList, true);
+        moveMarkerView.startMove(oneList, 500, true);
 
     }
 

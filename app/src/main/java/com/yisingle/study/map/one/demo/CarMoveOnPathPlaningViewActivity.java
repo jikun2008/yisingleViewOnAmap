@@ -111,10 +111,10 @@ public class CarMoveOnPathPlaningViewActivity extends BaseMapActivity {
                     LatLng latLng = nowListPoints.get(index);
                     List<LatLng> list = new ArrayList<>();
                     list.add(latLng);
-                    carMoveOnLineViewGroup.startMove(list, new LatLng(30.569049, 103.928406));
+                    carMoveOnLineViewGroup.startMove(list, 30);
                 }
-                index=index+1;
-                sendEmptyMessageDelayed(0,50);
+                index = index + 1;
+                sendEmptyMessageDelayed(0, 50);
 
             }
         };
@@ -139,7 +139,7 @@ public class CarMoveOnPathPlaningViewActivity extends BaseMapActivity {
     public void onDestroy() {
         super.onDestroy();
         handler.removeCallbacksAndMessages(null);
-        handler=null;
+        handler = null;
         carMoveOnLineViewGroup.destory();
 
     }
@@ -151,6 +151,6 @@ public class CarMoveOnPathPlaningViewActivity extends BaseMapActivity {
     public void showOther(View view) {
         List<LatLng> list = new ArrayList<>();
         list.add(new LatLng(30.55184472222222, 104.06796444444444));
-        carMoveOnLineViewGroup.startMove(list, new LatLng(30.657616, 104.06625));
+        carMoveOnLineViewGroup.startMove(list, 300);
     }
 }

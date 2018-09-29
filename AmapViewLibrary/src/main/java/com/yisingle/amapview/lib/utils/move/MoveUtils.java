@@ -1,13 +1,11 @@
 package com.yisingle.amapview.lib.utils.move;
 
-import com.amap.api.maps.AMapUtils;
+import android.util.Log;
+
 import com.amap.api.maps.model.LatLng;
 import com.autonavi.amap.mapcore.IPoint;
 import com.autonavi.amap.mapcore.MapProjection;
-import com.yisingle.amapview.lib.utils.CustomAnimator;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,171 +13,127 @@ import java.util.List;
  * @author jikun
  * Created by jikun on 2018/6/7.
  */
-public class MoveUtils {
+public class MoveUtils implements CustomAnimator.OnTimeListener {
 
 
-    private final int limitSize = 2;
     private CustomAnimator customAnimator = new CustomAnimator();
 
-    private int index;
-
     private IPoint startIPoint = new IPoint(0, 0);
-
-    private IPoint nextPoint = new IPoint();
-
-
-    private boolean isOver = false;
-
-    private int speed = 20;
-
-
-    private List<LatLng> latLngList = new ArrayList<>();
 
 
     private OnCallBack callBack;
 
 
-    private List<LatLng> produceResumeList(LatLng currentLatlng, List<LatLng> list) {
-        List<LatLng> nowList = new ArrayList<>();
-        if (currentLatlng == null && list.size() == 1) {
-            nowList.addAll(list);
+    public MoveUtils() {
+        customAnimator.setOnTimeListener(this);
+    }
+
+
+    /**
+     * @param latLng     坐标
+     * @param time       时间 毫秒
+     * @param isContinue 是否在以上次停止后的坐标点继续移动 当list.size()=1 isContinue 就会变的非常有用
+     *                   注意:如果调用 startMove(list,time,isContinue) 如果list.size=1 只传递了一个点并且isContinue=false
+     *                   那么 onSetGeoPoint回调方法返回的角度是0 因为只有一个点是无法计算角度的
+     */
+    public void startMove(LatLng latLng, int time, boolean isContinue) {
+        List<LatLng> list = new ArrayList<>();
+        startMove(list, time, isContinue);
+    }
+
+    /**
+     * @param list       坐标数组
+     * @param time       时间   毫秒 多长时间走完这些数组
+     * @param isContinue 是否在以上次停止后的坐标点继续移动 当list.size()=1
+     *                   注意:如果调用 startMove(list,time,isContinue) 如果list.size=1 只传递了一个点并且isContinue=false
+     *                   那么 onSetGeoPoint回调方法返回的角度是0 因为只有一个点是无法计算角度的
+     */
+    public void startMove(List<LatLng> list, int time, boolean isContinue) {
+        if (time <= 0) {
+            //如果传递过来的参数时间小于等于0
+            time = 10;
+        }
+        List<IPoint> pointList = new ArrayList<>();
+        if (isContinue && startIPoint.x != 0 && startIPoint.y != 0) {
+            pointList.add(startIPoint);
+        }
+
+        for (LatLng latLng : list) {
+            IPoint point = new IPoint();
+            MapProjection.lonlat2Geo(latLng.longitude, latLng.latitude, point);
+            pointList.add(point);
+        }
+
+
+        if (null != list && pointList.size() >= 2) {
+
+            customAnimator.ofIPoints(pointList).start(time);
+
+
+        } else if (null != list && pointList.size() == 1) {
             if (null != callBack) {
-                IPoint iPoint = new IPoint();
-                MapProjection.lonlat2Geo(list.get(0).longitude, list.get(0).latitude, iPoint);
-                callBack.onSetGeoPoint(iPoint);
+                callBack.onSetGeoPoint(pointList.get(0), 0);
             }
 
-        } else if ((currentLatlng != null && list.size() == 1)) {
-
-            nowList.add(currentLatlng);
-            nowList.addAll(list);
         } else {
-            nowList.addAll(list);
-        }
-        return nowList;
-
-    }
-
-    private List<LatLng> produceRightNowList(List<LatLng> list) {
-        if (list.size() == 1) {
-            if (null != callBack) {
-                IPoint iPoint = new IPoint();
-                MapProjection.lonlat2Geo(list.get(0).longitude, list.get(0).latitude, iPoint);
-                callBack.onSetGeoPoint(iPoint);
-            }
-        }
-        return list;
-
-    }
-
-
-    public void startMove(LatLng latLng, List<LatLng> list, boolean isResume) {
-        if (isResume) {
-            if (null == customAnimator || !customAnimator.isRunning()) {
-                beginMove(produceResumeList(latLng, list));
-            } else {
-                this.latLngList.addAll(list);
-            }
-        } else {
-            beginMove(produceRightNowList(list));
+            Log.e("MoveUtils", "MoveUtils move list is null");
 
         }
-    }
 
-    private void beginMove(List<LatLng> list) {
-        setLatLngList(list);
-        index = 0;
-        stopMove();
-        createAnimator();
-    }
-
-
-    public void stopMove() {
-        if (null != customAnimator) {
-            customAnimator.end();
-        }
 
     }
 
+    /**
+     * 停止移动
+     */
+    public void stop() {
+        customAnimator.end();
+    }
+
+    /**
+     * 摧毁
+     */
+    public void destory() {
+        callBack = null;
+        customAnimator.setOnTimeListener(null);
+        customAnimator.destory();
+    }
+
+
+    public OnCallBack getCallBack() {
+        return callBack;
+    }
+
+
+    /**
+     * 设置监听回调
+     *
+     * @param callBack OnCallBack
+     */
     public void setCallBack(OnCallBack callBack) {
         this.callBack = callBack;
     }
 
-    private void createAnimator() {
-
-        customAnimator.end();
-        customAnimator.setOnTimeListener(new CustomAnimator.OnTimeListener() {
-            @Override
-            public void onRepeatStart() {
-                if (index < latLngList.size()) {
-                    index = index + 1;
-                }
-                if (index < latLngList.size() - 1) {
-                    calculate();
-                } else {
-                    isOver = true;
-                    customAnimator.end();
-                }
-
-            }
-
-            @Override
-            public void onStart() {
-                index = 0;
-                isOver = false;
-                if (latLngList.size() >= limitSize) {
-                    calculate();
-                } else {
-                    //未能开始移动 因为坐标集合数量小于2
-                    customAnimator.end();
-                }
-
-            }
-
-            @Override
-            public void onUpdate(float t) {
-
-
-                if (!isOver) {
-                    //---onUpdate
-                    Float value = t;
-                    int plugX = nextPoint.x - startIPoint.x;
-                    int plugY = nextPoint.y - startIPoint.y;
-                    IPoint point = new IPoint((int) ((double) startIPoint.x + (double) plugX * value), (int) ((double) startIPoint.y + (double) plugY * value));
-
-
-                    if (null != callBack) {
-                        callBack.onSetGeoPoint(point);
-                    }
-
-                }
-
-            }
-        });
-        customAnimator.start();
+    @Override
+    public void onUpdate(IPoint start, IPoint moveIPoint, IPoint end) {
+        if (null != callBack) {
+            callBack.onSetGeoPoint(moveIPoint, getRotate(start, end));
+        }
 
     }
 
-    private void calculate() {
-        float distance = AMapUtils.calculateLineDistance(latLngList.get(index), latLngList.get(index + 1));
-        if (index < latLngList.size() - 1) {
-            MapProjection.lonlat2Geo(latLngList.get(index).longitude, latLngList.get(index).latitude, startIPoint);
-            MapProjection.lonlat2Geo(latLngList.get(index + 1).longitude, latLngList.get(index + 1).latitude, nextPoint);
-            float rotate = getRotate(startIPoint, nextPoint);
+
+    public interface OnCallBack {
 
 
-            if (null != callBack) {
-                callBack.onSetRotateAngle(rotate);
-            }
-
-
-            int time = new BigDecimal(distance).divide(new BigDecimal(speed), 3, RoundingMode.HALF_DOWN).multiply(new BigDecimal(1000)).intValue();
-
-
-            customAnimator.setDuration(time);
-        }
-
-
+        /**
+         * @param point  IPoint 移动坐标IPoint
+         * @param rotate 角度 角度返回  这里的角度返回是根据两个点坐标来计算汽车在地图上的角度的
+         *               并不是传感器返回的
+         *               如果调用 startMove(list,time,isContinue) 如果list.size=1 只传递了一个点并且isContinue=false
+         *               那么 onSetGeoPoint回调方法返回的角度是0
+         */
+        void onSetGeoPoint(IPoint point, float rotate);
     }
 
 
@@ -192,29 +146,6 @@ public class MoveUtils {
         } else {
             return 0.0F;
         }
-    }
-
-    public void setLatLngList(List<LatLng> latLngList) {
-        this.latLngList = latLngList;
-    }
-
-
-    public interface OnCallBack {
-        /**
-         * 角度返回  这里的角度返回是根据两个点坐标来计算汽车在地图上的角度的
-         * 并不是传感器返回的
-         *
-         * @param rotate 角度
-         */
-        void onSetRotateAngle(float rotate);
-
-
-        /**
-         * 设置坐标IPoint
-         *
-         * @param point IPoint
-         */
-        void onSetGeoPoint(IPoint point);
     }
 
 

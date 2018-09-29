@@ -1,6 +1,7 @@
 package com.yisingle.amapview.lib.base.view.marker;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.View;
 
 import com.amap.api.maps.AMap;
@@ -51,19 +52,9 @@ public abstract class AbstractMarkerView<P extends BaseMarkerParam> extends Base
     }
 
 
-    public void setLatLngList(List<LatLng> latLngList) {
-        this.latLngList = latLngList;
-        if (null == moveUtils) {
-            moveUtils = new MoveUtils();
-            moveUtils.setCallBack(this);
-        }
-        moveUtils.setLatLngList(latLngList);
-    }
-
-
     public void stopMove() {
         if (null != moveUtils) {
-            moveUtils.stopMove();
+            moveUtils.stop();
         }
 
 
@@ -74,7 +65,7 @@ public abstract class AbstractMarkerView<P extends BaseMarkerParam> extends Base
      * @param list
      * @param isResume
      */
-    public void startMove(List<LatLng> list, boolean isResume) {
+    public void startMove(List<LatLng> list, int time, boolean isResume) {
         if (isRemove()) {
             addToMap();
         }
@@ -82,25 +73,15 @@ public abstract class AbstractMarkerView<P extends BaseMarkerParam> extends Base
             moveUtils = new MoveUtils();
             moveUtils.setCallBack(this);
         }
-        LatLng latLng = null;
-        if (null != marker) {
-            latLng = marker.getPosition();
-        }
-
-        moveUtils.startMove(latLng, list, isResume);
+        moveUtils.startMove(list, time, isResume);
 
     }
 
-
     @Override
-    public void onSetRotateAngle(float rotate) {
+    public void onSetGeoPoint(IPoint point, float rotate) {
         setRotateAngle(360.0F - rotate + getAmap().getCameraPosition().bearing);
-
-    }
-
-    @Override
-    public void onSetGeoPoint(IPoint point) {
         setGeoPoint(point);
+
         if (null != moveListener && null != marker && null != marker.getPosition()) {
 
             moveListener.onMove(marker.getPosition());
