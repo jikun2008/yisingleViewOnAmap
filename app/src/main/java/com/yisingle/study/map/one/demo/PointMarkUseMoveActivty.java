@@ -143,9 +143,9 @@ public class PointMarkUseMoveActivty extends BaseMapActivity {
                     LatLng latLng = nowListPoints.get(index);
                     List<LatLng> list = new ArrayList<>();
                     list.add(latLng);
-                    moveMarkerView.startMove(list, 30, true);
+                    moveMarkerView.startMove(list, 500, true);
                     index = index + 1;
-                    sendEmptyMessageDelayed(0, 50);
+                    sendEmptyMessageDelayed(0, 1000);
                 } else {
                     handler.removeCallbacksAndMessages(null);
                     handler = null;
