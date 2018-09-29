@@ -26,12 +26,6 @@
             android:onClick="startMove"
             android:text="立即在绿线移动" />
 
-        <Button
-            android:id="@+id/btyellow"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="resumeMove"
-            android:text="添加黄线移动\n(不会打断正在移动marker)" />
 
         <Button
             android:layout_width="wrap_content"
@@ -46,14 +40,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="startOnlyOne"
-            android:text="只传一个点移动" />
+            android:text="一个点一个点的移动" />
 
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="startOtherOnlyOne"
-            android:text="只传另一个点移动" />
     </LinearLayout>
 
 

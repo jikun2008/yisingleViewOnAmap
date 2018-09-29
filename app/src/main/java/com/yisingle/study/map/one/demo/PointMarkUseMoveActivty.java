@@ -1,6 +1,8 @@
 package com.yisingle.study.map.one.demo;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.view.View;
 
@@ -39,6 +41,10 @@ public class PointMarkUseMoveActivty extends BaseMapActivity {
 
     private List<LatLng> resumeListPoints = TestDataUtils.readLatLngsresume();
 
+
+    private static Handler handler;
+
+    int index = 0;
 
     @Override
     protected void afterMapViewLoad() {
@@ -88,6 +94,8 @@ public class PointMarkUseMoveActivty extends BaseMapActivity {
         super.onDestroy();
 
         moveMarkerView.destory();
+        handler.removeCallbacksAndMessages(null);
+        handler = null;
     }
 
 
@@ -110,18 +118,6 @@ public class PointMarkUseMoveActivty extends BaseMapActivity {
         moveMarkerView.stopMove();
     }
 
-    public void resumeMove(View view) {
-
-        moveCamre(resumeListPoints);
-        /**
-         *      * @param list
-         * @param isResume  是否延续运动 true 如果marker正在运动不会打断,而是将这个坐标点加入到运动的中轨迹坐标数组里
-         *                              false 立即在新的运动轨迹数组里运动。
-         */
-        moveMarkerView.startMove(resumeListPoints, 5000, true);
-
-    }
-
 
     public void startOtherMove(View view) {
 
@@ -140,32 +136,27 @@ public class PointMarkUseMoveActivty extends BaseMapActivity {
 
     public void startOnlyOne(View view) {
 
-        List<LatLng> list = new ArrayList<>();
-        list.add(new LatLng(30.554803, 104.068991));
-        list.add(new LatLng(30.556669, 104.068991));
-        moveCamre(list);
-        List<LatLng> oneList = new ArrayList<>();
-        oneList.add(new LatLng(30.554803, 104.068991));
-        moveMarkerView.startMove(oneList, 500, true);
+        handler = new Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+                if (index < nowListPoints.size()) {
+                    LatLng latLng = nowListPoints.get(index);
+                    List<LatLng> list = new ArrayList<>();
+                    list.add(latLng);
+                    moveMarkerView.startMove(list, 30, true);
+                    index = index + 1;
+                    sendEmptyMessageDelayed(0, 50);
+                } else {
+                    handler.removeCallbacksAndMessages(null);
+                    handler = null;
+                    index = 0;
+                }
 
-    }
 
+            }
+        };
 
-    public void startOtherOnlyOne(View view) {
-
-
-        List<LatLng> list = new ArrayList<>();
-        list.add(new LatLng(30.554803, 104.068991));
-        list.add(new LatLng(30.556669, 104.068991));
-        moveCamre(list);
-        List<LatLng> oneList = new ArrayList<>();
-        oneList.add(new LatLng(30.556669, 104.068991));
-        /**
-         *      * @param list
-         * @param isResume  是否延续运动 true 如果marker正在运动不会打断,而是将这个坐标点加入到运动的中轨迹坐标数组里
-         *                              false 立即在新的运动轨迹数组里运动。
-         */
-        moveMarkerView.startMove(oneList, 500, true);
+        handler.sendEmptyMessage(0);
 
     }
 

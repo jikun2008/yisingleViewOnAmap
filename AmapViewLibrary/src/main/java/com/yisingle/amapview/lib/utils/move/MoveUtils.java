@@ -72,6 +72,7 @@ public class MoveUtils implements CustomAnimator.OnTimeListener {
 
         } else if (null != list && pointList.size() == 1) {
             if (null != callBack) {
+                startIPoint = pointList.get(0);
                 callBack.onSetGeoPoint(pointList.get(0), 0);
             }
 
@@ -117,6 +118,7 @@ public class MoveUtils implements CustomAnimator.OnTimeListener {
     @Override
     public void onUpdate(IPoint start, IPoint moveIPoint, IPoint end) {
         if (null != callBack) {
+            startIPoint = moveIPoint;
             callBack.onSetGeoPoint(moveIPoint, getRotate(start, end));
         }
 
