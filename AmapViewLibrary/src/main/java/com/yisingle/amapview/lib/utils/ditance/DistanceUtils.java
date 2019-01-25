@@ -35,11 +35,9 @@ public class DistanceUtils {
         LatLng previousLatLng = null;
         float distance = 0f;
         for (LatLng latLng : list) {
-            if (null == previousLatLng) {
-                break;
+            if (null != previousLatLng) {
+                distance = distance + calculateTwoPointDistance(previousLatLng, latLng);
             }
-            distance = distance + calculateTwoPointDistance(previousLatLng, latLng);
-
             previousLatLng = latLng;
         }
 
@@ -51,11 +49,9 @@ public class DistanceUtils {
         LatLonPoint previousLatLng = null;
         float distance = 0f;
         for (LatLonPoint latLonPoint : list) {
-            if (null == previousLatLng) {
-                break;
+            if (null != previousLatLng) {
+                distance = distance + calculateTwoPointDistance(previousLatLng, latLonPoint);
             }
-            distance = distance + calculateTwoPointDistance(previousLatLng, latLonPoint);
-
             previousLatLng = latLonPoint;
         }
 
